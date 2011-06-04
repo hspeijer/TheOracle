@@ -1,0 +1,10 @@
+#Source Hashes
+#Sat Jun 04 15:29:43 CEST 2011
+src\\main\\scala\\code\\snippet\\ChatIn.scala=35adc92d5961cfc040bde488c145a459f389226d
+src\\main\\scala\\code\\snippet\\HelloWorld.scala=de230f51dc065543636a40e9d2d204f30f1bc04d
+src\\main\\scala\\code\\comet\\Chat.scala=006e4a5c4cf904abf23f502a844ce246626b4cd3
+src\\main\\scala\\code\\model\\User.scala=780b064f75cfd7994521dd78fe932cc0fa9729ea
+src\\main\\scala\\bootstrap\\liftweb\\Boot.scala=827908b2640f1ac41a9b60fe94938f53d828d16e
+src\\main\\scala\\code\\comet\\Oracle.scala=e6fce762c6cdc38d009d9ced54bac742388f6975
+src\\main\\scala\\code\\lib\\DependencyFactory.scala=e5d94ad2d69afe24876734d3cc8549a5f3a7c7fd
+src\\main\\scala\\code\\comet\\ChatServer.scala=8f8c4d3c80256949639a21e390d3655fa47aaede

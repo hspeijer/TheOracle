@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DestinyLoungeOracle.iml" filepath="$PROJECT_DIR$/DestinyLoungeOracle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lift Framework/Lift Framework.iml" filepath="$PROJECT_DIR$/Lift Framework/Lift Framework.iml" />
+    </modules>
+  </component>
+</project>
+

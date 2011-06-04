@@ -1,0 +1,10 @@
+#Source Dependencies
+#Sat Jun 04 15:29:43 CEST 2011
+src\\main\\scala\\code\\snippet\\ChatIn.scala=
+src\\main\\scala\\code\\snippet\\HelloWorld.scala=
+src\\main\\scala\\code\\comet\\Chat.scala=
+src\\main\\scala\\code\\model\\User.scala=src\\main\\scala\\bootstrap\\liftweb\\Boot.scala
+src\\main\\scala\\bootstrap\\liftweb\\Boot.scala=
+src\\main\\scala\\code\\comet\\Oracle.scala=src\\main\\scala\\code\\comet\\ChatServer.scala
+src\\main\\scala\\code\\lib\\DependencyFactory.scala=src\\main\\scala\\code\\snippet\\HelloWorld.scala
+src\\main\\scala\\code\\comet\\ChatServer.scala=src\\main\\scala\\code\\snippet\\ChatIn.scala;src\\main\\scala\\code\\comet\\Chat.scala
