@@ -1,3 +1,10 @@
 help
 projects
 quit
+help
+actions
+clean
+build
+compile
+exit
+~jetty-run

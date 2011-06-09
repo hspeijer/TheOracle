@@ -1,5 +1,6 @@
 package bootstrap.liftweb
 
+import _root_.code.comet.NeoInit
 import net.liftweb._
 import util._
 import Helpers._
@@ -30,6 +31,9 @@ class Boot {
 
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
     }
+
+    println("Booting the Oracle");
+    NeoInit.init();
 
     // Use Lift's Mapper ORM to populate the database
     // you don't need to use Mapper to use Lift... use

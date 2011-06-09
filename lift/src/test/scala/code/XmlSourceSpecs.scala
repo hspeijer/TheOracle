@@ -9,7 +9,7 @@ import org.specs.runner.JUnit4
 
 import net.liftweb.common.Full
 import net.liftweb.util.PCDataXmlParser
-
+/*
 class XmlSourceSpecsTest extends JUnit4(XmlSourceSpecs)
 
 object XmlSourceSpecs extends Specification {
@@ -62,3 +62,4 @@ object XmlSourceSpecs extends Specification {
     }
   }
 }
+        */

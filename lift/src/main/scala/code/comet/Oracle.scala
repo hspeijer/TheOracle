@@ -5,6 +5,7 @@ import net.liftweb._
 import http._
 import actor._
 import collection.immutable.HashMap
+import comet.NeoInit
 
 /**
  * (c) mindsteps BV 
@@ -21,6 +22,7 @@ object Oracle {
   val menu = "Choices are: 1: Earth, 2:Water, 3:Fire, 4:Air & 5 Aether";
 
   def updateState(state: Int) : String = {
+    //NeoInit.addStateEvent()
     this.state = state
     msgs(state - 1)
   };

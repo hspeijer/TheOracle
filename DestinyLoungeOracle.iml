@@ -198,6 +198,28 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Neo 4J " level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/specs_2.8.1-1.6.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/junit-4.8.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Jetty" level="project" />
+    <orderEntry type="library" name="Scala" level="project" />
+    <orderEntry type="library" name="Sbt" level="application" />
   </component>
 </module>
 

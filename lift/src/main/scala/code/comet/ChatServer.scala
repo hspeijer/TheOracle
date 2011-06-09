@@ -6,6 +6,7 @@ import http._
 import actor._
 import scala.Int
 import collection.immutable.Vector._
+import comet.NeoInit
 
 /**
  * A singleton that provides chat features to all clients.
@@ -14,6 +15,8 @@ import collection.immutable.Vector._
  */
 object ChatServer extends LiftActor with ListenerManager {
   private var msgs = Vector("Welcome to the Oracle") // private state
+
+  println("Works yeah?")
 
   /**
    * When we update the listeners, what message do we send?
@@ -34,6 +37,7 @@ object ChatServer extends LiftActor with ListenerManager {
       try {
         val i : Int = s.toInt
         msgs :+= Oracle.updateState(i)
+        msgs :+= NeoInit.addStateEvent()
       } catch {
         case e: Exception => {
           s match {
