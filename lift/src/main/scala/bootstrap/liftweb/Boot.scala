@@ -32,7 +32,7 @@ class Boot {
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
     }
 
-    println("Booting the Oracle");
+    println("Booting the Oracle?");
     //NeoInit.init();
 
     // Use Lift's Mapper ORM to populate the database
