@@ -33,7 +33,7 @@ class Boot {
     }
 
     println("Booting the Oracle");
-    NeoInit.init();
+    //NeoInit.init();
 
     // Use Lift's Mapper ORM to populate the database
     // you don't need to use Mapper to use Lift... use
@@ -50,7 +50,10 @@ class Boot {
       // more complex because this menu allows anything in the
       // /static path to be visible
       Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
-	       "The Oracle")))
+	       "The Oracle"))
+
+
+    )
 
     def sitemapMutators = User.sitemapMutator
 

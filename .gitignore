@@ -3,3 +3,5 @@
 /lift/lib_managed
 /lift/target
 /lift/target
+/lift/neo4j-store2
+/lift/neo4j-store3
