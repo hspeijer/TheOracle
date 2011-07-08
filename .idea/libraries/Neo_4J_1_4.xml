@@ -1,0 +1,23 @@
+<component name="libraryTable">
+  <library name="Neo 4J 1.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/scala-library-2.9.0-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/org.apache.servicemix.bundles.jline-0.9.94_1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/server-api-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-graph-algo-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-graph-matching-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-jmx-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-kernel-1.4.M06-tests.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-kernel-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-lucene-index-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-shell-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-udc-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/geronimo-jta_1.1_spec-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/lucene-core-3.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-community-1.4.M06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Tools/neo4j-community-1.4.M06/lib/neo4j-cypher-1.4.M06.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

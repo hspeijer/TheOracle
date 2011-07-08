@@ -7,6 +7,7 @@ import actor._
 import scala.Int
 import collection.immutable.Vector._
 import comet.NeoInit
+import scala.net.destinylounge.UDPClient
 
 /**
  * A singleton that provides chat features to all clients.
@@ -26,6 +27,12 @@ object ChatServer extends LiftActor with ListenerManager {
    */
   def createUpdate = msgs
 
+  def mediaList() : String = {
+      """
+      1) flower    <br>
+      2) spirit    <br>
+      """
+  }
   /**
    * process messages that are sent to the Actor.  In
    * this case, we're looking for Strings that are sent
@@ -36,14 +43,18 @@ object ChatServer extends LiftActor with ListenerManager {
     case s: String => {
       try {
         val i : Int = s.toInt
+        UDPClient.sendMessage(s)
         msgs :+= Oracle.updateState(i)
         msgs :+= NeoInit.addStateEvent()
       } catch {
         case e: Exception => {
           s match {
             case "menu"   => msgs :+= Oracle.menu
+            case "media"  => msgs :+= mediaList()
             case "state"  => msgs :+= Oracle.state.toString()
             case "help"   => msgs :+= "Try 'menu' instead"
+            case "one"      => msgs :+= "Play Audio 1"
+            case "two"      => msgs :+= "Play Audio 2"
             case _        => msgs :+= "Unknown command :" + s
           }
         }
