@@ -41,12 +41,14 @@ object ChatServer extends LiftActor with ListenerManager {
    */
   override def lowPriority = {
     case s: String => {
+      UDPClient.sendMessage(s)
       try {
         val i : Int = s.toInt
-        UDPClient.sendMessage(s)
+
         msgs :+= Oracle.updateState(i)
         msgs :+= NeoInit.addStateEvent()
       } catch {
+
         case e: Exception => {
           s match {
             case "menu"   => msgs :+= Oracle.menu

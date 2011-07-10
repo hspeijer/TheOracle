@@ -21,6 +21,7 @@ object UDPClient {
      var sendData: Array[Byte] = new Array[Byte](1024)
      var receiveData: Array[Byte] = new Array[Byte](1024)
 
+     System.out.println("Sending message:" + message)
      sendData = message.getBytes
      var sendPacket: DatagramPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port)
      clientSocket.send(sendPacket)

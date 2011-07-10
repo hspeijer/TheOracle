@@ -2,6 +2,7 @@ package bootstrap.liftweb
 
 import _root_.code.comet.NeoInit
 import net.liftweb._
+import sitemap.Menu._
 import util._
 import Helpers._
 
@@ -50,7 +51,8 @@ class Boot {
       // more complex because this menu allows anything in the
       // /static path to be visible
       Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
-	       "The Oracle"))
+	       "The Oracle")),
+      Menu("DVMTest") / "test"
 
 
     )

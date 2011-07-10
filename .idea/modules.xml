@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DestinyLoungeOracle.iml" filepath="$PROJECT_DIR$/DestinyLoungeOracle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Tools/lift-examples-939fcab/Lift Examples.iml" filepath="$PROJECT_DIR$/../Tools/lift-examples-939fcab/Lift Examples.iml" />
     </modules>
   </component>
 </project>

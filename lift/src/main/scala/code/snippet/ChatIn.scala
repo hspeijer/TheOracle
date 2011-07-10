@@ -8,6 +8,8 @@ import JsCmds._
 import JE._
 
 import comet.ChatServer
+import util.BindHelpers._
+import xml.NodeSeq
 
 /**
  * A snippet transforms input to output... it transforms
