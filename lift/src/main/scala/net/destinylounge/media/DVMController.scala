@@ -1,6 +1,6 @@
 package net.destinylounge.media
 
-import scala.net.destinylounge.UDPClient
+import net.destinylounge.UDPClient
 
 /**
  * Created by IntelliJ IDEA.
@@ -128,7 +128,7 @@ class DVMController {
 
 
   def sendMessage (commandBytes : String) {
-    var command = deviceIDStr + "@" + commandBytes
+    var command = deviceIDStr + "@" + commandBytes + '\n'
     // Separate UDPClient objects in each method? Overhead of new free on sockets, etc? abstract for serial/UDP stream MEH? todo
     UDPClient.sendMessage(command)
   }
@@ -137,21 +137,21 @@ class DVMController {
   def sendMessage (n : Int, commandBytes : String) {
 
     // Convert n to ASCII and concat strings
-    var command = deviceIDStr + "@" + n.toString + commandBytes
+    var command = deviceIDStr + "@" + n.toString + commandBytes + '\n'
 
     UDPClient.sendMessage(command)
   }
 
   def sendMessage (messageStr : String, commandBytes : String, addQuotes : Boolean = false) {
 
-    var command = deviceIDStr + "@"
+    var command = ""
     if (addQuotes)
       command += "\"" + messageStr + "\""
     else
       command += messageStr
     command += commandBytes
 
-    UDPClient.sendMessage(command)
+    sendMessage(command)
   }
 
   def sendMessage (n : Int, min : Int, max : Int, default : Int, commandBytes : String) {

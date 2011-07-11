@@ -1,4 +1,4 @@
-package scala.net.destinylounge
+package net.destinylounge
 
 import java.io.{InputStreamReader, BufferedReader}
 import java.net.{DatagramPacket, InetAddress, DatagramSocket}

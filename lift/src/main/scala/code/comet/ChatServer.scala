@@ -7,7 +7,8 @@ import actor._
 import scala.Int
 import collection.immutable.Vector._
 import comet.NeoInit
-import scala.net.destinylounge.UDPClient
+import net.destinylounge.UDPClient
+import net.destinylounge.media.DVMVideoPlayer
 
 /**
  * A singleton that provides chat features to all clients.
@@ -42,6 +43,9 @@ object ChatServer extends LiftActor with ListenerManager {
   override def lowPriority = {
     case s: String => {
       UDPClient.sendMessage(s)
+      DVMVideoPlayer.setIPAddress("google.com")
+      DVMVideoPlayer.setSubnetMask("255.255.128.0")
+
       try {
         val i : Int = s.toInt
 
