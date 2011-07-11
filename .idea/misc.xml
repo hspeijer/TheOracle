@@ -3,19 +3,6 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
-  <component name="FacetAutodetectingManager">
-    <autodetection-disabled>
-      <facet-type id="web">
-        <modules>
-          <module name="DestinyLoungeOracle">
-            <files>
-              <file url="file://$PROJECT_DIR$/lift/target/scala_2.8.1/webapp/WEB-INF/web.xml" />
-            </files>
-          </module>
-        </modules>
-      </facet-type>
-    </autodetection-disabled>
-  </component>
   <component name="IdProvider" IDEtalkID="378EE3925E5389D697FBCCA0A793C2A3" />
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
