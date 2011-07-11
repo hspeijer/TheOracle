@@ -9,7 +9,8 @@ import SHtml._
 
 import common._
 import util._
-import Helpers._
+import net.liftweb.util.Helpers._
+
 /**
  * Created by IntelliJ IDEA.
  * User: markhalldev
@@ -18,20 +19,55 @@ import Helpers._
  * To change this template use File | Settings | File Templates.
  */
 
-object DVMTest {
+class dvmtest {
 
   def test() = {
     System.out.println("test")
   }
 
-  def add (xhtml : NodeSeq) : NodeSeq = {
-    println("Add")
+  def dvm (xhtml : NodeSeq) : NodeSeq = {
+    var filename = ""
 
-    def processAdd() = {
-      println("Added?")
+    def processPlay() = {
+      println("Play? " + filename)
     }
 
-    bind("entry", xhtml,
-       "submit" -> SHtml.submit("Add", processAdd))
+    def processStop() = {
+      println("Stop?")
+    }
+
+    bind("dvm", xhtml,
+       "filename" -> SHtml.text(filename, filename = _),
+       "play" -> SHtml.submit("Play", processPlay),
+       "stop" -> SHtml.submit("Stop", processStop)
+    )
+
+    //<h1>Testing</h1>
   }
+
+   def play (xhtml : NodeSeq) : NodeSeq = {
+    var filename = "init"
+
+    def processPlay() = {
+      println("Play? " + filename)
+    }
+
+    bind("dvm", xhtml,
+        "play" -> SHtml.submit("Play", processPlay),
+       "filename" -> SHtml.text(filename, filename = _),
+       "filename1" -> SHtml.text(filename, filename = _),
+            "filename2" -> SHtml.text(filename, filename = _)
+    )
+
+
+    //<h1>Testing</h1>
+  }
+  def login(xhtml : NodeSeq) : NodeSeq = {
+  var user = ""; var pass = "";
+  def auth () = {println("Auth")}
+  bind("login", xhtml,
+       "user" -> SHtml.text(user, user = _, "maxlength" -> "40"),
+       "pass" -> SHtml.password(pass, pass = _),
+       "submit" -> SHtml.submit("Login", auth))
+}
 }

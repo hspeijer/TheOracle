@@ -43,6 +43,7 @@ object ChatServer extends LiftActor with ListenerManager {
   override def lowPriority = {
     case s: String => {
       UDPClient.sendMessage(s)
+      DVMVideoPlayer.setDeviceID(123)
       DVMVideoPlayer.setIPAddress("google.com")
       DVMVideoPlayer.setSubnetMask("255.255.128.0")
 

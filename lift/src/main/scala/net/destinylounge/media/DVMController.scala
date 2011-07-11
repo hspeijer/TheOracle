@@ -12,7 +12,7 @@ import net.destinylounge.UDPClient
 
 class DVMController {
   // initialize value... MEH? Todo
-  var deviceIDStr: Array[Byte] = new Array[Byte](4)
+  var deviceIDStr: String = ""
 
   def formatMedia () {
     sendMessage("FO")
@@ -41,11 +41,12 @@ class DVMController {
     var value = n
 
     // Check 0 <= n <= 127
-    if (value > 0 || value < 127)
+    if (value < 0 || value > 127)
       value = 0     // Does anyone need to be informed that the value was out of range? MEH? todo
 
     //Convert the ID to ASCII and store it
-    deviceIDStr = value.toString.getBytes()
+    // System.arraycopy(value.toString.getBytes, 0, deviceIDStr, 0, value.toString.length)
+    deviceIDStr = value.toString
 
     sendMessage(value, "ID")
   }
