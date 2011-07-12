@@ -13,7 +13,7 @@ import java.net.InetAddress;
  * Time: 7:09 PM
  * To change this template use File | Settings | File Templates.
  */
-class UDPClient
+class JavaUDPClient
 {
    public static void main(String args[]) throws Exception
    {

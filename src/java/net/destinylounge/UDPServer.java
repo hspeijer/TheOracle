@@ -9,10 +9,10 @@ class UDPServer
       {
           System.out.println("Starting Server...");
          DatagramSocket serverSocket = new DatagramSocket(9876);
-            byte[] receiveData = new byte[1024];
-            byte[] sendData = new byte[1024];
             while(true)
                {
+                   byte[] receiveData = new byte[1024];
+                   byte[] sendData = new byte[1024];
                   DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                   serverSocket.receive(receivePacket);
                   String sentence = new String( receivePacket.getData());
