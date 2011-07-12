@@ -7,6 +7,8 @@ import actor._
 import collection.immutable.HashMap
 import comet.NeoInit
 
+import model.{RelType, OracleNode, OracleModel}
+
 /**
  * (c) mindsteps BV 
  *
@@ -17,13 +19,27 @@ import comet.NeoInit
  */
 
 object Oracle {
-  var state = 0
-  val msgs = Array("Earth", "Water", "Fire", "Air", "Aether")
-  val menu = "Choices are: 1: Earth, 2:Water, 3:Fire, 4:Air & 5 Aether";
+  val model = OracleModel
+  val menu = "Choices are: 1: Earth, 2:Water, 3:Fire, 4:Air & 5 Aether"
+  val menuLookup = List(RelType.EARTH, RelType.WATER, RelType.FIRE, RelType.AIR, RelType.AETHER)
+  var currentNode : OracleNode = OracleNode.findNode(0)
+
+  println("Init Oracle?")
 
   def updateState(state: Int) : String = {
-    //NeoInit.addStateEvent()
-    this.state = state
-    msgs(state - 1)
-  };
+      val newOracleNode = currentNode.findReference(menuLookup(state - 1))
+      if(newOracleNode != null) {
+        currentNode = newOracleNode
+      } else {
+        return "No Valid choice"
+      }
+
+    currentNode.script
+  }
+
+  def reset() : String = {
+    currentNode = OracleNode.findNode(0).findReference(RelType.ORACLE).findReference(RelType.CHALLENGE)
+    println("References: " + currentNode.references)
+    currentNode.script
+  }
 }

@@ -1,24 +1,17 @@
 <lift:surround with="default" at="content">
     <h1>DVM Test page</h1>
     <div>
-<div class="mySnippet.image">
-  <img url="" id="myImage"/>
-</div>
-      <!--<form class="lift:form.ajax">-->
-        <!--<input class="lift:DVMTest" id="add"/>-->
-        <!--<input type="submit" value="Play"/>-->
-      <!--</form>-->
-             <lift:dvmtest.login/>
 
-            <lift:dvmtest.play form="POST">
-               <dvm:filename/><dvm:filename2/><dvm:filename1/><dvm:play/>
-           </lift:dvmtest.play>
-           <!--<div class="lift:DVMTest.dvm?form=post">-->
-               <!--<dvm:play/>-->
-           <!--</div>-->
-            <!--<div class="lift:DVMTest.dvm?form=post">-->
-               <!--<dvm:stop/>-->
-           <!--</div>-->
+    <div class="lift:DVMTest.play?form=post">
+       <dvm:filename></dvm:filename>
+       <dvm:loop></dvm:loop>
+       <dvm:play></dvm:play>
+    </div>
+
+    <div class="lift:DVMTest.stop?form=post">
+       <dvm:stop></dvm:stop>
+    </div>
+
     </div>
 </lift:surround>
 

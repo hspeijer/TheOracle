@@ -46,7 +46,9 @@ class Boot {
 
     // Build SiteMap
     def sitemap = SiteMap(
-      Menu.i("Home") / "index" >> User.AddUserMenusAfter, // the simple way to declare a menu
+      Menu.i("Home") / "index",
+
+      Menu(Loc("Edit", Link(List("edit"), true, "/edit/index"), "Edit Oracle")),
 
       // more complex because this menu allows anything in the
       // /static path to be visible
@@ -61,7 +63,7 @@ class Boot {
 
     // set the sitemap.  Note if you don't want access control for
     // each page, just comment this line out.
-    LiftRules.setSiteMapFunc(() => sitemapMutators(sitemap))
+    LiftRules.setSiteMapFunc(() => sitemap)
 
     // Use jQuery 1.4
     LiftRules.jsArtifacts = net.liftweb.http.js.jquery.JQuery14Artifacts

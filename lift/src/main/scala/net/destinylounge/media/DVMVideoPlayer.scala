@@ -8,7 +8,7 @@ package net.destinylounge.media
  * To change this template use File | Settings | File Templates.
  */
 
-object DVMVideoPlayer extends DVMConfiguration {
+class DVMVideoPlayer extends DVMConfiguration {
 
 
   def selectFile (filename : String) {

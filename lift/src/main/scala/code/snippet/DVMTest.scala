@@ -1,5 +1,7 @@
 package code.snippet
 
+import scala.xml.Text
+
 import xml.NodeSeq
 import _root_.net.liftweb._
 import http._
@@ -10,6 +12,7 @@ import SHtml._
 import common._
 import util._
 import net.liftweb.util.Helpers._
+import net.destinylounge.media.DVMVideoPlayer
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,55 +22,40 @@ import net.liftweb.util.Helpers._
  * To change this template use File | Settings | File Templates.
  */
 
-class dvmtest {
+object DVMTest {
 
-  def test() = {
-    System.out.println("test")
-  }
+  val player : DVMVideoPlayer = new DVMVideoPlayer()
 
-  def dvm (xhtml : NodeSeq) : NodeSeq = {
-    var filename = ""
-
-    def processPlay() = {
-      println("Play? " + filename)
-    }
-
+  def stop (xhtml : NodeSeq) : NodeSeq = {
     def processStop() = {
       println("Stop?")
+      player.stop
     }
 
     bind("dvm", xhtml,
-       "filename" -> SHtml.text(filename, filename = _),
-       "play" -> SHtml.submit("Play", processPlay),
        "stop" -> SHtml.submit("Stop", processStop)
     )
-
-    //<h1>Testing</h1>
   }
 
    def play (xhtml : NodeSeq) : NodeSeq = {
-    var filename = "init"
+      var filename = ""
+      var loop = false
 
-    def processPlay() = {
-      println("Play? " + filename)
-    }
+      println("Play");
 
-    bind("dvm", xhtml,
-        "play" -> SHtml.submit("Play", processPlay),
-       "filename" -> SHtml.text(filename, filename = _),
-       "filename1" -> SHtml.text(filename, filename = _),
-            "filename2" -> SHtml.text(filename, filename = _)
-    )
+      def processPlay() = {
+        println("Play? " + filename + " loop? " + loop)
+        player.play(filename, loop)
+      }
 
-
-    //<h1>Testing</h1>
-  }
-  def login(xhtml : NodeSeq) : NodeSeq = {
-  var user = ""; var pass = "";
-  def auth () = {println("Auth")}
-  bind("login", xhtml,
-       "user" -> SHtml.text(user, user = _, "maxlength" -> "40"),
-       "pass" -> SHtml.password(pass, pass = _),
-       "submit" -> SHtml.submit("Login", auth))
-}
+     def setLoop() = {
+      println("Loop: " + loop)
+       loop = true
+     }
+      bind("dvm", xhtml,
+         "filename" -> SHtml.text(filename, filename = _),
+         "loop" -> SHtml.checkbox_id(loop, if (_) setLoop(), Full("snazzy")),
+         "play" -> SHtml.submit("Play", processPlay)
+      )
+   }
 }

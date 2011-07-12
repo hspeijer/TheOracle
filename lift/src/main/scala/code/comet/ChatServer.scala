@@ -19,7 +19,7 @@ object ChatServer extends LiftActor with ListenerManager {
   private var msgs = Vector("Welcome to the Oracle") // private state
 
   println("Works yeah?")
-
+  msgs :+= Oracle.reset()
   /**
    * When we update the listeners, what message do we send?
    * We send the msgs, which is an immutable data structure,
@@ -42,26 +42,19 @@ object ChatServer extends LiftActor with ListenerManager {
    */
   override def lowPriority = {
     case s: String => {
-      UDPClient.sendMessage(s)
-      DVMVideoPlayer.setDeviceID(123)
-      DVMVideoPlayer.setIPAddress("google.com")
-      DVMVideoPlayer.setSubnetMask("255.255.128.0")
-
       try {
         val i : Int = s.toInt
 
         msgs :+= Oracle.updateState(i)
-        msgs :+= NeoInit.addStateEvent()
+        //msgs :+= NeoInit.addStateEvent()
       } catch {
 
         case e: Exception => {
           s match {
             case "menu"   => msgs :+= Oracle.menu
-            case "media"  => msgs :+= mediaList()
-            case "state"  => msgs :+= Oracle.state.toString()
+            case "state"  => msgs :+= Oracle.currentNode.script
+            case "reset"  => msgs :+= Oracle.reset()
             case "help"   => msgs :+= "Try 'menu' instead"
-            case "one"      => msgs :+= "Play Audio 1"
-            case "two"      => msgs :+= "Play Audio 2"
             case _        => msgs :+= "Unknown command :" + s
           }
         }
@@ -69,4 +62,5 @@ object ChatServer extends LiftActor with ListenerManager {
 
     updateListeners()}
   }
+
 }
