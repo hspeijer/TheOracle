@@ -8,4 +8,6 @@
 /lift/target
 /lift/project/build
 /lift/target
-.idea
+.idea/*
+/lift/target
+/lift/target
