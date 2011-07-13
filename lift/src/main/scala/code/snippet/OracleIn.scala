@@ -2,14 +2,17 @@ package code
 package snippet
 
 import net.liftweb._
+import builtin.snippet.Msg
 import http._
 import js._
 import JsCmds._
 import JE._
 
-import comet.ChatServer
 import util.BindHelpers._
 import xml.NodeSeq
+import net.destinylounge.oracle.Oracle
+import comet.{OracleServer}
+import model.RelType
 
 /**
  * A snippet transforms input to output... it transforms
@@ -21,7 +24,43 @@ import xml.NodeSeq
  * objects, singletons.  Singletons are useful if there's
  * no explicit state managed in the snippet.
  */
-object ChatIn {
+object OracleIn {
+
+  def triggerEarth = {
+    SHtml.onSubmit(msg => {
+      OracleServer ! Oracle.trigger(RelType.EARTH)
+    })
+  }
+
+  def triggerFire = {
+    SHtml.onSubmit(msg => {
+      OracleServer ! Oracle.trigger(RelType.FIRE)
+    })
+  }
+
+  def triggerWater = {
+    SHtml.onSubmit(msg => {
+      OracleServer ! Oracle.trigger(RelType.WATER)
+    })
+  }
+
+  def triggerAir = {
+    SHtml.onSubmit(msg => {
+      OracleServer ! Oracle.trigger(RelType.AIR)
+    })
+  }
+
+  def triggerAether = {
+    SHtml.onSubmit(msg => {
+      OracleServer ! Oracle.trigger(RelType.AETHER)
+    })
+  }
+
+  def triggerBeam = {
+    SHtml.onSubmit(msg => {
+      OracleServer ! Oracle.reset()
+    })
+  }
 
   /**
    * The render method in this case returns a function
@@ -32,7 +71,8 @@ object ChatIn {
    * clears the input.
    */
   def render = SHtml.onSubmit(s => {
-    ChatServer ! s
+    println("Onsubmit " + s)
+    OracleServer ! s
     SetValById("chat_in", "")
   })
 }

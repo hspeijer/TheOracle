@@ -23,10 +23,27 @@ tbody tr:nth-child(even) td, tbody tr.even td {background:#151c29;}
 }
 
 #main {
+    border-left: 1px solid white;
+    padding-left: 8px;
     color: white;
 }
 
 h1 { color: white;}
+h2 { color: white;}
+h3 { color: white; margin-top: 8px;}
+
+.box {
+    border: 1px solid white;
+    padding: 8px;
+    background:#151c29;
+}
+
+.status {
+    border: 1px solid white;
+    padding: 8px;
+    overflow: auto;
+    height: 100px;
+}
 
 .sidebar ul {
 	margin:0;
@@ -67,35 +84,22 @@ h1 { color: white;}
   </head>
   <body>
     <div class="container">
-      <div class="column span-12 last" style="text-align: right">
-        <h1 class="alt">Destiny Lounge 2011<img alt="" id="ajax-loader" style="display:none; margin-bottom: 0px; margin-left: 5px" src="/images/ajax-loader.gif"></h1>
+      <div style="text-align: right">
+        <h1 class="alt">Destiny Lounge 2011 - The Oracle</h1>
       </div>
 
       <hr>
 
-      <div class="column span-6 colborder sidebar">
-        <hr class="space" >
-
-	<span class="lift:Menu.builder"></span>
+      <div class="column span-6 sidebar">
+	    <span class="lift:Menu.builder"></span>
 
         <div class="lift:Msgs?showAll=true"></div>
-        <hr class="space" />
       </div>
 
-      <div class="column span-17 last">
+      <div class="column span-17">
         <div id="content">The main content will get bound here</div>
       </div>
 
-      <hr />
-      <div class="column span-23 last" style="text-align: center">
-        <h4 class="alt">
-          <a href="http://www.liftweb.net"><i>Lift</i></a> 
-	  is Copyright 2007-2011 WorldWide Conferencing, LLC.
-	  Distributed under an Apache 2.0 License.</h4>
-      </div>
     </div>
-        <audio src="/media/fire-1.mp3" preload="auto" />
-      <script>
-    </script>
   </body>
 </html>

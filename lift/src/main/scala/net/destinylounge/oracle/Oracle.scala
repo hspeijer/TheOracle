@@ -1,13 +1,11 @@
-package code
-package comet
+package net.destinylounge.oracle
 
 import net.liftweb._
 import http._
 import actor._
 import collection.immutable.HashMap
-import comet.NeoInit
-
-import model.{RelType, OracleNode, OracleModel}
+import code.comet.NeoInit
+import code.model.{RelType, OracleNode, OracleModel}
 
 /**
  * (c) mindsteps BV 
@@ -19,15 +17,12 @@ import model.{RelType, OracleNode, OracleModel}
  */
 
 object Oracle {
+
   val model = OracleModel
-  val menu = "Choices are: 1: Earth, 2:Water, 3:Fire, 4:Air & 5 Aether"
-  val menuLookup = List(RelType.EARTH, RelType.WATER, RelType.FIRE, RelType.AIR, RelType.AETHER)
   var currentNode : OracleNode = OracleNode.findNode(0)
 
-  println("Init Oracle?")
-
-  def updateState(state: Int) : String = {
-      val newOracleNode = currentNode.findReference(menuLookup(state - 1))
+  def trigger(refType: RelType.RelType) : String = {
+      val newOracleNode = currentNode.findReference(refType)
       if(newOracleNode != null) {
         currentNode = newOracleNode
       } else {
@@ -35,6 +30,10 @@ object Oracle {
       }
 
     currentNode.script
+  }
+
+  def triggerBeam(): String = {
+    reset();
   }
 
   def reset() : String = {

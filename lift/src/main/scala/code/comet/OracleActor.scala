@@ -11,14 +11,14 @@ import Helpers._
  * by this component.  When the component changes on the server
  * the changes are automatically reflected in the browser.
  */
-class Chat extends CometActor with CometListener {
+class OracleActor extends CometActor with CometListener {
   private var msgs: Vector[String] = Vector() // private state
 
   /**
    * When the component is instantiated, register as
    * a listener with the ChatServer
    */
-  def registerWith = ChatServer
+  def registerWith = OracleServer
 
   /**
    * The CometActor is an Actor, so it processes messages.
@@ -35,5 +35,5 @@ class Chat extends CometActor with CometListener {
    * Put the messages in the li elements and clear
    * any elements that have the clearable class.
    */
-  def render = "li *" #> msgs & ClearClearable
+  def render = "li *" #> msgs.reverse & ClearClearable
 }

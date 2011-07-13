@@ -46,17 +46,9 @@ class Boot {
 
     // Build SiteMap
     def sitemap = SiteMap(
-      Menu.i("Home") / "index",
-
+      Menu.i("The Oracle") / "index",
       Menu(Loc("Edit", Link(List("edit"), true, "/edit/index"), "Edit Oracle")),
-
-      // more complex because this menu allows anything in the
-      // /static path to be visible
-      Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
-	       "The Oracle")),
       Menu("DVMTest") / "test"
-
-
     )
 
     def sitemapMutators = User.sitemapMutator
