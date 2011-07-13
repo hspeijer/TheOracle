@@ -4,8 +4,6 @@ package comet
 import net.liftweb._
 import http._
 import util._
-import Helpers._
-
 /**
  * The screen real estate on the browser will be represented
  * by this component.  When the component changes on the server

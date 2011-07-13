@@ -17,20 +17,12 @@ package code.snippet
  */
 import _root_.net.liftweb._
 import http._
-import mapper._
 import S._
 import SHtml._
 
 import common._
-import util._
-import Helpers._
-
 import _root_.scala.xml.{NodeSeq, Text, Group}
-import _root_.java.util.Locale
-import scala.collection.immutable.List
 import code.model.OracleNode
-import javax.management.remote.rmi._RMIConnection_Stub
-
 object OracleEditor {
   private object selectedNode extends RequestVar[Box[OracleNode]](Empty)
 

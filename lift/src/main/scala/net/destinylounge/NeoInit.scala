@@ -1,5 +1,4 @@
-package code
-package comet
+package net.destinylounge
 
 import org.neo4j.graphdb.{GraphDatabaseService, RelationshipType}
 import org.neo4j.kernel.EmbeddedGraphDatabase

@@ -1,11 +1,7 @@
 package net.destinylounge.oracle
 
-import net.liftweb._
-import http._
-import actor._
-import collection.immutable.HashMap
-import code.comet.NeoInit
 import code.model.{RelType, OracleNode, OracleModel}
+import code.comet.WebMovieServer
 
 /**
  * (c) mindsteps BV 
@@ -21,10 +17,15 @@ object Oracle {
   val model = OracleModel
   var currentNode : OracleNode = OracleNode.findNode(0)
 
+  def setCurrentNode(node : OracleNode) = {
+    WebMovieServer ! node.clip.name
+    currentNode = node
+  }
+
   def trigger(refType: RelType.RelType) : String = {
       val newOracleNode = currentNode.findReference(refType)
       if(newOracleNode != null) {
-        currentNode = newOracleNode
+         setCurrentNode(newOracleNode)
       } else {
         return "No Valid choice"
       }
@@ -37,7 +38,7 @@ object Oracle {
   }
 
   def reset() : String = {
-    currentNode = OracleNode.findNode(0).findReference(RelType.ORACLE).findReference(RelType.CHALLENGE)
+    setCurrentNode(OracleNode.findNode(0).findReference(RelType.ORACLE).findReference(RelType.CHALLENGE))
     println("References: " + currentNode.references)
     currentNode.script
   }

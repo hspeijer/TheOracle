@@ -2,16 +2,11 @@ package code
 package snippet
 
 import net.liftweb._
-import builtin.snippet.Msg
 import http._
 import js._
 import JsCmds._
-import JE._
-
-import util.BindHelpers._
-import xml.NodeSeq
 import net.destinylounge.oracle.Oracle
-import comet.{OracleServer}
+import comet.OracleServer
 import model.RelType
 
 /**

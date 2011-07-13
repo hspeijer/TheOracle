@@ -1,11 +1,7 @@
 package bootstrap.liftweb
 
-import _root_.code.comet.NeoInit
 import net.liftweb._
-import sitemap.Menu._
 import util._
-import Helpers._
-
 import common._
 import http._
 import sitemap._

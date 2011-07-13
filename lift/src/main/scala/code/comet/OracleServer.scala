@@ -4,13 +4,7 @@ package comet
 import net.liftweb._
 import http._
 import actor._
-import scala.Int
-import collection.immutable.Vector._
-import comet.NeoInit
-import net.destinylounge.UDPClient
-import net.destinylounge.media.DVMVideoPlayer
 import net.destinylounge.oracle.Oracle
-import model.RelType
 
 /**
  * A singleton that provides chat features to all clients.
