@@ -29,6 +29,7 @@ import _root_.scala.xml.{NodeSeq, Text, Group}
 import _root_.java.util.Locale
 import scala.collection.immutable.List
 import code.model.OracleNode
+import javax.management.remote.rmi._RMIConnection_Stub
 
 object OracleEditor {
   private object selectedNode extends RequestVar[Box[OracleNode]](Empty)
@@ -71,31 +72,23 @@ object OracleEditor {
       }) openOr {error("User not found"); redirectTo("/simple/index.html")}
   }
 */
-/*  // called when the form is submitted
-  private def saveNode(node: OracleNode) = node.validate match {
-    // no validation errors, save the node, and go
-    // back to the "list" page
-    case Nil => node.save; redirectTo("/edit/index.html")
-
-      // oops... validation errors
-      // display the errors and make sure our selected user is still the same
-    case x => error(x); selectedNode(Full(node))
+  // called when the form is submitted
+  private def saveNode(node: OracleNode) = {
+    node.save()
   }
-*/
-/*
+
+
   /**
    * Add a user
    */
   def add(xhtml: Group): NodeSeq =
-  selectedUser.is.openOr(new User).toForm(Empty, saveUser _) ++ <tr>
-    <td><a href="/simple/index.html">Cancel</a></td>
-    <td><input type="submit" value="Create"/></td>
+  selectedNode.is.openOr(new OracleNode()).toForm(Empty, saveNode _) ++ <tr>
+    <td><a href="/edit/index.html">Cancel</a></td>
                                                                 </tr>
-     */
   /**
    * Edit a user
    */
-/*  def edit(xhtml: Group): NodeSeq =
+  def edit(xhtml: Group): NodeSeq =
   selectedNode.map(_.
                    // get the form data for the user and when the form
                    // is submitted, call the passed function.
@@ -106,12 +99,11 @@ object OracleEditor {
                    // call.
                    toForm(Empty, saveNode _) ++ <tr>
       <td><a href="/edit/index.html">Cancel</a></td>
-      <td><input type="submit" value="Save"/></td>
                                                 </tr>
 
                    // bail out if the ID is not supplied or the user's not found
   ) openOr {error("Node not found"); redirectTo("/edit/index.html")}
-*/
+
 }
 
 
