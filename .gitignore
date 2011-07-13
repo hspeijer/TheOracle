@@ -11,3 +11,4 @@
 /.idea
 /lift/project/boot
 /lift/project/build
+/lift/neo4j-store3
