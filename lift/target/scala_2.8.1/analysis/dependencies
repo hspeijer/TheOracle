@@ -1,13 +1,20 @@
 #Source Dependencies
-#Thu Jun 09 05:21:11 CEST 2011
+#Wed Jul 13 08:40:40 CEST 2011
+src\\main\\scala\\code\\snippet\\OracleEditor.scala=
+src\\main\\scala\\net\\destinylounge\\media\\DVMController.scala=src\\main\\scala\\net\\destinylounge\\media\\DVMConfiguration.scala;src\\main\\scala\\net\\destinylounge\\media\\DVMVideoPlayer.scala
+src\\main\\scala\\code\\model\\NeoInit.scala=
+src\\main\\scala\\code\\model\\OracleModel.scala=src\\main\\scala\\code\\comet\\OracleServer.scala;src\\main\\scala\\code\\snippet\\OracleEditor.scala;src\\main\\scala\\net\\destinylounge\\oracle\\Oracle.scala;src\\main\\scala\\code\\snippet\\OracleIn.scala
+src\\main\\scala\\code\\snippet\\OracleIn.scala=
+src\\main\\scala\\code\\comet\\NeoInit.scala=
+src\\main\\scala\\net\\destinylounge\\media\\DVMVideoPlayer.scala=src\\main\\scala\\code\\snippet\\DVMTest.scala
 src\\main\\scala\\code\\comet\\RelTypes.scala=
-src\\main\\scala\\code\\comet\\NeoInit.scala=src\\main\\scala\\bootstrap\\liftweb\\Boot.scala;src\\main\\scala\\code\\comet\\ChatServer.scala
-src\\main\\scala\\code\\lib\\test.scala=
-src\\main\\scala\\code\\comet\\Chat.scala=
-src\\main\\scala\\code\\comet\\ChatServer.scala=src\\main\\scala\\code\\snippet\\ChatIn.scala;src\\main\\scala\\code\\comet\\Chat.scala
+src\\main\\scala\\code\\snippet\\DVMTest.scala=
+src\\main\\scala\\code\\lib\\DependencyFactory.scala=
+src\\main\\scala\\net\\destinylounge\\oracle\\Oracle.scala=src\\main\\scala\\code\\comet\\OracleServer.scala;src\\main\\scala\\code\\snippet\\OracleIn.scala
 src\\main\\scala\\bootstrap\\liftweb\\Boot.scala=
-src\\main\\scala\\code\\lib\\DependencyFactory.scala=src\\main\\scala\\code\\snippet\\HelloWorld.scala
-src\\main\\scala\\code\\snippet\\ChatIn.scala=
-src\\main\\scala\\code\\snippet\\HelloWorld.scala=
-src\\main\\scala\\code\\comet\\Oracle.scala=src\\main\\scala\\code\\comet\\ChatServer.scala
+src\\main\\scala\\code\\lib\\test.scala=
 src\\main\\scala\\code\\model\\User.scala=src\\main\\scala\\bootstrap\\liftweb\\Boot.scala
+src\\main\\scala\\code\\comet\\OracleActor.scala=
+src\\main\\scala\\net\\destinylounge\\media\\DVMConfiguration.scala=src\\main\\scala\\net\\destinylounge\\media\\DVMVideoPlayer.scala
+src\\main\\scala\\net\\destinylounge\\UDPClient.scala=src\\main\\scala\\net\\destinylounge\\media\\DVMController.scala
+src\\main\\scala\\code\\comet\\OracleServer.scala=src\\main\\scala\\code\\comet\\OracleActor.scala;src\\main\\scala\\code\\snippet\\OracleIn.scala

@@ -1,13 +1,20 @@
 #Source Hashes
-#Thu Jun 09 05:21:11 CEST 2011
-src\\main\\scala\\code\\comet\\RelTypes.scala=d68a42fd066de031bfb709f72b82db9f76bed318
+#Wed Jul 13 08:40:40 CEST 2011
+src\\main\\scala\\code\\snippet\\OracleEditor.scala=b8f6e85f4ec2e1780e8c3fa406161c71695ff510
+src\\main\\scala\\net\\destinylounge\\media\\DVMController.scala=afdef81d07ad7c2a4c7bd07a23ec2bb8f4716433
+src\\main\\scala\\code\\model\\NeoInit.scala=3ad95c8e7424573bf19e8c70987dc17cbda755e4
+src\\main\\scala\\code\\model\\OracleModel.scala=23794c1ea6414333d505a3a6eb19bc4b082288dc
+src\\main\\scala\\code\\snippet\\OracleIn.scala=2c6a5d611d9b57cd7175911cd48ae94940026309
 src\\main\\scala\\code\\comet\\NeoInit.scala=cadcd49534c8ff0322d0ee9fb13dc1430b984d4b
-src\\main\\scala\\code\\lib\\test.scala=b46eacbeee56336bf4a8944465c4b44a1e7fd311
-src\\main\\scala\\code\\comet\\Chat.scala=006e4a5c4cf904abf23f502a844ce246626b4cd3
-src\\main\\scala\\code\\comet\\ChatServer.scala=b53fc5e4aad637ae069bd9f4c717dcf6e043b02c
-src\\main\\scala\\bootstrap\\liftweb\\Boot.scala=118000c724ba71d6bb19b778d6805fe0b74b2e51
+src\\main\\scala\\net\\destinylounge\\media\\DVMVideoPlayer.scala=78f4426a16bc9985ab2eb3741cae0fe98dc228b5
+src\\main\\scala\\code\\comet\\RelTypes.scala=d68a42fd066de031bfb709f72b82db9f76bed318
+src\\main\\scala\\code\\snippet\\DVMTest.scala=8f74c166a6393651880c997c83bb3a092e08f318
 src\\main\\scala\\code\\lib\\DependencyFactory.scala=e5d94ad2d69afe24876734d3cc8549a5f3a7c7fd
-src\\main\\scala\\code\\snippet\\ChatIn.scala=35adc92d5961cfc040bde488c145a459f389226d
-src\\main\\scala\\code\\snippet\\HelloWorld.scala=de230f51dc065543636a40e9d2d204f30f1bc04d
-src\\main\\scala\\code\\comet\\Oracle.scala=6d15058945a5c719352ebcb706a20fc638c0ac8c
+src\\main\\scala\\net\\destinylounge\\oracle\\Oracle.scala=4be975bb69a7782692f9e1bf99d726555aabb71f
+src\\main\\scala\\bootstrap\\liftweb\\Boot.scala=4dbd0b50a9c04104b794fed83f0e521abbdb3837
+src\\main\\scala\\code\\lib\\test.scala=b46eacbeee56336bf4a8944465c4b44a1e7fd311
 src\\main\\scala\\code\\model\\User.scala=780b064f75cfd7994521dd78fe932cc0fa9729ea
+src\\main\\scala\\code\\comet\\OracleActor.scala=5fc46d933a6ef8d01e1854db6c6e8c69613145f6
+src\\main\\scala\\net\\destinylounge\\media\\DVMConfiguration.scala=3b51a0e554da2ed12ebb509ffa8b3f7c745ccf34
+src\\main\\scala\\net\\destinylounge\\UDPClient.scala=858862ab9e9fc4d6763f53ff25ad7f67b160857e
+src\\main\\scala\\code\\comet\\OracleServer.scala=d6709d81efcba180ee1ef881e0152eba905bff32

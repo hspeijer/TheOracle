@@ -6,12 +6,67 @@
   </head>
   <body class="lift:content_id=main">
     <div id="main" class="lift:surround?with=default;at=content">
-      <h2>Welcome to your project!</h2>
-      <p>
-	<span class="lift:helloWorld.howdy">
-	  Welcome to your Lift app at <span id="time">Time goes here</span>
-	</span>
-      </p>
+        <div class="box">
+            <table><tr>
+            <td><form class="lift:form.ajax">
+               <input type="hidden" class="lift:OracleIn.triggerEarth">
+               <input type="submit" value="Earth"/>
+             </form></td>
+             <td><form class="lift:form.ajax">
+               <input type="hidden" class="lift:OracleIn.triggerFire">
+               <input type="submit" value="Fire"/>
+             </form></td>
+             <td><form class="lift:form.ajax">
+               <input type="hidden" class="lift:OracleIn.triggerWater">
+               <input type="submit" value="Water"/>
+             </form></td>
+             <td><form class="lift:form.ajax">
+               <input type="hidden" class="lift:OracleIn.triggerAir">
+               <input type="submit" value="Air"/>
+             </form></td>
+             <td><form class="lift:form.ajax">
+               <input type="hidden" class="lift:OracleIn.triggerAether">
+               <input type="submit" value="Aether"/>
+             </form></td>
+             <td><form class="lift:form.ajax">
+               <input type="hidden" class="lift:OracleIn.triggerBeam">
+               <input type="submit" value="Beam"/>
+             </form></td>
+              </tr></table>
+        </div>
+
+
+        <div class="status">
+        <div class="lift:comet?type=OracleActor">
+
+             <ul>
+               <li>A message</li>
+               <li class="clearable">Another message</li>
+               <li class="clearable">A third message</li>
+             </ul>
+           </div>
+        </div>
+
+           <div>
+             <form class="lift:form.ajax">
+               <input class="lift:OracleIn" id="chat_in"/>
+               <input type="submit" value="Send Command"/>
+             </form>
+           </div>
+
+         <h3>Video Output</h3>
+         <div>
+                 <video height="270" src="/media/spirit.mp4" width="480" controls>
+                   <a href="/media/spirit.mp4">Download the video</a> for local playback.
+                 </video>
+         </div>
+
+         <h3>Audio Controls</h3>
+         <div>
+             <audio src="/media/fire-1.mp3" controls="controls">
+             </audio>
+         </div>
+
     </div>
   </body>
 </html>
