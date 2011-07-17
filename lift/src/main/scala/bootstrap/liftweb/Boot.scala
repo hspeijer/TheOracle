@@ -1,6 +1,8 @@
 package bootstrap.liftweb
 
 import net.liftweb._
+import sitemap.LocPath._
+//import sitemap.MenuSingleton._
 import util._
 import common._
 import http._
@@ -17,25 +19,25 @@ import code.model._
  */
 class Boot {
   def boot {
-    if (!DB.jndiJdbcConnAvailable_?) {
-      val vendor = 
-	new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
-			     Props.get("db.url") openOr 
-			     "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
-			     Props.get("db.user"), Props.get("db.password"))
-
-      LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
-
-      DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
-    }
+//    if (!DB.jndiJdbcConnAvailable_?) {
+//      val vendor =
+//	new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
+//			     Props.get("db.url") openOr
+//			     "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
+//			     Props.get("db.user"), Props.get("db.password"))
+//
+//      LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
+//
+//      DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
+//    }
 
     println("Booting the Oracle?");
     //NeoInit.init();
 
-    // Use Lift's Mapper ORM to populate the database
-    // you don't need to use Mapper to use Lift... use
-    // any ORM you want
-    Schemifier.schemify(true, Schemifier.infoF _, User)
+//    // Use Lift's Mapper ORM to populate the database
+//    // you don't need to use Mapper to use Lift... use
+//    // any ORM you want
+//    Schemifier.schemify(true, Schemifier.infoF _, User)
 
     // where to search snippet
     LiftRules.addToPackages("code")
@@ -44,7 +46,8 @@ class Boot {
     def sitemap = SiteMap(
       Menu.i("The Oracle") / "index",
       Menu(Loc("Edit", Link(List("edit"), true, "/edit/index"), "Edit Oracle")),
-      Menu("DVMTest") / "test"
+      Menu("DVMTest") / "test",
+      Menu("UITest") / "uitest"
     )
 
     def sitemapMutators = User.sitemapMutator
@@ -74,7 +77,7 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))    
 
-    // Make a transaction span the whole HTTP request
-    S.addAround(DB.buildLoanWrapper)
+//    // Make a transaction span the whole HTTP request
+//    S.addAround(DB.buildLoanWrapper)
   }
 }
