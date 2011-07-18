@@ -1,32 +1,199 @@
 <lift:surround with="default" at="content">
     <h1>UI Test page</h1>
     <div>
+    <script type="text/javascript">
+        var STATE = false;
+        function save_state() {
+            STATE = $('#jstree').jstree('get_state');
+        }
 
-    <script>
         $(function() {
             $( "#tabs" ).tabs();
+
+        $("#list4").jqGrid({
+            datatype: "local",
+            height: 250,
+            colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+            colModel:[
+                {name:'id',index:'id', width:60, sorttype:"int"},
+                {name:'invdate',index:'invdate', width:90, sorttype:"date"},
+                {name:'name',index:'name', width:80},
+                {name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
+                {name:'tax',index:'tax', width:80, align:"right",sorttype:"float"},
+                {name:'total',index:'total', width:80,align:"right",sorttype:"float"},
+                {name:'note',index:'note', width:120, sortable:false}
+            ],
+            multiselect: true,
+            caption: "Manipulating Array Data"
         });
+        var mydata = [
+                {id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                {id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                {id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+                {id:"4",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                {id:"5",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                {id:"6",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+                {id:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                {id:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                {id:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
+                ];
+        for(var i=0;i<=mydata.length;i++)
+            $("#list4").jqGrid('addRowData',i+1,mydata[i]);
+        });
+
+        $(document).ready(function() {
+             $.jstree.defaults.themes.theme = "../../resources/jstree/themes/apple";
+
+            $("#jstree").jstree({
+                'json' : {
+                    // data function:
+                    // 'data' : function (o, c) { c.call(this, ['node 1', 'node 2']
+                    // data static:
+                    'data' : [
+                        {
+                            'title' : 'Stories',
+                            'data' : { 'jstree' : { 'closed' : true } }
+                        },
+                        'Root 2',
+                        {
+                            'title' : 'Oracles',
+                            'data' : { 'jstree' : { 'children' : [ 'Child 1', 'Child 2' ] } }
+                        },
+                        {
+                            'title' : 'Clips',
+                            'data' : { },
+                            'children' : [ 'Child 1', 'Child 2' ]
+                        }
+                    ],
+                    // mixed with ajax
+                    'ajax' : {
+                        // static url
+                        'url' : 'test.json'
+                        // url with function
+                        // 'url' : function (o) { return 'test.json'; },
+                        // with some data
+                        // 'data' : function () { return { 'foo' : 'bar' }; }
+                    },
+                    progressive_render : true,
+                    progressive_unload : true
+                },
+                "themes" : {
+                    "theme" : "apple",
+                    "dots" : false,
+                    "icons" : false
+                },
+                'plugins' : [ 'core', 'themes', 'ui', 'json', 'state' ]
+            });
+            $("#jstree").jstree("set_theme","apple");
+        });
+
+        var root = {
+          stories: {
+            fire: {
+              Lava: 3938,
+              Vulcano: 3812,
+              Hell: 6714,
+              Anger: 743
+            },
+            Water: {
+              Peace: 3534,
+              Float: 5731,
+              Healing: 7840,
+              Relaxation: 5914,
+            },
+            spirit: {
+              LSD: 3938,
+              MDMA: 3812,
+              DMT: 6714,
+              Psylocibin: 743
+            },
+          },
+          Oracles: {
+            Stupid: 17010,
+            Sexy: 5842,
+            Scottish: {
+
+            },
+          },
+          Triggers: {
+            Movie: 1
+            }
+        };
+
         </script>
-
-
 
     <div class="demo">
 
     <div id="tabs">
         <ul>
-            <li><a href="#tabs-1">Nunc tincidunt</a></li>
-            <li><a href="#tabs-2">Proin dolor</a></li>
-            <li><a href="#tabs-3">Aenean lacinia</a></li>
+            <li><a href="#tabs-1">Table</a></li>
+            <li><a href="#tabs-2">Tree</a></li>
+            <li><a href="#tabs-3">Graph</a></li>
         </ul>
         <div id="tabs-1">
-            <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+            <table id="list4"></table>
         </div>
         <div id="tabs-2">
-            <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+            <div id="jstree" style="width:45%; margin-right:1%;">
+                <ul>
+                    <li id="some-node-id">Root node
+                        <ul>
+                            <li data-jstree='{ "icon" : false }'>child with no icon</li>
+                            <li>child</li>
+                            <li data-jstree='{ "selected" : true }' id="the-selected-one">selected child</li>
+                            <li><em>italic child</em></li>
+                            <li data-jstree='{ "icon" : "http://icons.iconarchive.com/icons/fasticon/freestyle/16/tree-icon.png" }'>custom icon</li>
+                            <li>mixed <span style="color:red;">content </span><strong>child</strong></li>
+                            <li><strong>strong child</strong></li>
+                        </ul>
+                    </li>
+                    <li id="some-node-id2" data-jstree='{ "opened" : true }'>Root node 2
+                        <ul>
+                            <li>opened child</li>
+                        </ul>
+                    </li>
+                    <li id="some-node-id3" data-jstree='{ "opened" : true }'>Root node 3
+                        <ul>
+                            <li>opened child</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div id="tabs-3">
-            <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-            <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+            <div id="center">
+                <div id="fig" style="height:200px; overflow:scroll">
+                    <script type="text/javascript+protovis">
+                        var vis = new pv.Panel()
+                            .width(200)
+                            .height(200)
+                            .left(40)
+                            .right(160)
+                            .top(10)
+                            .bottom(10);
+
+                        var layout = vis.add(pv.Layout.Cluster)
+                            .nodes(pv.dom(root)
+                            .root("root")
+                            .sort(function(a, b) pv.naturalOrder(a.nodeName, b.nodeName))
+                            .nodes())
+                            .group(true)
+                            .orient("left");
+
+                        layout.link.add(pv.Line)
+                            .strokeStyle("#ccc")
+                            .lineWidth(1)
+                            .antialias(false);
+
+                        layout.node.add(pv.Dot)
+                            .fillStyle(function(n) n.firstChild ? "#aec7e8" : "#ff7f0e");
+
+                        layout.label.add(pv.Label);
+
+                        vis.render();
+
+                    </script>
+                </div>
         </div>
     </div>
 
