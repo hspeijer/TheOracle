@@ -246,6 +246,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="SBT" level="project" />
   </component>
 </module>
 

@@ -15,13 +15,13 @@ import org.h2.expression.Variable
  * Time: 6:01
  * 
  */
-
-object RelTypes2 extends Enumeration {
-  type RelTypes = Value
-  val USERS_REFERENCE, USER, FRIEND = Value
-
-  implicit def conv(rt: RelTypes) = new RelationshipType() {def name = rt.toString}
-}
+//
+//object RelTypes2 extends Enumeration {
+//  type RelTypes = Value
+//  val USERS_REFERENCE, USER, FRIEND = Value
+//
+//  implicit def conv(rt: RelTypes) = new RelationshipType() {def name = rt.toString}
+//}
 
 import RelTypes2._
 import org.neo4j.graphdb.GraphDatabaseService

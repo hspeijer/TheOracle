@@ -1,6 +1,6 @@
 package net.destinylounge.media
 
-import java.net.{InetAddress}
+import java.net.InetAddress
 
 /**
  * Created by IntelliJ IDEA.

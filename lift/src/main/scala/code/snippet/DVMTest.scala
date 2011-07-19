@@ -1,16 +1,9 @@
 package code.snippet
 
-import scala.xml.Text
-
 import xml.NodeSeq
 import _root_.net.liftweb._
 import http._
-import mapper._
-import S._
-import SHtml._
-
 import common._
-import util._
 import net.liftweb.util.Helpers._
 import net.destinylounge.media.DVMVideoPlayer
 

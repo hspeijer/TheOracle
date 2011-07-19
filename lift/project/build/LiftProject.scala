@@ -23,4 +23,7 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
     "org.neo4j" % "neo4j-index" % "1.2-1.2"
 	
   ) ++ super.libraryDependencies
+
+  override def extraWebappFiles = (sourcePath / "main" ##) / "resources" ** "*"
+
 }
