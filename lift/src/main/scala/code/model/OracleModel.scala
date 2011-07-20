@@ -160,7 +160,7 @@ object OracleModel {
     new OracleNode(14, "More Water! Please!!!!!!!!!!!", "Stupid-Water2", new MovieTrigger(15, "worst-anti-drugs")),
     new OracleNode(5, "Plenty of dust, go roll around", "Stupid-Earth1", new MovieTrigger(15, "1234")),
     new OracleNode(6, "I like butterflies", "Stupid-Air1", new MovieTrigger(15, "flower")),
-    new OracleNode(7, "Go fairy!", "Stupid-Aether1", new MovieTrigger(15, "spirit"))
+    new OracleNode(7, "Go fairy!", "Stupid-Aether1", new MovieTrigger(15, "spirit")),
     new OracleNode(21, "I am 2 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
     new OracleNode(22, "Pose your question!-2", "Stupid-Challenge", new MovieTrigger(15, "1234")),
     new OracleNode(31, "I am 3 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
