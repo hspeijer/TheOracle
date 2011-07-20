@@ -24,6 +24,8 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
 	
   ) ++ super.libraryDependencies
 
+  //override val jettyPort = 80
+
   override def extraWebappFiles = (sourcePath / "main" ##) / "resources" ** "*"
 
 }

@@ -47,7 +47,7 @@ object Oracle {
     // If there is more than one Oracle then make sure you get one other than the current one
     do {
       // Get a random number from 0 to numOracles-1
-      oracleIndex = randomNumberGen.nextInt(numOracles)
+      currentOracleIndex = randomNumberGen.nextInt(numOracles)
     } while (numOracles > 1 && newOracleIndex == currentOracleIndex)
 
     setCurrentNode(OracleNode.findNode(0).findReference(newOracleIndex, RelType.ORACLE).findReference(RelType.CHALLENGE))

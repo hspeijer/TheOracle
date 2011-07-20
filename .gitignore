@@ -2,15 +2,10 @@
 /lift/lib_managed
 /lift/target
 /lift/neo4j-store2
-/lift/neo4j-store3
 /lift/target
 /lift/project/build
-.idea
-
-
 /.idea
 /lift/project/boot
 /lift/project/build
 /lift/neo4j-store3
-/lift/project/build/target
 /lift/project/build/target
