@@ -11,7 +11,8 @@ import java.net.{DatagramPacket, InetAddress, DatagramSocket}
  */
 
 object UDPClient {
-  val server = "localhost"
+//  val server = "localhost"
+  val server = "192.168.0.254"
   val port = 9876
 
   def sendMessage(message : String) {

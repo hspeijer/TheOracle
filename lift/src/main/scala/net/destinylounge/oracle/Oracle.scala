@@ -16,6 +16,8 @@ object Oracle {
 
   val model = OracleModel
   var currentNode : OracleNode = OracleNode.findNode(0)
+  var currentOracleIndex : Int = -1
+  val randomNumberGen = new scala.util.Random
 
   def setCurrentNode(node : OracleNode) = {
     WebMovieServer ! node.clip.name
@@ -38,7 +40,19 @@ object Oracle {
   }
 
   def reset() : String = {
-    setCurrentNode(OracleNode.findNode(0).findReference(RelType.ORACLE).findReference(RelType.CHALLENGE))
+    // Count the number of Oracles connected to the root node
+    val numOracles = OracleNode.findNode(0).countReferences(RelType.ORACLE)
+    var newOracleIndex = -1
+
+    // If there is more than one Oracle then make sure you get one other than the current one
+    do {
+      // Get a random number from 0 to numOracles-1
+      oracleIndex = randomNumberGen.nextInt(numOracles)
+    } while (numOracles > 1 && newOracleIndex == currentOracleIndex)
+
+    setCurrentNode(OracleNode.findNode(0).findReference(newOracleIndex, RelType.ORACLE).findReference(RelType.CHALLENGE))
+    currentOracleIndex = newOracleIndex
+
     println("References: " + currentNode.references)
     currentNode.script
   }
