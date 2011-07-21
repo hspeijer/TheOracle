@@ -27,6 +27,19 @@ DO ' get answer until out of tries
   loops = loops + 1 ' update tries count
 LOOP UNTIL (loops > 100)
 
+HIGH 14
+PAUSE 500
+LOW 14
+PAUSE 300
+HIGH 14
+PAUSE 500
+LOW 14
+PAUSE 300
+HIGH 14
+PAUSE 500
+LOW 14
+
+
 DO
   DEBUG CLS, "Input required", CR,  linefeed
   DEBUGIN SNUM myNum

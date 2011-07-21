@@ -1,0 +1,73 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+' Earth
+' Fire
+' Water
+' Air
+' Aether
+' Beam
+buttonState VAR Byte
+' Earth
+' Fire
+' Water
+' Air
+' Aether
+' RESET
+lightState VAR Byte
+
+mask VAR Byte
+reps VAR Nib
+
+Init:
+  DEBUG "Initialising Oracle INPUT" , CR, LF
+
+  HIGH 14
+  PAUSE 500
+  LOW 14
+  PAUSE 300
+  HIGH 14
+  PAUSE 500
+  LOW 14
+  PAUSE 300
+  HIGH 14
+  PAUSE 500
+  LOW 14
+
+Main:
+  DO
+    DEBUG CLS, BIN buttonState, " 0x", HEX buttonState, CR, LF
+    DEBUGIN BIN lightState
+
+    IF lightstate = %100000 THEN
+      mask = lightState
+      'DEBUG "RESET Beam", CR, LF
+    ELSE
+      buttonState = lightState
+    ENDIF
+
+    IF (IN3 = 1) THEN
+      mask = mask << 1
+      IF(mask = %1000000) THEN
+        mask = %1
+      ENDIF
+      'DEBUG "BUTTON PUSHED", BIN mask, CR, LF
+      buttonState = mask
+    ENDIF
+
+    buttonState = buttonsState | mask
+
+    FOR reps = 0 TO 6                     ' repeat with Reps = 1, 2, 3
+      IF (lightState & (1 << reps)) THEN
+        LOW 14
+        PAUSE 50
+        HIGH 14
+      ELSE
+        LOW 14
+        PAUSE 50
+      ENDIF
+      PAUSE 450
+    NEXT
+
+  LOOP
+  GOTO Init
