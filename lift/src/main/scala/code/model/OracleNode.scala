@@ -14,6 +14,7 @@ import net.liftweb.http.SHtml
  * Time: 7:27
  * 
  */
+import code.model.RelType._
 
 object OracleNode {
   def apply(i: Int, s: String, s1: String, trigger: MovieTrigger) = {new OracleNode(i,s,s1,trigger).toString()}

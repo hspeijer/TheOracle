@@ -26,6 +26,7 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
 
   //override val jettyPort = 80
 
+  //TODO HSP 22-7-2011: Figure out how to reach the files in the WEB-INF classes folder
   override def extraWebappFiles = (sourcePath / "main" ##) / "resources" ** "*"
 
 }

@@ -25,7 +25,7 @@ class OracleButtonsActor extends CometActor with CometListener {
   def render = {
     println("ButtonState Change " + state);
 
-    JsRaw("updateButtonState(" + state + ")").cmd
+    JsRaw("updateButtonState()").cmd
   }
 
 }
