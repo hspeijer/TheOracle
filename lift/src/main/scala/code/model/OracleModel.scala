@@ -40,7 +40,7 @@ object OracleModel {
   val testNodes = List(
     new OracleNode(0, "This is the root node", "root", new MovieTrigger(15, "1234")),
     new OracleNode(1, "I am kinda stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(2, "Pose your question!", "Stupid-Challenge", new MovieTrigger(15, "1234")),
+    new OracleNode(2, "Pose your question!", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge")),
     new OracleNode(3, "Fire burns ya know", "Stupid-Fire1", new MovieTrigger(15, "worst-anti-drugs")),
     new OracleNode(4, "all you need on the playa", "Stupid-Water1", new MovieTrigger(15, "1234")),
     new OracleNode(14, "More Water! Please!!!!!!!!!!!", "Stupid-Water2", new MovieTrigger(15, "worst-anti-drugs")),
@@ -48,15 +48,15 @@ object OracleModel {
     new OracleNode(6, "I like butterflies", "Stupid-Air1", new MovieTrigger(15, "flower")),
     new OracleNode(7, "Go fairy!", "Stupid-Aether1", new MovieTrigger(15, "spirit")),
     new OracleNode(21, "I am 2 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(22, "Pose your question!-2", "Stupid-Challenge", new MovieTrigger(15, "1234")),
+    new OracleNode(22, "Pose your question!-2", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge")),
     new OracleNode(31, "I am 3 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(32, "Pose your question!-3", "Stupid-Challenge", new MovieTrigger(15, "1234")),
+    new OracleNode(32, "Pose your question!-3", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge")),
     new OracleNode(41, "I am 4 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
     new OracleNode(42, "Pose your question!-4", "Stupid-Challenge", new MovieTrigger(15, "1234")),
     new OracleNode(51, "I am 5 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(52, "Pose your question!-5", "Stupid-Challenge", new MovieTrigger(15, "1234")),
+    new OracleNode(52, "Pose your question!-5", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge")),
     new OracleNode(61, "I am 6 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(62, "Pose your question!-6", "Stupid-Challenge", new MovieTrigger(15, "1234"))
+    new OracleNode(62, "Pose your question!-6", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge"))
   )
 
   val testReferences = List(

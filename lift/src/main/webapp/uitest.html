@@ -77,6 +77,7 @@
           Oracles: {
             Stupid: 17010,
             Sexy: 5842,
+            Tim: 75,
             Scottish: {
 
             },
@@ -88,31 +89,43 @@
         </script>
 
     <div class="demo">
-        <script type="text/javascript">
+        <script type="text/javascript" language="javascript">
             $(function() {
-
+                var buttonState = {earth:false, fire:false, water:false, air:false, aether:false, beam:false}
 
                 $(".oracle-button").mouseenter(function() {
-                    var button = $(this)
-
-                    if(button.data == null) {
-                        button.data = {state:false}
-                    } else {
-                        this.src = "/images/" + this.id + (button.data.state ? ".png" : "-off.png")
-                    }
+                    renderButtonState(this.id, true)
                 }).mouseleave(function() {
-                    var button = $(this)
+                    renderButtonState(this.id, buttonState[this.id])
+                }).click(function() {
+                    $.ajax({
+                        url: "../api/trigger",
+                        type: "POST",
+                        data: 'field=' + this.id
+                    });
+                });
 
+                function renderButtonState(name, state) {
+                    button = $('#' + name)
                     if(button.data == null) {
                         button.data = {state:false}
                     } else {
-                        this.src = "/images/" + this.id + ((!button.data.state) ? ".png" : "-off.png")
+                        button[0].src = "/images/" + name + (state ? ".png" : "-off.png")
                     }
-                })
+                }
+
+                $.updateButtonState = function(newButtonState) {
+                    buttonState = newButtonState
+                    for(key in buttonState) {
+                        renderButtonState(key, buttonState[key])
+                    }
+                }
             })
 
             function updateButtonState(buttonState) {
-                alert('buttonState:' + buttonState)
+                if($.updateButtonState) {
+                    $.updateButtonState(buttonState)
+                }
             }
         </script>
 
@@ -123,7 +136,15 @@
                 <img class="oracle-button" src="/images/air-off.png" id="air" height="72" width="72">
                 <img class="oracle-button" src="/images/aether-off.png" id="aether" height="72" width="72">
                 <img class="oracle-button" src="/images/beam.png" id="beam" height="72">
-            </div>
+                <div class="lift:comet?type=OracleButtonsActor"></div>
+        </div>
+
+        <div>
+            <h3>Post test</h3>
+            <form method="POST" action="../api/trigger">
+                <input type="text" name="field"/>
+                <input type="submit">
+            </form>
         </div>
 
 
@@ -203,7 +224,7 @@
         </div>
         <div id="tabs-3">
             <div id="center">
-                <div id="fig" style="height:200px; overflow:scroll">
+                <div id="fig" style="height:400px; overflow:scroll">
                     <script type="text/javascript+protovis">
                         var vis = new pv.Panel()
                             .width(200)

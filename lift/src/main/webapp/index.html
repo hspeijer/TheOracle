@@ -6,60 +6,55 @@
 </head>
 <body class="lift:content_id=main">
 <div id="main" class="lift:surround?with=default;at=content">
-    <div class="box" id="buttons">
-            <img src="/images/earth-off.png" id="earth" height="72" width="72">
-            <img src="/images/fire-off.png" id="fire" height="72" width="72">
-            <img src="/images/water-off.png" id="water" height="72" width="72">
-            <img src="/images/air-off.png" id="air" height="72" width="72">
-            <img src="/images/aether-off.png" id="aether" height="72" width="72">
-            <img src="/images/beam.png" id="beam" height="72">
-            <div class="lift:comet?type=OracleButtonsActor"/>
+         <script type="text/javascript" language="javascript">
+            $(function() {
+                var buttonState = {earth:false, fire:false, water:false, air:false, aether:false, beam:false}
+
+                $(".oracle-button").mouseenter(function() {
+                    renderButtonState(this.id, true)
+                }).mouseleave(function() {
+                    renderButtonState(this.id, buttonState[this.id])
+                }).click(function() {
+                    $.ajax({
+                        url: "../api/trigger",
+                        type: "POST",
+                        data: 'field=' + this.id
+                    });
+                });
+
+                function renderButtonState(name, state) {
+                    button = $('#' + name)
+                    if(button.data == null) {
+                        button.data = {state:false}
+                    } else {
+                        button[0].src = "/images/" + name + (state ? ".png" : "-off.png")
+                    }
+                }
+
+                $.updateButtonState = function(newButtonState) {
+                    buttonState = newButtonState
+                    for(key in buttonState) {
+                        renderButtonState(key, buttonState[key])
+                    }
+                }
+            })
+
+            function updateButtonState(buttonState) {
+                if($.updateButtonState) {
+                    $.updateButtonState(buttonState)
+                }
+            }
+        </script>
+
+        <div class="box" id="buttons">
+                <img class="oracle-button" src="/images/earth-off.png" id="earth" height="72" width="72">
+                <img class="oracle-button" src="/images/fire-off.png" id="fire" height="72" width="72">
+                <img class="oracle-button" src="/images/water-off.png" id="water" height="72" width="72">
+                <img class="oracle-button" src="/images/air-off.png" id="air" height="72" width="72">
+                <img class="oracle-button" src="/images/aether-off.png" id="aether" height="72" width="72">
+                <img class="oracle-button" src="/images/beam.png" id="beam" height="72">
+                <div class="lift:comet?type=OracleButtonsActor"></div>
         </div>
-    </div>
-
-    <div class="box">
-        <table>
-            <tr>
-                <td>
-                    <form class="lift:form.ajax">
-                        <input type="hidden" class="lift:OracleIn.triggerEarth">
-                        <input type="submit" value="Earth"/>
-                    </form>
-                </td>
-                <td>
-                    <form class="lift:form.ajax">
-                        <input type="hidden" class="lift:OracleIn.triggerFire">
-                        <input type="submit" value="Fire"/>
-                    </form>
-                </td>
-                <td>
-                    <form class="lift:form.ajax">
-                        <input type="hidden" class="lift:OracleIn.triggerWater">
-                        <input type="submit" value="Water"/>
-                    </form>
-                </td>
-                <td>
-                    <form class="lift:form.ajax">
-                        <input type="hidden" class="lift:OracleIn.triggerAir">
-                        <input type="submit" value="Air"/>
-                    </form>
-                </td>
-                <td>
-                    <form class="lift:form.ajax">
-                        <input type="hidden" class="lift:OracleIn.triggerAether">
-                        <input type="submit" value="Aether"/>
-                    </form>
-                </td>
-                <td>
-                    <form class="lift:form.ajax">
-                        <input type="hidden" class="lift:OracleIn.triggerBeam">
-                        <input type="submit" value="Beam"/>
-                    </form>
-                </td>
-            </tr>
-        </table>
-    </div>
-
 
     <div class="status">
         <div class="lift:comet?type=OracleActor">

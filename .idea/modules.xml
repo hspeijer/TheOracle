@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DestinyLoungeOracle.iml" filepath="$PROJECT_DIR$/DestinyLoungeOracle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../external/lift-framework-3bbfef1/Lif Sources.iml" filepath="$PROJECT_DIR$/../external/lift-framework-3bbfef1/Lif Sources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../external/lift-examples-939fcab/Lift Example.iml" filepath="$PROJECT_DIR$/../external/lift-examples-939fcab/Lift Example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lift Framework/Lift Framework.iml" filepath="$PROJECT_DIR$/Lift Framework/Lift Framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../Tools/Scala/lift-widgets_2.8.1-2.3/lift-widgets_2.8.1-2.3.iml" filepath="$PROJECT_DIR$/../../Tools/Scala/lift-widgets_2.8.1-2.3/lift-widgets_2.8.1-2.3.iml" />
     </modules>
   </component>
 </project>
