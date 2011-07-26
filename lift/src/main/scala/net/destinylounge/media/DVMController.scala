@@ -12,7 +12,7 @@ import net.destinylounge.UDPClient
 
 class DVMController {
   // initialize value... MEH? Todo
-  var deviceIDStr: String = ""
+  var deviceIDStr: String = "0"
 
   def formatMedia () {
     sendMessage("FO")
