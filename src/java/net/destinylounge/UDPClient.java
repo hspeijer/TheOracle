@@ -20,18 +20,18 @@ class JavaUDPClient
        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
       DatagramSocket clientSocket = new DatagramSocket();
       InetAddress IPAddress = InetAddress.getByName("localhost");
-      byte[] sendData = new byte[1024];
-      byte[] receiveData = new byte[1024];
+      byte[] sendData = new byte[256];
+      byte[] receiveData = new byte[256];
       try {
           while(true) {
-              String sentence = inFromUser.readLine();
-              sendData = sentence.getBytes();
-              DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
+              String sentence = inFromUser.readLine() + '\r';
+              sendData = sentence.getBytes() ;
+              DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 2638);
               clientSocket.send(sendPacket);
               DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
               clientSocket.receive(receivePacket);
               String modifiedSentence = new String(receivePacket.getData());
-              System.out.println("FROM SERVER:" + modifiedSentence);
+              //System.out.println("FROM SERVER:" + modifiedSentence);
           }
       } finally {
         clientSocket.close();

@@ -1,17 +1,15 @@
 package code.model
 
-import net.liftweb.http.js._
-import com.sun.corba.se.impl.copyobject.JavaStreamObjectCopierImpl
-
 /**
  * (c) mindsteps BV 
  *
  * User: Hans Speijer
  * Date: 21-7-11
  * Time: 7:28
- * 
+ *
  */
 
+//Todo Hsp 26/07/2011: There has to be a better way to do this kind of class. Maybe an enumeration with bit twidling capabilities
 object ButtonState {
   val EARTH_MASK  = 0x01;
   val FIRE_MASK   = 0x02;
@@ -19,6 +17,18 @@ object ButtonState {
   val AIR_MASK    = 0x08;
   val AETHER_MASK = 0x10;
   val BEAM_MASK   = 0x20;
+
+  def create(trigger: String) : ButtonState = {
+    trigger match {
+      //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
+      case "earth"  => {new ButtonState(true, false, false, false, false, false)}
+      case "fire"   => {new ButtonState(false, true, false, false, false, false)}
+      case "water"  => {new ButtonState(false, false, true, false, false, false)}
+      case "air"    => {new ButtonState(false, false, false, true, false, false)}
+      case "aether" => {new ButtonState(false, false, false, false, true, false)}
+      case "beam"   => {new ButtonState(false, false, false, false, false, true)}
+    }
+  }
 }
 
 class ButtonState(
@@ -56,6 +66,17 @@ class ButtonState(
   def toJS() = {
     "{earth:" + earth + ", fire:" + fire + ", water:" +
       water + ", air:" + air + ", aether:" + aether + ", beam:" + beam + "}"
+  }
+
+  def firstTrigger() : String = {
+    if (earth)  return "earth"
+    if (fire)   return "fire"
+    if (water)  return "water"
+    if (air)    return "air"
+    if (aether) return "aether"
+    if (beam)   return "beam"
+
+    return ""
   }
 
   override def toString() = {

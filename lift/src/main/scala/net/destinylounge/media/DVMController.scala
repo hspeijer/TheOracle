@@ -12,7 +12,7 @@ import net.destinylounge.UDPClient
 
 class DVMController {
   // initialize value... MEH? Todo
-  var deviceIDStr: String = ""
+  var deviceIDStr: String = "0"
 
   def formatMedia () {
     sendMessage("FO")
@@ -129,7 +129,7 @@ class DVMController {
 
 
   def sendMessage (commandBytes : String) {
-    var command = deviceIDStr + "@" + commandBytes + '\n'
+    var command = deviceIDStr + "@" + commandBytes + '\r'
     // Separate UDPClient objects in each method? Overhead of new free on sockets, etc? abstract for serial/UDP stream MEH? todo
     UDPClient.sendMessage(command)
   }
@@ -138,7 +138,7 @@ class DVMController {
   def sendMessage (n : Int, commandBytes : String) {
 
     // Convert n to ASCII and concat strings
-    var command = deviceIDStr + "@" + n.toString + commandBytes + '\n'
+    var command = deviceIDStr + "@" + n.toString + commandBytes + '\r'
 
     UDPClient.sendMessage(command)
   }

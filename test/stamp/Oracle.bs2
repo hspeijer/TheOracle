@@ -55,7 +55,7 @@ Main:
       buttonState = mask
     ENDIF
 
-    buttonState = buttonsState | mask
+    buttonState = buttonState | mask
 
     FOR reps = 0 TO 6                     ' repeat with Reps = 1, 2, 3
       IF (lightState & (1 << reps)) THEN
