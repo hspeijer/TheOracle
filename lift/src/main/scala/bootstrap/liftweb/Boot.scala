@@ -52,7 +52,7 @@ class Boot {
       Menu("UITest") / "uitest"
     )
 
-    def sitemapMutators = User.sitemapMutator
+//    def sitemapMutators = User.sitemapMutator
 
     // set the sitemap.  Note if you don't want access control for
     // each page, just comment this line out.

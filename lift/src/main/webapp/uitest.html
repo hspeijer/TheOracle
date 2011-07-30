@@ -7,40 +7,6 @@
             STATE = $('#jstree').jstree('get_state');
         }
 
-        $(function() {
-            $( "#tabs" ).tabs();
-
-        $("#list4").jqGrid({
-            datatype: "local",
-            height: 250,
-            colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
-            colModel:[
-                {name:'id',index:'id', width:60, sorttype:"int"},
-                {name:'invdate',index:'invdate', width:90, sorttype:"date"},
-                {name:'name',index:'name', width:80},
-                {name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
-                {name:'tax',index:'tax', width:80, align:"right",sorttype:"float"},
-                {name:'total',index:'total', width:80,align:"right",sorttype:"float"},
-                {name:'note',index:'note', width:120, sortable:false}
-            ],
-            multiselect: true,
-            caption: "Manipulating Array Data"
-        });
-        var mydata = [
-                {id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-                {id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-                {id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
-                {id:"4",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-                {id:"5",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-                {id:"6",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
-                {id:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-                {id:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-                {id:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
-                ];
-        for(var i=0;i<=mydata.length;i++)
-            $("#list4").jqGrid('addRowData',i+1,mydata[i]);
-        });
-
         $(document).ready(function() {
              $.jstree.defaults.themes.theme = "../../resources/jstree/themes/apple";
 
@@ -111,6 +77,7 @@
           Oracles: {
             Stupid: 17010,
             Sexy: 5842,
+            Tim: 75,
             Scottish: {
 
             },
@@ -119,11 +86,73 @@
             Movie: 1
             }
         };
-
         </script>
 
     <div class="demo">
+        <script type="text/javascript" language="javascript">
+            $(function() {
+                var buttonState = {earth:false, fire:false, water:false, air:false, aether:false, beam:false}
 
+                $(".oracle-button").mouseenter(function() {
+                    renderButtonState(this.id, true)
+                }).mouseleave(function() {
+                    renderButtonState(this.id, buttonState[this.id])
+                }).click(function() {
+                    $.ajax({
+                        url: "../api/trigger",
+                        type: "POST",
+                        data: 'field=' + this.id
+                    });
+                });
+
+                function renderButtonState(name, state) {
+                    button = $('#' + name)
+                    if(button.data == null) {
+                        button.data = {state:false}
+                    } else {
+                        button[0].src = "/images/" + name + (state ? ".png" : "-off.png")
+                    }
+                }
+
+                $.updateButtonState = function(newButtonState) {
+                    buttonState = newButtonState
+                    for(key in buttonState) {
+                        renderButtonState(key, buttonState[key])
+                    }
+                }
+            })
+
+            function updateButtonState(buttonState) {
+                if($.updateButtonState) {
+                    $.updateButtonState(buttonState)
+                }
+            }
+        </script>
+
+        <div class="box" id="buttons">
+                <img class="oracle-button" src="/images/earth-off.png" id="earth" height="72" width="72">
+                <img class="oracle-button" src="/images/fire-off.png" id="fire" height="72" width="72">
+                <img class="oracle-button" src="/images/water-off.png" id="water" height="72" width="72">
+                <img class="oracle-button" src="/images/air-off.png" id="air" height="72" width="72">
+                <img class="oracle-button" src="/images/aether-off.png" id="aether" height="72" width="72">
+                <img class="oracle-button" src="/images/beam.png" id="beam" height="72">
+                <div class="lift:comet?type=OracleButtonsActor"></div>
+        </div>
+
+        <div>
+            <h3>Post test</h3>
+            <form method="POST" action="../api/trigger">
+                <input type="text" name="field"/>
+                <input type="submit">
+            </form>
+        </div>
+
+
+    <script type="text/javascript">
+        $(function() {
+            $("#tabs").tabs();
+        })
+    </script>
     <div id="tabs">
         <ul>
             <li><a href="#tabs-1">Table</a></li>
@@ -132,6 +161,39 @@
         </ul>
         <div id="tabs-1">
             <table id="list4"></table>
+            <script type="text/javascript">
+                $(function() {
+                 $("#list4").jqGrid({
+                    datatype: "local",
+                    height: 250,
+                    colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+                    colModel:[
+                        {name:'id',index:'id', width:60, sorttype:"int"},
+                        {name:'invdate',index:'invdate', width:90, sorttype:"date"},
+                        {name:'name',index:'name', width:80},
+                        {name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
+                        {name:'tax',index:'tax', width:80, align:"right",sorttype:"float"},
+                        {name:'total',index:'total', width:80,align:"right",sorttype:"float"},
+                        {name:'note',index:'note', width:120, sortable:false}
+                    ],
+                    multiselect: true,
+                    caption: "Oracle Nodes"
+                });
+                var mydata = [
+                        {id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                        {id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                        {id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+                        {id:"4",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                        {id:"5",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                        {id:"6",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+                        {id:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                        {id:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                        {id:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
+                        ];
+                for(var i=0;i<=mydata.length;i++)
+                    $("#list4").jqGrid('addRowData',i+1,mydata[i]);
+                });
+            </script>
         </div>
         <div id="tabs-2">
             <div id="jstree" style="width:45%; margin-right:1%;">
@@ -162,7 +224,7 @@
         </div>
         <div id="tabs-3">
             <div id="center">
-                <div id="fig" style="height:200px; overflow:scroll">
+                <div id="fig" style="height:400px; overflow:scroll">
                     <script type="text/javascript+protovis">
                         var vis = new pv.Panel()
                             .width(200)

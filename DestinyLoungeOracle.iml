@@ -15,6 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lift/src/main/scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/scala" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -241,6 +242,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lift/lib_managed/scala_2.8.1/test/servlet-api-2.5-20081211.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/RXTXcomm.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

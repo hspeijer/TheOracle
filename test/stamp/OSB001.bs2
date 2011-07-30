@@ -1,0 +1,54 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+DEBUG "Oracle Buttons are Ready!", CR
+
+buttonState  VAR Byte
+linefeed  VAR Byte
+myNum VAR Word
+loops VAR Byte
+
+linefeed = 10
+
+DEBUG "Oracle Buttons Starting", CR,  linefeed
+PAUSE 2000
+
+loops = 0
+DO ' get answer until out of tries
+  IF (IN3 = 1 ) THEN
+    buttonState = "1"
+    HIGH 14
+  ELSE
+    buttonState = "0"
+    LOW 14
+  ENDIF
+  PAUSE 100
+  DEBUG CLS, buttonState  ,":", DEC loops, CR, linefeed
+
+  loops = loops + 1 ' update tries count
+LOOP UNTIL (loops > 100)
+
+HIGH 14
+PAUSE 500
+LOW 14
+PAUSE 300
+HIGH 14
+PAUSE 500
+LOW 14
+PAUSE 300
+HIGH 14
+PAUSE 500
+LOW 14
+
+
+DO
+  DEBUG CLS, "Input required", CR,  linefeed
+  DEBUGIN SNUM myNum
+
+  IF(myNum > 2) THEN
+    HIGH 14
+  ELSE
+    LOW 14
+  ENDIF
+
+LOOP
+END
