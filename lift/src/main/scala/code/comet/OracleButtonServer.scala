@@ -4,6 +4,7 @@ import net.liftweb.actor.LiftActor
 import net.liftweb.http.ListenerManager
 import net.destinylounge.oracle.Oracle
 import code.model.{RelType, ButtonState}
+import net.destinylounge.serial.OracleProtocol
 
 /**
  * (c) mindsteps BV 
@@ -15,7 +16,9 @@ import code.model.{RelType, ButtonState}
  */
 
 object OracleButtonServer extends LiftActor with ListenerManager {
-  var state : ButtonState = new ButtonState(0)
+  var state = new ButtonState(0)
+
+  OracleProtocol.sendState(state)
 
   protected def createUpdate = state
 
@@ -51,7 +54,15 @@ object OracleButtonServer extends LiftActor with ListenerManager {
   }
 
   def animate() = {
-    val animation = List(new Flash(12, 6), new Flash(12, 6), new Walker(4, true), new Walker(4, false), new Walker(2, true), new Walker(2, false), new Walker(2, true), new Walker(2, false));
+    val animation = List(
+      new Flash(12, 6),
+      new Flash(12, 6),
+      new Walker(4, true),
+      new Walker(4, false),
+      new Walker(2, true),
+      new Walker(2, false),
+      new Flash(4, 0)
+    );
 
     animation.foreach(animator => {
       while(!animator.finished()) {
@@ -66,18 +77,30 @@ object OracleButtonServer extends LiftActor with ListenerManager {
     })
   }
 
+  override def updateListeners() = {
+    super.updateListeners()
+    OracleProtocol.sendState(state)
+  }
+
+  def triggerState() = {
+    println("Trigger " + state + " " + state.firstTrigger())
+    state.firstTrigger() match {
+      //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
+      case "earth"  => {OracleServer ! Oracle.trigger(RelType.EARTH)}
+      case "fire"   => {OracleServer ! Oracle.trigger(RelType.FIRE)}
+      case "water"  => {OracleServer ! Oracle.trigger(RelType.WATER)}
+      case "air"    => {OracleServer ! Oracle.trigger(RelType.AIR)}
+      case "aether" => {OracleServer ! Oracle.trigger(RelType.AETHER)}
+      case "beam"   => {OracleServer ! Oracle.reset(); animate()}
+      case _ => println("Unknown trigger!")
+    }
+  }
 
   override def lowPriority = {
     case newState: ButtonState => state = newState;
-    case trigger: String => state = trigger match {
-      //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
-      case "earth"  => {OracleServer ! Oracle.trigger(RelType.EARTH);   new ButtonState(true, false, false, false, false, false)}
-      case "fire"   => {OracleServer ! Oracle.trigger(RelType.FIRE);    new ButtonState(false, true, false, false, false, false)}
-      case "water"  => {OracleServer ! Oracle.trigger(RelType.WATER);   new ButtonState(false, false, true, false, false, false)}
-      case "air"    => {OracleServer ! Oracle.trigger(RelType.AIR);     new ButtonState(false, false, false, true, false, false)}
-      case "aether" => {OracleServer ! Oracle.trigger(RelType.AETHER);  new ButtonState(false, false, false, false, true, false)}
-      case "beam"   => {OracleServer ! Oracle.reset(); animate();        new ButtonState(false, false, false, false, false, true)}
-    }
+    case trigger: String => state = ButtonState.create(trigger);
+
+    triggerState()
     updateListeners()
   }
 

@@ -1,0 +1,40 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+' Earth
+' Fire
+' Water
+' Air
+' Aether
+' Beam
+buttonState VAR Byte
+' Earth
+' Fire
+' Water
+' Air
+' Aether
+' RESET
+lightState VAR Byte
+
+mask VAR Byte
+reps VAR Nib
+
+Main:
+  DO
+    DEBUG HEX buttonState, CR
+    DEBUGIN HEX lightState
+
+    IF (IN3 = 1) THEN
+      buttonState = %100000
+    ELSE
+      buttonState = 0
+    ENDIF
+
+    IF (lightState & 1 > 0) THEN
+      HIGH 14
+    ELSE
+      LOW 14
+    ENDIF
+
+  LOOP
+  GOTO Main:
