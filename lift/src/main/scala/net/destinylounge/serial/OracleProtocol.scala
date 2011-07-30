@@ -5,7 +5,6 @@ import gnu.io.{SerialPort, CommPort, CommPortIdentifier}
 import java.io.{OutputStream, IOException, InputStream}
 import code.comet.OracleButtonServer
 import java.lang.String
-import com.sun.xml.internal.ws.developer.MemberSubmissionAddressing.Validation
 
 /**
  * (c) mindsteps BV 
@@ -82,6 +81,7 @@ object OracleProtocol {
   }
 
   def connect() = {
+    try {
     val portIdentifier = CommPortIdentifier.getPortIdentifier(portId)
     if (portIdentifier.isCurrentlyOwned) {
       System.out.println("Error: Port is currently in use")
@@ -96,6 +96,9 @@ object OracleProtocol {
       } else {
         System.out.println("Error: Only serial ports are handled by this example.")
       }
+    }
+    } catch {
+      case e: Error => e.printStackTrace()
     }
   }
 }
