@@ -13,6 +13,7 @@ import net.destinylounge.UDPClient
 class DVMController {
   // initialize value... MEH? Todo
   var deviceIDStr: String = "0"
+  var sendDeviceID: Boolean = false
 
   def formatMedia () {
     sendMessage("FO")
@@ -33,6 +34,10 @@ class DVMController {
      */
 
     sendMessage(n, 0, 9, 5, "BR")
+  }
+
+  def setSendDeviceID(send: Boolean) {
+       sendDeviceID = send
   }
 
   def setDeviceID (n : Int) {
@@ -58,7 +63,7 @@ class DVMController {
   def sendSerialString (message : String, appendCR : Boolean = false) {
     var command = "\"" + message + "\""
     if (appendCR)
-      command += "h0d"
+      command += "h0d"  // ToDo \r ?
     sendMessage(command, "SS")
   }
 
@@ -76,8 +81,6 @@ class DVMController {
         h01h02h03h0fSS
 
      */
-
-    // Not sure if DVM accepts upper and lower case hex values MEH? todo
 
     // Loving the compact nature of Scala, Hans! Todo
     var command = n.toHexString.toList.mkString("h0", "h0", "")
@@ -129,7 +132,11 @@ class DVMController {
 
 
   def sendMessage (commandBytes : String) {
-    var command = deviceIDStr + "@" + commandBytes + '\r'
+    var command = ""
+    if (sendDeviceID)
+      command += deviceIDStr + "@"
+    command += commandBytes + '\r'
+
     // Separate UDPClient objects in each method? Overhead of new free on sockets, etc? abstract for serial/UDP stream MEH? todo
     UDPClient.sendMessage(command)
   }
@@ -138,7 +145,10 @@ class DVMController {
   def sendMessage (n : Int, commandBytes : String) {
 
     // Convert n to ASCII and concat strings
-    var command = deviceIDStr + "@" + n.toString + commandBytes + '\r'
+    var command = ""
+    if (sendDeviceID)
+      command += deviceIDStr + "@"
+    command += n.toString + commandBytes + '\r'
 
     UDPClient.sendMessage(command)
   }

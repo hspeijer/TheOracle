@@ -21,6 +21,9 @@ case object Air    extends Trigger(0x08, "air")
 case object Aether extends Trigger(0x10, "aether")
 case object Beam   extends Trigger(0x20, "beam")
 
+case object Challenge extends Trigger(0x20, "challenge")
+case object OracleSelect extends Trigger(0x20, "oracle")
+
 case class ButtonState() {
   var triggers : List[Trigger] = List()
 
@@ -39,6 +42,18 @@ case class ButtonState() {
     triggers = list ::: triggers
   }
 
+  def this(id : String) {
+    this(List[Trigger](id match {
+      case Earth.id => Earth
+      case Fire.id => Fire
+      case Water.id => Water
+      case Air.id => Air
+      case Aether.id => Aether
+      case Beam.id => Beam
+    }
+    ))
+  }
+
   def toByte() : Byte = {
     var result = 0
     triggers.foreach(trigger => result = result | trigger.mask)
@@ -52,7 +67,7 @@ case class ButtonState() {
 
   override def toString = {
     val builder : StringBuilder = new StringBuilder("[ButtonState ")
-    triggers.foreach(trigger => builder.append(trigger.id).append(":true "))
+    if(triggers != null) triggers.foreach(trigger => builder.append(trigger.id).append(":true "))
     builder.append("]").toString
   }
 
@@ -71,6 +86,7 @@ object ButtonTest {
     val triggers = List(Earth, Water)
     println(new ButtonState(triggers))
     println(new ButtonState(triggers).toJS)
+    println(new ButtonState("fire"))
     println(new ButtonState(0x3f).toJS + " " + new ButtonState(0x3f).toByte())
   }
 }

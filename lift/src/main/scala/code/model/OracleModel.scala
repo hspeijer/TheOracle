@@ -17,15 +17,7 @@ import net.liftweb.http.SHtml
  * 
  */
 
-object RelType extends Enumeration {
-  type RelType = Value
-  val EARTH, WATER, FIRE, AIR, AETHER, ORACLE, CHALLENGE = Value
-
-  implicit def conv(rt: RelType) = new RelationshipType() {def name = rt.toString}
-}
-import code.model.RelType._
-
-class Reference(_srcId : Long, _destId: Long, _relType : RelType) {
+case class Reference(_srcId : Long, _destId: Long, _relType: Trigger) {
   val srcId = _srcId
   val destId = _destId
   val relType = _relType
@@ -61,59 +53,32 @@ object OracleModel {
 
   val testReferences = List(
     // Oracle 1
-    new Reference(0, 1, RelType.ORACLE),
-    new Reference(1, 2, RelType.CHALLENGE),
-    new Reference(2, 3, RelType.FIRE),
-    new Reference(2, 4, RelType.WATER),
-    new Reference(4, 14, RelType.WATER),
-    new Reference(2, 5, RelType.EARTH),
-    new Reference(2, 6, RelType.AIR),
-    new Reference(2, 7, RelType.AETHER),
+    new Reference(0, 1, OracleSelect),
+    new Reference(1, 2, Challenge),
+    new Reference(2, 3, Fire),
+    new Reference(2, 4, Water),
+    new Reference(4, 14, Water),
+    new Reference(2, 5, Earth),
+    new Reference(2, 6, Air),
+    new Reference(2, 7, Aether),
 
     // Oracle 2
-    new Reference(0,  21, RelType.ORACLE),
-    new Reference(21, 22, RelType.CHALLENGE),
-    new Reference(22,  3, RelType.FIRE),
-    new Reference(22,  4, RelType.WATER),
-    new Reference(22,  5, RelType.EARTH),
-    new Reference(22,  6, RelType.AIR),
-    new Reference(22,  7, RelType.AETHER),
+    new Reference(0,  21, OracleSelect),
+    new Reference(21, 22, Challenge),
+    new Reference(22, 3, Fire),
+    new Reference(22, 4, Water),
+    new Reference(22, 5, Earth),
+    new Reference(22, 6, Air),
+    new Reference(22, 7, Aether),
 
     // Oracle 3
-    new Reference(0,  31, RelType.ORACLE),
-    new Reference(31, 32, RelType.CHALLENGE),
-    new Reference(32,  3, RelType.FIRE),
-    new Reference(32,  4, RelType.WATER),
-    new Reference(32,  5, RelType.EARTH),
-    new Reference(32,  6, RelType.AIR),
-    new Reference(32,  7, RelType.AETHER),
-
-    // Oracle 4
-    new Reference(0,  41, RelType.ORACLE),
-    new Reference(41, 42, RelType.CHALLENGE),
-    new Reference(42,  3, RelType.FIRE),
-    new Reference(42,  4, RelType.WATER),
-    new Reference(42,  5, RelType.EARTH),
-    new Reference(42,  6, RelType.AIR),
-    new Reference(42,  7, RelType.AETHER),
-
-    // Oracle 5
-    new Reference(0,  51, RelType.ORACLE),
-    new Reference(51, 52, RelType.CHALLENGE),
-    new Reference(52,  3, RelType.FIRE),
-    new Reference(52,  4, RelType.WATER),
-    new Reference(52,  5, RelType.EARTH),
-    new Reference(52,  6, RelType.AIR),
-    new Reference(52,  7, RelType.AETHER),
-
-    // Oracle 6
-    new Reference(0,  61, RelType.ORACLE),
-    new Reference(61, 62, RelType.CHALLENGE),
-    new Reference(62,  3, RelType.FIRE),
-    new Reference(62,  4, RelType.WATER),
-    new Reference(62,  5, RelType.EARTH),
-    new Reference(62,  6, RelType.AIR),
-    new Reference(62,  7, RelType.AETHER)
+    new Reference(0,  31, OracleSelect),
+    new Reference(31, 32, Challenge),
+    new Reference(32, 3, Fire),
+    new Reference(32, 4, Water),
+    new Reference(32, 5, Earth),
+    new Reference(32, 6, Air),
+    new Reference(32, 7, Aether)
   )
 
   testNodes.foreach((node : OracleNode) => OracleNode.nodes.put(node.id, node));

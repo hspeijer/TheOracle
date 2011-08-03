@@ -9,11 +9,11 @@ package code.model
  * 
  */
 
-class MediaTrigger(_duration: Int) {
-  var duration = _duration
+class MediaTrigger(duration: Int) {
+  var durationVar = duration
   def durationStr = duration.toString
 }
 
-case class MovieTrigger(_duration: Int, _name: String) extends MediaTrigger(_duration){
-  var name = _name
+case class MovieTrigger(duration: Int, name: String) extends MediaTrigger(duration){
+  var nameVar = name
 }

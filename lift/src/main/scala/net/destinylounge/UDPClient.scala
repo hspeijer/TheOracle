@@ -12,16 +12,16 @@ import java.net.{DatagramPacket, InetAddress, DatagramSocket}
 
 object UDPClient {
 //  val server = "localhost"
-  val server = "192.168.0.14"
+  val server = "192.168.1.254"
   val port = 2638
 
   def sendMessage(message : String) {
      var clientSocket: DatagramSocket = new DatagramSocket
      var IPAddress: InetAddress = InetAddress.getByName(server)
-     var sendData: Array[Byte] = new Array[Byte](256)
-     var receiveData: Array[Byte] = new Array[Byte](256)
+     var sendData: Array[Byte] = new Array[Byte](1024)
+     var receiveData: Array[Byte] = new Array[Byte](1024)
 
-     //System.out.println("Sending message:" + message)
+     System.out.println("Sending message:" + message)
      sendData = message.getBytes
      var sendPacket: DatagramPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port)
      clientSocket.send(sendPacket)

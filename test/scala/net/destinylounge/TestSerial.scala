@@ -53,8 +53,8 @@ object ScalaTestSerial {
           val serialPort = commPort.asInstanceOf[SerialPort]
           serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE)
 
-          (new Thread(new TestSerial.SerialReader(serialPort.getInputStream))).start
-          (new Thread(new TestSerial.SerialWriter(serialPort.getOutputStream))).start
+          (new Thread(new ScalaTestSerial.SerialReader(serialPort.getInputStream))).start
+          (new Thread(new ScalaTestSerial.SerialWriter(serialPort.getOutputStream))).start
         } else {
           System.out.println("Error: Only serial ports are handled by this example.")
         }

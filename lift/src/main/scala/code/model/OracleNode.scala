@@ -14,7 +14,6 @@ import net.liftweb.http.SHtml
  * Time: 7:27
  * 
  */
-import code.model.RelType._
 
 object OracleNode {
   def apply(i: Int, s: String, s1: String, trigger: MovieTrigger) = {new OracleNode(i,s,s1,trigger).toString()}
@@ -46,13 +45,11 @@ object OracleNode {
   }
 }
 
-case class OracleNode(_id: Long, _script : String, _description: String, _clip: MovieTrigger) {
+case class OracleNode(id: Long, script : String, description: String, clip: MovieTrigger) {
 
   val references = new MutableList[Reference]
-  val id = _id
-  var script = _script
-  var description = _description
-  var clip = _clip
+  var scriptVar = script
+  var descriptionVar = description
 
   def this() = this(OracleNode.nextId, "", "", new MovieTrigger(0,""))
 
@@ -60,13 +57,13 @@ case class OracleNode(_id: Long, _script : String, _description: String, _clip: 
     references += ref
   }
 
-  def findReference(relType : RelType) : OracleNode = {
-    references.foreach((ref : Reference) => if(ref.relType == relType) return OracleNode.findNode(ref.destId))
+  def findReference(triggerType : Trigger) : OracleNode = {
+    references.foreach((ref : Reference) => if(ref.relType == triggerType) return OracleNode.findNode(ref.destId))
 
     null
   }
 
-  def findReference(index: Int, relType : RelType) : OracleNode = {
+  def findReference(index: Int, relType : Trigger) : OracleNode = {
     var foundIndex : Int = 0
     references.foreach((ref : Reference) =>
       if(ref.relType == relType) {
@@ -79,7 +76,7 @@ case class OracleNode(_id: Long, _script : String, _description: String, _clip: 
     null
   }
 
-  def countReferences(relType : RelType) : Int = {
+  def countReferences(relType : Trigger) : Int = {
     var numFound : Int = 0
     references.foreach((ref : Reference) => if(ref.relType == relType) numFound +=1)
 
@@ -96,7 +93,7 @@ case class OracleNode(_id: Long, _script : String, _description: String, _clip: 
 
   //todo: figure out implicit type conversion
   def setDuration(s: String) = {
-    clip.duration = Integer.parseInt(s)
+    clip.durationVar = Integer.parseInt(s)
   }
 
   def toForm(empty: Empty.type, function: (OracleNode) => Any) : NodeSeq = {
@@ -111,10 +108,10 @@ case class OracleNode(_id: Long, _script : String, _description: String, _clip: 
     }
 
     bind("node", result,
-      "script" -> SHtml.textarea(script, script = _),
-      "description" -> SHtml.text(description, description = _),
+      "script" -> SHtml.textarea(scriptVar, scriptVar = _),
+      "description" -> SHtml.text(descriptionVar, descriptionVar = _),
       "duration" -> SHtml.text(clip.durationStr, setDuration(_)),
-      "name" -> SHtml.text(clip.name, clip.name = _),
+      "name" -> SHtml.text(clip.nameVar, clip.nameVar = _),
       "save" -> SHtml.submit("Save", doSave)
     )
   }

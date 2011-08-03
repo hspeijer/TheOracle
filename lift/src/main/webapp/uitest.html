@@ -160,23 +160,42 @@
             <li><a href="#tabs-3">Graph</a></li>
         </ul>
         <div id="tabs-1">
-            <table id="list4"></table>
+            <table id="node-table"></table>
+            <table id="reference-table"></table>
             <script type="text/javascript">
                 $(function() {
-                     $("#list4").jqGrid({
-                        url: '/api/get',
+
+                    try {
+                     $("#node-table").jqGrid({
+                        url: '/api/oracle/nodes',
                         datatype: 'json',
                         mtype: 'GET',
                         height: 250,
-                        colNames:['Id','Script', 'Description'],
+                        colNames:['Id','Script', 'Description', 'Bla'],
                         colModel:[
-                            {name:'_id', index:'_id', width:60, sorttype:"int"},
-                            {name:'_script', index:'_script', width:90, sorttype:"string"},
-                            {name:'_description', index:'_description', width:80}
+                            {name:'id', index:'id', width:60},
+                            {name:'script', index:'script', width:90},
+                            {name:'description', index:'description', width:80},
+                            {name:'clip', index:'clip', width:80}
                         ],
-                        multiselect: true,
+                        //multiselect: true,
                         caption: "Oracle Nodes"
                     })
+                } catch(err) {}
+
+                     $("#reference-table").jqGrid({
+                            url: '/api/oracle/references',
+                            datatype: 'json',
+                            mtype: 'GET',
+                            height: 250,
+                            colNames:['Source','Destination'],
+                            colModel:[
+                                {name:'_srcId', index:'id', width:60},
+                                {name:'_destId', index:'dest', width:90},
+                            ],
+                            //multiselect: true,
+                            caption: "Oracle References"
+                        })
                 })
             </script>
         </div>

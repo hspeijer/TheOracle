@@ -18,7 +18,7 @@ import code.model._
 object OracleButtonServer extends LiftActor with ListenerManager {
   var state = new ButtonState(0)
 
-  OracleProtocol.sendState(state)
+  //OracleProtocol.sendState(state)
 
   protected def createUpdate = state
 
@@ -86,13 +86,8 @@ object OracleButtonServer extends LiftActor with ListenerManager {
     println("Trigger " + state + " " + state.firstTrigger())
     state.firstTrigger() match {
       //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
-      case Earth  => {OracleServer ! Oracle.trigger(RelType.EARTH)}
-      case Fire   => {OracleServer ! Oracle.trigger(RelType.FIRE)}
-      case Water  => {OracleServer ! Oracle.trigger(RelType.WATER)}
-      case Air    => {OracleServer ! Oracle.trigger(RelType.AIR)}
-      case Aether => {OracleServer ! Oracle.trigger(RelType.AETHER)}
       case Beam   => {OracleServer ! Oracle.reset(); animate()}
-      case _ => println("Unknown trigger!")
+      case _ => OracleServer ! Oracle.trigger(state.firstTrigger())
     }
   }
 
