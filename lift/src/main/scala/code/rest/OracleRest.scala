@@ -14,8 +14,8 @@ import net.liftweb.common.{Full, Box}
 import net.liftweb.json.Extraction._
 import net.liftweb.json.JsonAST
 import net.liftweb.json.Printer._
-import code.model.{ButtonState, MovieTrigger, OracleModel}
 import code.comet.OracleButtonServer
+import code.model.{OracleNode, ButtonState, MovieTrigger, OracleModel}
 
 object OracleRest {
 
@@ -26,16 +26,11 @@ object OracleRest {
     case r@Req("api" :: "trigger" :: Nil, _, PostRequest) => () => Full(trigger(r.param("field")))
   }
 
-  object serialize {
-    case class OracleNode(id: Long, script: String)
-
-    val node = OracleNode(0, "Bla Bla!")
-
-    //decompose(node)
-  }
+  //"page":"1","total":2,"records":"13","rows":
+  case class JQGridResonse(page: Int, total: Int, records: Int, rows: List[Product] )
 
   implicit val formats = net.liftweb.json.DefaultFormats
-  def get = JsonResponse(decompose(serialize.node))
+  def get = JsonResponse(decompose(JQGridResonse(1,1,OracleModel.testNodes.length,OracleModel.testNodes)))
 
   def trigger(field: Box[String]) = PlainTextResponse(field match {
     case Full(state_) => {

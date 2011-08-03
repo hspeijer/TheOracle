@@ -1,10 +1,10 @@
 package code.comet
 
-import net.liftweb.actor.LiftActor
 import net.liftweb.http.ListenerManager
 import net.destinylounge.oracle.Oracle
-import code.model.{RelType, ButtonState}
 import net.destinylounge.serial.OracleProtocol
+import net.liftweb.actor.LiftActor
+import code.model._
 
 /**
  * (c) mindsteps BV 
@@ -86,19 +86,19 @@ object OracleButtonServer extends LiftActor with ListenerManager {
     println("Trigger " + state + " " + state.firstTrigger())
     state.firstTrigger() match {
       //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
-      case "earth"  => {OracleServer ! Oracle.trigger(RelType.EARTH)}
-      case "fire"   => {OracleServer ! Oracle.trigger(RelType.FIRE)}
-      case "water"  => {OracleServer ! Oracle.trigger(RelType.WATER)}
-      case "air"    => {OracleServer ! Oracle.trigger(RelType.AIR)}
-      case "aether" => {OracleServer ! Oracle.trigger(RelType.AETHER)}
-      case "beam"   => {OracleServer ! Oracle.reset(); animate()}
+      case Earth  => {OracleServer ! Oracle.trigger(RelType.EARTH)}
+      case Fire   => {OracleServer ! Oracle.trigger(RelType.FIRE)}
+      case Water  => {OracleServer ! Oracle.trigger(RelType.WATER)}
+      case Air    => {OracleServer ! Oracle.trigger(RelType.AIR)}
+      case Aether => {OracleServer ! Oracle.trigger(RelType.AETHER)}
+      case Beam   => {OracleServer ! Oracle.reset(); animate()}
       case _ => println("Unknown trigger!")
     }
   }
 
   override def lowPriority = {
     case newState: ButtonState => state = newState;
-    case trigger: String => state = ButtonState.create(trigger);
+    case trigger: Trigger => state = new ButtonState(List(trigger));
 
     triggerState()
     updateListeners()

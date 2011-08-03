@@ -1,5 +1,7 @@
 package code.model
 
+import java.lang.{StringBuilder}
+
 /**
  * (c) mindsteps BV 
  *
@@ -8,79 +10,68 @@ package code.model
  * Time: 7:28
  *
  */
-
-//Todo Hsp 26/07/2011: There has to be a better way to do this kind of class. Maybe an enumeration with bit twidling capabilities
-object ButtonState {
-  val EARTH_MASK  = 0x01;
-  val FIRE_MASK   = 0x02;
-  val WATER_MASK  = 0x04;
-  val AIR_MASK    = 0x08;
-  val AETHER_MASK = 0x10;
-  val BEAM_MASK   = 0x20;
-
-  def create(trigger: String) : ButtonState = {
-    trigger match {
-      //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
-      case "earth"  => {new ButtonState(true, false, false, false, false, false)}
-      case "fire"   => {new ButtonState(false, true, false, false, false, false)}
-      case "water"  => {new ButtonState(false, false, true, false, false, false)}
-      case "air"    => {new ButtonState(false, false, false, true, false, false)}
-      case "aether" => {new ButtonState(false, false, false, false, true, false)}
-      case "beam"   => {new ButtonState(false, false, false, false, false, true)}
-    }
-  }
+abstract class Trigger(_mask : Int, _id : String) {
+  val mask = _mask
+  val id = _id
 }
+case object Earth  extends Trigger(0x01, "earth")
+case object Fire   extends Trigger(0x02, "fire")
+case object Water  extends Trigger(0x04, "water")
+case object Air    extends Trigger(0x08, "air")
+case object Aether extends Trigger(0x10, "aether")
+case object Beam   extends Trigger(0x20, "beam")
 
-class ButtonState(
-  earth: Boolean,
-  fire: Boolean,
-  water: Boolean,
-  air: Boolean,
-  aether: Boolean,
-  beam: Boolean) {
+case class ButtonState() {
+  var triggers : List[Trigger] = List()
 
-  def this(byte : Byte) {
-    this(
-      (byte & ButtonState.EARTH_MASK)  > 0,
-      (byte & ButtonState.FIRE_MASK)   > 0,
-      (byte & ButtonState.WATER_MASK)  > 0,
-      (byte & ButtonState.AIR_MASK)    > 0,
-      (byte & ButtonState.AETHER_MASK) > 0,
-      (byte & ButtonState.BEAM_MASK)   > 0
-    )
+  def this(number : Int) {
+    this()
+    if ((number & Earth.mask)  > 0) triggers ::= Earth
+    if ((number & Fire.mask)   > 0) triggers ::= Fire
+    if ((number & Water.mask)  > 0) triggers ::= Water
+    if ((number & Air.mask)    > 0) triggers ::= Air
+    if ((number & Aether.mask) > 0) triggers ::= Aether
+    if ((number & Beam.mask)   > 0) triggers ::= Beam
+  }
+
+  def this(list : List[Trigger]) {
+    this();
+    triggers = list ::: triggers
   }
 
   def toByte() : Byte = {
-    val result : Int = (
-      (if(earth)  ButtonState.EARTH_MASK  else 0)
-    | (if(fire)   ButtonState.FIRE_MASK   else 0)
-    | (if(water)  ButtonState.WATER_MASK  else 0)
-    | (if(air)    ButtonState.AIR_MASK    else 0)
-    | (if(aether) ButtonState.AETHER_MASK else 0)
-    | (if(beam)   ButtonState.BEAM_MASK   else 0)
-    )
+    var result = 0
+    triggers.foreach(trigger => result = result | trigger.mask)
 
-    result.toByte
+    result.toByte;
   }
 
-  def toJS() = {
-    "{earth:" + earth + ", fire:" + fire + ", water:" +
-      water + ", air:" + air + ", aether:" + aether + ", beam:" + beam + "}"
+  def firstTrigger(): Trigger = {
+    triggers.head
   }
 
-  def firstTrigger() : String = {
-    if (earth)  return "earth"
-    if (fire)   return "fire"
-    if (water)  return "water"
-    if (air)    return "air"
-    if (aether) return "aether"
-    if (beam)   return "beam"
-
-    return ""
+  override def toString = {
+    val builder : StringBuilder = new StringBuilder("[ButtonState ")
+    triggers.foreach(trigger => builder.append(trigger.id).append(":true "))
+    builder.append("]").toString
   }
 
-  override def toString() = {
-    "[ButtonState earth:" + earth + " fire:" + fire + " water:" +
-      water + " air:" + air + " aether:" + aether + " beam:" + beam + "]"
+  def toJS() : String = {
+    val builder : StringBuilder = new StringBuilder("{")
+    triggers.foreach(trigger => {
+      builder.append(trigger.id).append(":true")
+      if (trigger != triggers.last) builder.append(", ")
+    })
+    builder.append("}").toString
   }
 }
+
+object ButtonTest {
+  def main(args : Array[String]) {
+    val triggers = List(Earth, Water)
+    println(new ButtonState(triggers))
+    println(new ButtonState(triggers).toJS)
+    println(new ButtonState(0x3f).toJS + " " + new ButtonState(0x3f).toByte())
+  }
+}
+

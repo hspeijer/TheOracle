@@ -46,7 +46,7 @@ object OracleNode {
   }
 }
 
-class OracleNode(_id: Long, _script : String, _description: String, _clip: MovieTrigger) {
+case class OracleNode(_id: Long, _script : String, _description: String, _clip: MovieTrigger) {
 
   val references = new MutableList[Reference]
   val id = _id

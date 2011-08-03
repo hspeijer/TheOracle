@@ -14,6 +14,6 @@ class MediaTrigger(_duration: Int) {
   def durationStr = duration.toString
 }
 
-class MovieTrigger(_duration: Int, _name: String) extends MediaTrigger(_duration){
+case class MovieTrigger(_duration: Int, _name: String) extends MediaTrigger(_duration){
   var name = _name
 }
