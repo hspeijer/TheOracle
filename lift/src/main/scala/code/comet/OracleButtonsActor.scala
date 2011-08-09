@@ -4,6 +4,7 @@ import net.liftweb.http.{CometListener, CometActor}
 import net.liftweb.http.js.JE.JsRaw._
 import code.model.ButtonState
 import net.liftweb.http.js.JE.JsRaw
+import net.liftweb.common.Logger
 
 /**
  * (c) mindsteps BV 
@@ -14,7 +15,7 @@ import net.liftweb.http.js.JE.JsRaw
  * 
  */
 
-class OracleButtonsActor extends CometActor with CometListener {
+class OracleButtonsActor extends CometActor with CometListener with Logger {
   private var state: ButtonState= new ButtonState(0x1f) // private state
 
   protected def registerWith = OracleButtonServer
@@ -23,7 +24,7 @@ class OracleButtonsActor extends CometActor with CometListener {
     case buttonState: ButtonState => state = buttonState; reRender()
   }
   def render = {
-    //println("ButtonState Change " + state);
+    debug("ButtonState Change " + state);
 
     JsRaw("updateButtonState(" + state.toJS() + ")").cmd
   }

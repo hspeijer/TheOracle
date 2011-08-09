@@ -2,6 +2,7 @@ package net.destinylounge.oracle
 
 import code.comet.WebMovieServer
 import code.model._
+import net.liftweb.common.Logger
 
 /**
  * (c) mindsteps BV 
@@ -12,7 +13,7 @@ import code.model._
  * 
  */
 
-object Oracle {
+object Oracle extends Logger{
 
   val model = OracleModel
   var currentNode : OracleNode = OracleNode.findNode(0)
@@ -46,7 +47,7 @@ object Oracle {
       }
     }
     else
-      println("Input ignored")
+      info("Input ignored")
 
     currentNode.script
   }
@@ -69,7 +70,7 @@ object Oracle {
     setCurrentNode(OracleNode.findNode(0).findReference(newOracleIndex, OracleSelect).findReference(Challenge))
     currentOracleIndex = newOracleIndex
 
-    println("References: " + currentNode.references)
+    debug("References: " + currentNode.references)
     currentNode.script
   }
 }

@@ -7,6 +7,7 @@ import js._
 import JsCmds._
 import net.destinylounge.oracle.Oracle
 import comet.OracleServer
+import net.liftweb.common.Logger
 
 /**
  * A snippet transforms input to output... it transforms
@@ -18,7 +19,7 @@ import comet.OracleServer
  * objects, singletons.  Singletons are useful if there's
  * no explicit state managed in the snippet.
  */
-object OracleIn {
+object OracleIn extends Logger {
 
   /**
    * The render method in this case returns a function
@@ -29,7 +30,7 @@ object OracleIn {
    * clears the input.
    */
   def render = SHtml.onSubmit(s => {
-    println("Onsubmit " + s)
+    debug("Onsubmit " + s)
     OracleServer ! s
     SetValById("chat_in", "")
   })

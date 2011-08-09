@@ -14,7 +14,6 @@ import mapper._
 
 import code.model._
 
-
 /**
  * A class that's instantiated early and run.  It allows the application
  * to modify lift's environment
@@ -33,7 +32,6 @@ class Boot {
 //      DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
 //    }
 
-    println("Booting the Oracle?");
     //NeoInit.init();
 
 //    // Use Lift's Mapper ORM to populate the database
@@ -48,6 +46,9 @@ class Boot {
     def sitemap = SiteMap(
       Menu.i("The Oracle") / "index",
       Menu(Loc("Edit", Link(List("edit"), true, "/edit/index"), "Edit Oracle")),
+      Menu("Oracle Sound") / "sound",
+      Menu("Oracle Lighting") / "light",
+      Menu("Configuration") / "configuration",
       Menu("DVMTest") / "test",
       Menu("UITest") / "uitest"
     )
@@ -81,7 +82,14 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))    
 
+    val logUrl = this.getClass.getClassLoader.getResource("log4j.xml")
+
+    // Apply the reference, if found
+    Logger.setup = Full(Log4j.withFile(logUrl))
 //    // Make a transaction span the whole HTTP request
 //    S.addAround(DB.buildLoanWrapper)
+    Logger.setup
+     val logger = Logger(classOf[Boot])
+    logger.debug("test")
   }
 }

@@ -5,6 +5,7 @@ import org.neo4j.graphdb.{GraphDatabaseService, RelationshipType}
 import org.neo4j.kernel.EmbeddedGraphDatabase
 import org.neo4j.index.IndexService
 import org.neo4j.index.lucene.LuceneIndexService
+import net.liftweb.common.Logger
 
 /**
  * (c) mindsteps BV 
@@ -24,7 +25,7 @@ object RelTypes2 extends Enumeration {
 
 import RelTypes2._
 
-object NeoInit {
+object NeoInit extends Logger{
   private val DB_PATH = "neo4j-store3"
   private val USERNAME_KEY = "username"
   val graphDb: GraphDatabaseService = new EmbeddedGraphDatabase(DB_PATH)
@@ -36,7 +37,7 @@ object NeoInit {
   def shutdown() = {
     indexService.shutdown
     graphDb.shutdown
-    println("Shutting down Neo4j")
+    info("Shutting down Neo4j")
 
   }
 
@@ -76,9 +77,9 @@ object NeoInit {
         {
           val userNode = createAndIndexUser(idToUserName(id))
           usersReferenceNode.createRelationshipTo(userNode, USER);
-          if (id % 23 == 0) {userNode.createRelationshipTo(friendNode, FRIEND); friendNode = userNode; println(id);}
+          if (id % 23 == 0) {userNode.createRelationshipTo(friendNode, FRIEND); friendNode = userNode; debug(id.toString);}
         }
-        println("Users created")
+        debug("Users created")
     }
   }
 
@@ -88,5 +89,5 @@ object NeoInit {
     return "The username of user " + idToFind + " is " + foundUser
   }
 
-  println("NeoInit!");
+  info("NeoInit!");
 }

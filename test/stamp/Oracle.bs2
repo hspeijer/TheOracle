@@ -22,21 +22,33 @@ reps VAR Nib
 Init:
   DEBUG "Initialising Oracle INPUT" , CR, LF
 
+  HIGH 10
+  PAUSE 100
+  HIGH 11
+  PAUSE 100
+  HIGH 12
+  PAUSE 100
+  HIGH 13
+  PAUSE 100
   HIGH 14
-  PAUSE 500
+  PAUSE 100
+  HIGH 15
+  PAUSE 100
+  LOW 15
+  PAUSE 100
   LOW 14
-  PAUSE 300
-  HIGH 14
-  PAUSE 500
-  LOW 14
-  PAUSE 300
-  HIGH 14
-  PAUSE 500
-  LOW 14
+  PAUSE 100
+  LOW 13
+  PAUSE 100
+  LOW 12
+  PAUSE 100
+  LOW 11
+  PAUSE 100
+  LOW 10
 
 Main:
   DO
-    DEBUG CLS, BIN buttonState, " 0x", HEX buttonState, CR, LF
+    DEBUG BIN buttonState, " 0x", HEX buttonState, CR, LF
     DEBUGIN BIN lightState
 
     IF lightstate = %100000 THEN
@@ -46,28 +58,77 @@ Main:
       buttonState = lightState
     ENDIF
 
+    mask = 0
+
+    IF (IN0 = 1) THEN
+      mask = mask | 1
+      DEBUG "BUTTON PUSHED 1 ", BIN mask, CR, LF
+      buttonState = mask
+    ENDIF
+
+    IF (IN1 = 1) THEN
+      mask = mask | 2
+      DEBUG "BUTTON PUSHED 2 ", BIN mask, CR, LF
+      buttonState = mask
+    ENDIF
+    IF (IN2 = 1) THEN
+      mask = mask | 4
+      DEBUG "BUTTON PUSHED 3 ", BIN mask, CR, LF
+      buttonState = mask
+    ENDIF
     IF (IN3 = 1) THEN
-      mask = mask << 1
-      IF(mask = %1000000) THEN
-        mask = %1
-      ENDIF
-      'DEBUG "BUTTON PUSHED", BIN mask, CR, LF
+      mask = mask | 8
+      DEBUG "BUTTON PUSHED 4 ", BIN mask, CR, LF
+      buttonState = mask
+    ENDIF
+    IF (IN4 = 1) THEN
+      mask = mask | 16
+      DEBUG "BUTTON PUSHED 5 ", BIN mask, CR, LF
+      buttonState = mask
+    ENDIF
+    IF (IN5 = 1) THEN
+      mask = mask | 32
+      DEBUG "BUTTON PUSHED 6 ", BIN mask, CR, LF
       buttonState = mask
     ENDIF
 
     buttonState = buttonState | mask
 
-    FOR reps = 0 TO 6                     ' repeat with Reps = 1, 2, 3
-      IF (lightState & (1 << reps)) THEN
-        LOW 14
-        PAUSE 50
-        HIGH 14
-      ELSE
-        LOW 14
-        PAUSE 50
-      ENDIF
-      PAUSE 450
-    NEXT
+    IF (lightState & (1)) THEN
+      HIGH 15
+    ELSE
+      LOW 15
+    ENDIF
+
+    IF (lightState & (2)) THEN
+      HIGH 14
+    ELSE
+      LOW 14
+    ENDIF
+
+    IF (lightState & (4)) THEN
+      HIGH 13
+    ELSE
+      LOW 13
+    ENDIF
+
+    IF (lightState & (8)) THEN
+      HIGH 12
+    ELSE
+      LOW 12
+    ENDIF
+
+    IF (lightState & (16)) THEN
+      HIGH 11
+    ELSE
+      LOW 11
+    ENDIF
+
+    IF (lightState & (32)) THEN
+      HIGH 10
+    ELSE
+      LOW 10
+    ENDIF
 
   LOOP
   GOTO Init

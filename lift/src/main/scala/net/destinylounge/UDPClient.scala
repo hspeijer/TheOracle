@@ -1,6 +1,7 @@
 package net.destinylounge
 
 import java.net.{DatagramPacket, InetAddress, DatagramSocket}
+import net.liftweb.common.Logger
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +11,7 @@ import java.net.{DatagramPacket, InetAddress, DatagramSocket}
  * To change this template use File | Settings | File Templates.
  */
 
-object UDPClient {
+object UDPClient extends Logger {
 //  val server = "localhost"
   val server = "192.168.1.254"
   val port = 2638
@@ -21,14 +22,14 @@ object UDPClient {
      var sendData: Array[Byte] = new Array[Byte](1024)
      var receiveData: Array[Byte] = new Array[Byte](1024)
 
-     System.out.println("Sending message:" + message)
+     debug("Sending message:" + message)
      sendData = message.getBytes
      var sendPacket: DatagramPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port)
      clientSocket.send(sendPacket)
      var receivePacket: DatagramPacket = new DatagramPacket(receiveData, receiveData.length)
      clientSocket.receive(receivePacket)
      var modifiedSentence: String = new String(receivePacket.getData)
-     System.out.println("FROM SERVER:" + modifiedSentence)
+     debug("FROM SERVER:" + modifiedSentence)
      clientSocket.close
    }
 

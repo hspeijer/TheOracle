@@ -2,131 +2,10 @@
     <h1>UI Test page</h1>
     <div>
     <script type="text/javascript">
-        var STATE = false;
-        function save_state() {
-            STATE = $('#jstree').jstree('get_state');
-        }
-
-        $(document).ready(function() {
-             $.jstree.defaults.themes.theme = "../../resources/jstree/themes/apple";
-
-            $("#jstree").jstree({
-                'json' : {
-                    // data function:
-                    // 'data' : function (o, c) { c.call(this, ['node 1', 'node 2']
-                    // data static:
-                    'data' : [
-                        {
-                            'title' : 'Stories',
-                            'data' : { 'jstree' : { 'closed' : true } }
-                        },
-                        'Root 2',
-                        {
-                            'title' : 'Oracles',
-                            'data' : { 'jstree' : { 'children' : [ 'Child 1', 'Child 2' ] } }
-                        },
-                        {
-                            'title' : 'Clips',
-                            'data' : { },
-                            'children' : [ 'Child 1', 'Child 2' ]
-                        }
-                    ],
-                    // mixed with ajax
-                    'ajax' : {
-                        // static url
-                        'url' : 'test.json'
-                        // url with function
-                        // 'url' : function (o) { return 'test.json'; },
-                        // with some data
-                        // 'data' : function () { return { 'foo' : 'bar' }; }
-                    },
-                    progressive_render : true,
-                    progressive_unload : true
-                },
-                "themes" : {
-                    "theme" : "apple",
-                    "dots" : false,
-                    "icons" : false
-                },
-                'plugins' : [ 'core', 'themes', 'ui', 'json', 'state' ]
-            });
-            $("#jstree").jstree("set_theme","apple");
-        });
-
-        var root = {
-          stories: {
-            fire: {
-              Lava: 3938,
-              Vulcano: 3812,
-              Hell: 6714,
-              Anger: 743
-            },
-            Water: {
-              Peace: 3534,
-              Float: 5731,
-              Healing: 7840,
-              Relaxation: 5914,
-            },
-            spirit: {
-              LSD: 3938,
-              MDMA: 3812,
-              DMT: 6714,
-              Psylocibin: 743
-            },
-          },
-          Oracles: {
-            Stupid: 17010,
-            Sexy: 5842,
-            Tim: 75,
-            Scottish: {
-
-            },
-          },
-          Triggers: {
-            Movie: 1
-            }
-        };
         </script>
 
     <div class="demo">
         <script type="text/javascript" language="javascript">
-            $(function() {
-                var buttonState = {earth:false, fire:false, water:false, air:false, aether:false, beam:false}
-
-                $(".oracle-button").mouseenter(function() {
-                    renderButtonState(this.id, true)
-                }).mouseleave(function() {
-                    renderButtonState(this.id, buttonState[this.id])
-                }).click(function() {
-                    $.ajax({
-                        url: "../api/trigger",
-                        type: "POST",
-                        data: 'field=' + this.id
-                    });
-                });
-
-                function renderButtonState(name, state) {
-                    button = $('#' + name)
-                    if(button.data == null) {
-                        button.data = {state:false}
-                    } else {
-                        button[0].src = "/images/" + name + (state ? ".png" : "-off.png")
-                    }
-                }
-
-                $.updateButtonState = function(newButtonState) {
-                    buttonState = newButtonState
-                    for(key in buttonState) {
-                        renderButtonState(key, buttonState[key])
-                    }
-                }
-            })
-
-            function updateButtonState(buttonState) {
-                if($.updateButtonState) {
-                    $.updateButtonState(buttonState)
-                }
-            }
         </script>
 
         <div class="box" id="buttons">
@@ -163,41 +42,7 @@
             <table id="node-table"></table>
             <table id="reference-table"></table>
             <script type="text/javascript">
-                $(function() {
-
-                    try {
-                     $("#node-table").jqGrid({
-                        url: '/api/oracle/nodes',
-                        datatype: 'json',
-                        mtype: 'GET',
-                        height: 250,
-                        colNames:['Id','Script', 'Description', 'Bla'],
-                        colModel:[
-                            {name:'id', index:'id', width:60},
-                            {name:'script', index:'script', width:90},
-                            {name:'description', index:'description', width:80},
-                            {name:'clip', index:'clip', width:80}
-                        ],
-                        //multiselect: true,
-                        caption: "Oracle Nodes"
-                    })
-                } catch(err) {}
-
-                     $("#reference-table").jqGrid({
-                            url: '/api/oracle/references',
-                            datatype: 'json',
-                            mtype: 'GET',
-                            height: 250,
-                            colNames:['Source','Destination'],
-                            colModel:[
-                                {name:'_srcId', index:'id', width:60},
-                                {name:'_destId', index:'dest', width:90},
-                            ],
-                            //multiselect: true,
-                            caption: "Oracle References"
-                        })
-                })
-            </script>
+             </script>
         </div>
         <div id="tabs-2">
             <div id="jstree" style="width:45%; margin-right:1%;">
@@ -230,33 +75,6 @@
             <div id="center">
                 <div id="fig" style="height:400px; overflow:scroll">
                     <script type="text/javascript+protovis">
-                        var vis = new pv.Panel()
-                            .width(200)
-                            .height(200)
-                            .left(40)
-                            .right(160)
-                            .top(10)
-                            .bottom(10);
-
-                        var layout = vis.add(pv.Layout.Cluster)
-                            .nodes(pv.dom(root)
-                            .root("root")
-                            .sort(function(a, b) pv.naturalOrder(a.nodeName, b.nodeName))
-                            .nodes())
-                            .group(true)
-                            .orient("left");
-
-                        layout.link.add(pv.Line)
-                            .strokeStyle("#ccc")
-                            .lineWidth(1)
-                            .antialias(false);
-
-                        layout.node.add(pv.Dot)
-                            .fillStyle(function(n) n.firstChild ? "#aec7e8" : "#ff7f0e");
-
-                        layout.label.add(pv.Label);
-
-                        vis.render();
 
                     </script>
                 </div>

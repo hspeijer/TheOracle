@@ -5,6 +5,7 @@ import net.destinylounge.oracle.Oracle
 import net.destinylounge.serial.OracleProtocol
 import net.liftweb.actor.LiftActor
 import code.model._
+import net.liftweb.common.Logger
 
 /**
  * (c) mindsteps BV 
@@ -15,10 +16,10 @@ import code.model._
  * 
  */
 
-object OracleButtonServer extends LiftActor with ListenerManager {
+object OracleButtonServer extends LiftActor with ListenerManager with Logger {
   var state = new ButtonState(0)
 
-  //OracleProtocol.sendState(state)
+  OracleProtocol.sendState(state)
 
   protected def createUpdate = state
 
@@ -83,7 +84,7 @@ object OracleButtonServer extends LiftActor with ListenerManager {
   }
 
   def triggerState() = {
-    println("Trigger " + state + " " + state.firstTrigger())
+    debug("Trigger " + state + " " + state.firstTrigger())
     state.firstTrigger() match {
       //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
       case Beam   => {OracleServer ! Oracle.reset(); animate()}
@@ -92,8 +93,9 @@ object OracleButtonServer extends LiftActor with ListenerManager {
   }
 
   override def lowPriority = {
-    case newState: ButtonState => state = newState;
-    case trigger: Trigger => state = new ButtonState(List(trigger));
+    case trigger: String => debug("String: trigger")
+    case trigger: Trigger => {state = new ButtonState(List(trigger)); debug("Trigger: " + trigger.toString)}
+    case newState: ButtonState => state = newState
 
     triggerState()
     updateListeners()

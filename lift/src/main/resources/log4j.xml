@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2008 mindsteps BV, All rights reserved.
+  ~
+  ~ Usage of this source code is according to terms and conditions as specified in our software distribution agreement.
+  -->
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <appender name="console" class="org.apache.log4j.ConsoleAppender">
+  	<param name="Threshold" value="debug"/> 
+    <param name="Target" value="System.out"/> 
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{HH:mm:ss} [%-5p] %-25.25c{1}| %m%n"/>
+    </layout> 
+  </appender> 
+
+  <appender name="traceAppender" class="org.apache.log4j.RollingFileAppender">
+	<param name="Threshold" value="trace"/>
+    <param name="file" value="C:/Development/Projects/iManage/Logs/iManage-trace.log"/>
+    <param name="MaxFileSize" value="100000KB"/>
+    <param name="MaxBackupIndex" value="10"/>
+    <layout class="org.apache.log4j.PatternLayout"> 
+      <param name="ConversionPattern" value="%d{HH:mm:ss} [%-5p] %-25.25c{1}| %m%n"/>
+    </layout> 
+  </appender> 
+
+    <appender name="debugAppender" class="org.apache.log4j.RollingFileAppender">
+        <param name="Threshold" value="debug"/>
+      <param name="file" value="C:/Development/Projects/DestinyLoungeOracle/logs/oracle.log"/>
+      <param name="MaxFileSize" value="10000KB"/>
+      <param name="MaxBackupIndex" value="10"/>
+      <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d{HH:mm:ss} [%-5p] %-25.25c{1}| %m%n"/>
+      </layout>
+    </appender>
+
+  <appender name="errorAppender" class="org.apache.log4j.RollingFileAppender">
+  	<param name="Threshold" value="error"/>
+    <param name="file" value="C:/Development/Projects/iManage/Logs/iManage-error.log"/>
+    <param name="MaxFileSize" value="10000KB"/>
+    <param name="MaxBackupIndex" value="10"/>
+    <layout class="org.apache.log4j.PatternLayout"> 
+      <param name="ConversionPattern" value="%d{HH:mm:ss} [%-5p] %-25.25c{1}| %m%n"/>
+    </layout> 
+  </appender>
+
+  <logger name="org">
+    <level value="info"/> 
+  </logger>
+
+  <logger name="java">
+    <level value="info"/> 
+  </logger>
+
+  <root> 
+    <!--  <priority value ="debug" /> --> 
+    <appender-ref ref="console" />
+	<!--<appender-ref ref="traceAppender" />-->
+    <appender-ref ref="debugAppender" />
+      <!--<appender-ref ref="errorAppender" />-->
+  </root>
+  
+</log4j:configuration>
