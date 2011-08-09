@@ -75,7 +75,7 @@ object OracleEditor {
    */
   def add(xhtml: Group): NodeSeq =
   selectedNode.is.openOr(new OracleNode()).toForm(Empty, saveNode _) ++ <tr>
-    <td><a href="/edit/index.html">Cancel</a></td>
+
                                                                 </tr>
   /**
    * Edit a user

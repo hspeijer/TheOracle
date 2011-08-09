@@ -3,6 +3,8 @@ package code.comet
 import net.liftweb.http.{CometListener, CometActor}
 import net.liftweb.http.js.JsCmds.Alert
 import net.liftweb.http.js.JE.{JsRaw, Call}
+import net.liftweb.common.Logger
+
 
 /**
  * (c) mindsteps BV 
@@ -13,7 +15,7 @@ import net.liftweb.http.js.JE.{JsRaw, Call}
  * 
  */
 
-class WebMoviePlayer extends CometActor with CometListener{
+class WebMoviePlayer extends CometActor with CometListener with Logger{
   private var url = ""
   protected def registerWith = WebMovieServer
 
@@ -21,7 +23,7 @@ class WebMoviePlayer extends CometActor with CometListener{
     case s: String => url = s; reRender()
   }
   def render = {
-    println("WebMoviePlayer " + url)
+    debug("WebMoviePlayer " + url)
     JsRaw("var player = $('#video_playback')[0]; player.src = '" + url + "'; player.play()").cmd
   }
 }

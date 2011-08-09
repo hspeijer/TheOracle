@@ -4,6 +4,7 @@ import scala.actors.Actor._
 import code.model._
 import code.comet.WebMovieServer
 import actors.{TIMEOUT, Actor}
+import net.liftweb.common.Logger
 
 /**
  * (c) mindsteps BV 
@@ -14,7 +15,7 @@ import actors.{TIMEOUT, Actor}
  * 
  */
 
-object Oracle extends Actor {
+object Oracle extends Actor with Logger {
 
   val model = OracleModel
   var currentNode : OracleNode = OracleNode.findNode(0)
@@ -48,7 +49,7 @@ object Oracle extends Actor {
       }
     }
     else
-      println("Input ignored")
+      info("Input ignored")
 
     currentNode.script
   }
@@ -71,7 +72,7 @@ object Oracle extends Actor {
     setCurrentNode(OracleNode.findNode(0).findReference(newOracleIndex, OracleSelect).findReference(Challenge))
     currentOracleIndex = newOracleIndex
 
-    println("References: " + currentNode.references)
+    debug("References: " + currentNode.references)
     currentNode.script
   }
 

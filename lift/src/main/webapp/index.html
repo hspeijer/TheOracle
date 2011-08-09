@@ -6,45 +6,13 @@
 </head>
 <body class="lift:content_id=main">
 <div id="main" class="lift:surround?with=default;at=content">
-         <script type="text/javascript" language="javascript">
-            $(function() {
-                var buttonState = {earth:false, fire:false, water:false, air:false, aether:false, beam:false}
 
-                $(".oracle-button").mouseenter(function() {
-                    renderButtonState(this.id, true)
-                }).mouseleave(function() {
-                    renderButtonState(this.id, buttonState[this.id])
-                }).click(function() {
-                    $.ajax({
-                        url: "../api/trigger",
-                        type: "POST",
-                        data: 'field=' + this.id
-                    });
-                });
-
-                function renderButtonState(name, state) {
-                    button = $('#' + name)
-                    if(button.data == null) {
-                        button.data = {state:false}
-                    } else {
-                        button[0].src = "/images/" + name + (state ? ".png" : "-off.png")
-                    }
-                }
-
-                $.updateButtonState = function(newButtonState) {
-                    buttonState = newButtonState
-                    for(key in buttonState) {
-                        renderButtonState(key, buttonState[key])
-                    }
-                }
-            })
-
-            function updateButtonState(buttonState) {
-                if($.updateButtonState) {
-                    $.updateButtonState(buttonState)
-                }
-            }
-        </script>
+    <div>
+        <video id="video_playback" height="270" src="/media/spirit.mp4" width="480" controls>
+            <a href="/media/spirit.mp4">Download the video</a> for local playback.
+        </video>
+        <div class="lift:comet?type=WebMoviePlayer"/>
+    </div>
 
         <div class="box" id="buttons">
                 <img class="oracle-button" src="/images/earth-off.png" id="earth" height="72" width="72">
@@ -71,22 +39,6 @@
             <input class="lift:OracleIn" id="chat_in"/>
             <input type="submit" value="Send Command"/>
         </form>
-    </div>
-
-    <h3>Video Output</h3>
-
-    <div>
-        <video id="video_playback" height="270" src="/media/spirit.mp4" width="480" controls>
-            <a href="/media/spirit.mp4">Download the video</a> for local playback.
-        </video>
-        <div class="lift:comet?type=WebMoviePlayer"/>
-    </div>
-
-    <h3>Audio Controls</h3>
-
-    <div>
-        <audio src="/media/fire-1.mp3" controls="controls">
-        </audio>
     </div>
 
 </div>

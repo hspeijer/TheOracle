@@ -6,6 +6,7 @@ import http._
 import common._
 import net.liftweb.util.Helpers._
 import net.destinylounge.media.DVMVideoPlayer
+import net.liftweb.common.Logger
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,13 +16,13 @@ import net.destinylounge.media.DVMVideoPlayer
  * To change this template use File | Settings | File Templates.
  */
 
-object DVMTest {
+object DVMTest extends Logger {
 
   val player : DVMVideoPlayer = new DVMVideoPlayer()
 
   def stop (xhtml : NodeSeq) : NodeSeq = {
     def processStop() = {
-      println("Stop?")
+      debug("Stop?")
       player.stop
     }
 
@@ -34,15 +35,15 @@ object DVMTest {
       var filename = ""
       var loop = false
 
-      println("Play");
+      debug("Play");
 
       def processPlay() = {
-        println("Play? " + filename + " loop? " + loop)
+        debug("Play? " + filename + " loop? " + loop)
         player.play(filename, loop)
       }
 
      def setLoop() = {
-      println("Loop: " + loop)
+       debug("Loop: " + loop)
        loop = true
      }
       bind("dvm", xhtml,

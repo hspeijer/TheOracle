@@ -5,6 +5,7 @@ import gnu.io.{SerialPort, CommPort, CommPortIdentifier}
 import java.io.{OutputStream, IOException, InputStream}
 import code.comet.OracleButtonServer
 import java.lang.String
+import net.liftweb.common.Logger
 
 /**
  * (c) mindsteps BV 
@@ -15,16 +16,20 @@ import java.lang.String
  * 
  */
 
-object OracleProtocol {
-  val portId = "COM3"
+object OracleProtocol extends Logger {
+  val portId = "COM6"
   var lightState = new ButtonState(0);
   var buttonState = new ButtonState(0);
 
+  info("Initializing Oracle Serial Protocol")
+
   connect()
+
+  info("Still here?")
 
   def sendState(state: ButtonState) = {
     lightState = state
-    println("Sending to serial: " + lightState)
+    debug("Sending to serial: " + lightState)
   }
 
   def receivedButtonState(string : String) {
@@ -33,7 +38,7 @@ object OracleProtocol {
       val byte = java.lang.Byte.parseByte(string, 16)
       if (byte != buttonState.toByte()) {
         buttonState = new ButtonState(byte);
-        println("Received from serial: " + buttonState)
+        debug("Received from serial: " + buttonState)
         OracleButtonServer ! buttonState
       }
     } catch {
@@ -53,13 +58,13 @@ object OracleProtocol {
             try {
               receivedButtonState(new String(readBuffer, firstNewLine + 1, 2))
             } catch {
-                case e: Exception =>  print("");
+                case e: Exception =>  error("Error receiving serial " + e.getMessage)
             }
           }
           Thread.sleep(1000);
         }
       } catch {
-        case e: IOException => e.printStackTrace
+        case e: IOException => error("IO Exception " + e.getMessage)
       }
     }
   }
@@ -75,30 +80,30 @@ object OracleProtocol {
           Thread.sleep(100);
         }
       } catch {
-        case e: IOException => e.printStackTrace
+        case e: IOException => error("IO Exception " + e.getMessage)
       }
     }
   }
 
   def connect() = {
     try {
-    val portIdentifier = CommPortIdentifier.getPortIdentifier(portId)
-    if (portIdentifier.isCurrentlyOwned) {
-      System.out.println("Error: Port is currently in use")
-    } else {
-      val commPort = portIdentifier.open(this.getClass.getName, 2000)
-      if (commPort.isInstanceOf[SerialPort]) {
-        val serialPort = commPort.asInstanceOf[SerialPort]
-        serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE)
-
-        (new Thread(new SerialReader(serialPort.getInputStream))).start
-        (new Thread(new SerialWriter(serialPort.getOutputStream))).start
+      val portIdentifier = CommPortIdentifier.getPortIdentifier(portId)
+      if (portIdentifier.isCurrentlyOwned) {
+        error("Port is currently in use")
       } else {
-        System.out.println("Error: Only serial ports are handled by this example.")
+        val commPort = portIdentifier.open(this.getClass.getName, 2000)
+        if (commPort.isInstanceOf[SerialPort]) {
+          val serialPort = commPort.asInstanceOf[SerialPort]
+          serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE)
+
+          (new Thread(new SerialReader(serialPort.getInputStream))).start
+          (new Thread(new SerialWriter(serialPort.getOutputStream))).start
+        } else {
+          error("Only serial ports are handled by this example.")
+        }
       }
-    }
     } catch {
-      case e: Error => e.printStackTrace()
+      case e => error("Could not initialise serial port" + e.getMessage)
     }
   }
 }
