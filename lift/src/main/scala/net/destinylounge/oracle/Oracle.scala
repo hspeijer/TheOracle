@@ -1,7 +1,9 @@
 package net.destinylounge.oracle
 
-import code.comet.WebMovieServer
+import scala.actors.Actor._
 import code.model._
+import code.comet.WebMovieServer
+import actors.{TIMEOUT, Actor}
 
 /**
  * (c) mindsteps BV 
@@ -12,7 +14,7 @@ import code.model._
  * 
  */
 
-object Oracle {
+object Oracle extends Actor {
 
   val model = OracleModel
   var currentNode : OracleNode = OracleNode.findNode(0)
@@ -71,5 +73,34 @@ object Oracle {
 
     println("References: " + currentNode.references)
     currentNode.script
+  }
+
+
+  // State Machine ...
+  def act() {
+    println("act")
+    for (i <- 1 to 10) {
+        println("### Number: "+i)
+        Thread.sleep(1000)
+    }
+/*
+    blockInput = false
+    setLighting(sideWalls, deepBlue)
+    setAllStones(glow)
+    loop
+         if (not oracle.currentNode.clip.isPlaying())
+             setCurrentNode(random oracle)
+    until beam
+         setState(Challenge)
+*/
+    println("About to loop")
+    loop {
+      reactWithin(3000) {
+
+        case TIMEOUT =>
+          println("TIMEOUT reached")
+          exit()
+      }
+    }
   }
 }

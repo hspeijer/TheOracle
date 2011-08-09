@@ -15,6 +15,7 @@ object OracleServer extends LiftActor with ListenerManager {
   private var msgs = Vector("Welcome to the Oracle") // private state
 
   msgs :+= Oracle.reset()
+  Oracle.start()
 
   /**
    * When we update the listeners, what message do we send?
