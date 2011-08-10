@@ -4,7 +4,7 @@ import scala.actors.Actor._
 import code.model._
 import code.comet.WebMovieServer
 import net.liftweb.common.Logger
-import actors.{Exit, TIMEOUT, Actor}
+import actors.{TIMEOUT, Actor}
 
 /**
  * (c) mindsteps BV 
