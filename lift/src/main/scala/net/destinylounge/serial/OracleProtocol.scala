@@ -6,6 +6,7 @@ import java.io.{OutputStream, IOException, InputStream}
 import code.comet.OracleButtonServer
 import java.lang.String
 import net.liftweb.common.Logger
+import code.lib.ConfigurationManager
 
 /**
  * (c) mindsteps BV 
@@ -17,7 +18,7 @@ import net.liftweb.common.Logger
  */
 
 object OracleProtocol extends Logger {
-  val portId = "COM6"
+  val portId = ConfigurationManager.getSetting("serial.port");
   var lightState = new ButtonState(0);
   var buttonState = new ButtonState(0);
 
@@ -34,7 +35,7 @@ object OracleProtocol extends Logger {
 
   def receivedButtonState(string : String) {
     try {
-      //println("Received:" + string)
+      debug("Received:" + string)
       val byte = java.lang.Byte.parseByte(string, 16)
       if (byte != buttonState.toByte()) {
         buttonState = new ButtonState(byte);
@@ -87,9 +88,10 @@ object OracleProtocol extends Logger {
 
   def connect() = {
     try {
-      val portIdentifier = CommPortIdentifier.getPortIdentifier(portId)
+      info("Opening port at " + portId)
+      val portIdentifier = CommPortIdentifier.getPortIdentifier(portId.toString)
       if (portIdentifier.isCurrentlyOwned) {
-        error("Port is currently in use")
+        error("Port is currently in use.")
       } else {
         val commPort = portIdentifier.open(this.getClass.getName, 2000)
         if (commPort.isInstanceOf[SerialPort]) {
@@ -99,7 +101,7 @@ object OracleProtocol extends Logger {
           (new Thread(new SerialReader(serialPort.getInputStream))).start
           (new Thread(new SerialWriter(serialPort.getOutputStream))).start
         } else {
-          error("Only serial ports are handled by this example.")
+          error("Only serial ports are handled.")
         }
       }
     } catch {
