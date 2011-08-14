@@ -69,7 +69,7 @@ $(function() {
             renderButtonState(this.id, buttonState[this.id])
         }).click(function() {
             $.ajax({
-                url: "../api/trigger",
+                url: "./api/trigger",
                 type: "POST",
                 data: 'field=' + this.id
             });
@@ -80,7 +80,7 @@ $(function() {
             if(button.data == null) {
                 button.data = {state:false}
             } else {
-                button[0].src = "/images/" + name + (state ? ".png" : "-off.png")
+                button[0].src = "./images/" + name + (state ? ".png" : "-off.png")
             }
         }
 
@@ -92,7 +92,7 @@ $(function() {
         }
 
          $("#node-table").jqGrid({
-            url: '/api/oracle/nodes',
+            url: './api/oracle/nodes',
             datatype: 'json',
             height: 200,
             width: 500,
