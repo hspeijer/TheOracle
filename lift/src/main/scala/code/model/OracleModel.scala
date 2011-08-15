@@ -31,54 +31,84 @@ object OracleModel {
 
   val testNodes = List(
     new OracleNode(0, "This is the root node", "root", new MovieTrigger(15, "1234")),
-    new OracleNode(1, "I am kinda stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(2, "Pose your question!", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge")),
-    new OracleNode(3, "Fire burns ya know", "Stupid-Fire1", new MovieTrigger(15, "worst-anti-drugs")),
-    new OracleNode(4, "all you need on the playa", "Stupid-Water1", new MovieTrigger(15, "1234")),
-    new OracleNode(14, "More Water! Please!!!!!!!!!!!", "Stupid-Water2", new MovieTrigger(15, "worst-anti-drugs")),
-    new OracleNode(5, "Plenty of dust, go roll around", "Stupid-Earth1", new MovieTrigger(15, "1234")),
-    new OracleNode(6, "I like butterflies", "Stupid-Air1", new MovieTrigger(15, "flower")),
-    new OracleNode(7, "Go fairy!", "Stupid-Aether1", new MovieTrigger(15, "spirit")),
-    new OracleNode(21, "I am 2 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(22, "Pose your question!-2", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge")),
-    new OracleNode(31, "I am 3 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(32, "Pose your question!-3", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge")),
-    new OracleNode(41, "I am 4 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(42, "Pose your question!-4", "Stupid-Challenge", new MovieTrigger(15, "1234")),
-    new OracleNode(51, "I am 5 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(52, "Pose your question!-5", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge")),
-    new OracleNode(61, "I am 6 stupid but I know stuff", "Stupid-Intro", new MovieTrigger(15, "1234")),
-    new OracleNode(62, "Pose your question!-6", "Stupid-Challenge", new MovieTrigger(15, "earth-challenge"))
+
+    new OracleNode(101, "I am the Earth Oracle", "Earth-Intro", new MovieTrigger(11, "FIRE0001")),
+    new OracleNode(102, "Welcome seeker. Speak your question and choose a stone!", "Earth-Challenge", new MovieTrigger(29, "FIRE0001")),
+    new OracleNode(103, "Do you seek more of my council? Speak your mind or leave my presence.", "Earth-Challenge1", new MovieTrigger(14, "EARTH002")),
+
+    new OracleNode(160, "Veins of mineral draw a path through my mind. The path leads to the answer yes.", "Earth-yes1", new MovieTrigger(10, "EARTH003")),
+    new OracleNode(161, "The answer is yes.", "Earth-yes2", new MovieTrigger(10, "EARTH004")),
+    new OracleNode(162, "The answer is yes.", "Earth-yes3", new MovieTrigger(8, "EARTH005")),
+    new OracleNode(163, "The answer is yes.", "Earth-yes4", new MovieTrigger(7, "EARTH006")),
+    new OracleNode(164, "The answer is yes.", "Earth-yes5", new MovieTrigger(10, "EARTH007")),
+    new OracleNode(165, "The answer is no.", "Earth-no1", new MovieTrigger(10, "EARTH008")),
+    new OracleNode(166, "The answer is no.", "Earth-no2", new MovieTrigger(11, "EARTH009")),
+    new OracleNode(167, "The answer is no.", "Earth-no3", new MovieTrigger(9, "EARTH010")),
+    new OracleNode(168, "The answer is no.", "Earth-no4", new MovieTrigger(9, "EARTH011")),
+    new OracleNode(169, "The answer is no.", "Earth-no5", new MovieTrigger(12, "EARTH012")),
+    new OracleNode(170, "The answer is uncertain.", "Earth-uncertain1", new MovieTrigger(11, "EARTH013")),
+    new OracleNode(171, "The answer is uncertain.", "Earth-uncertain2", new MovieTrigger(14, "EARTH014")),
+    new OracleNode(172, "The answer is uncertain.", "Earth-uncertain3", new MovieTrigger(13, "EARTH015")),
+    new OracleNode(173, "There answer is unknown.", "Earth-none1", new MovieTrigger(11, "EARTH016")),
+    new OracleNode(174, "There answer is unknown.", "Earth-none2", new MovieTrigger(10, "EARTH017")),
+    new OracleNode(175, "There answer is unknown.", "Earth-none3", new MovieTrigger(10, "EARTH018"))
+
   )
 
   val testReferences = List(
     // Oracle 1
-    new Reference(0, 1, OracleSelect),
-    new Reference(1, 2, Challenge),
-    new Reference(2, 3, Fire),
-    new Reference(2, 4, Water),
-    new Reference(4, 14, Water),
-    new Reference(2, 5, Earth),
-    new Reference(2, 6, Air),
-    new Reference(2, 7, Aether),
+    new Reference(0, 101, OracleSelect),
+    new Reference(101, 102, Challenge),
+    new Reference(102, 103, Challenge),
 
+    new Reference(102, 160, Earth),
+    new Reference(102, 165, Earth),
+    new Reference(102, 170, Earth),
+    new Reference(102, 173, Earth),
+    new Reference(103, 160, Earth),
+    new Reference(103, 165, Earth),
+    new Reference(103, 170, Earth),
+    new Reference(103, 173, Earth),
+
+    new Reference(102, 161, Fire),
+    new Reference(102, 166, Fire),
+    new Reference(102, 171, Fire),
+    new Reference(102, 174, Fire),
+    new Reference(103, 161, Fire),
+    new Reference(103, 166, Fire),
+    new Reference(103, 171, Fire),
+    new Reference(103, 174, Fire),
+
+    new Reference(102, 162, Water),
+    new Reference(102, 167, Water),
+    new Reference(102, 172, Water),
+    new Reference(102, 175, Water),
+    new Reference(103, 162, Water),
+    new Reference(103, 167, Water),
+    new Reference(103, 172, Water),
+    new Reference(103, 175, Water),
+
+    new Reference(102, 163, Air),
+    new Reference(102, 168, Air),
+    new Reference(102, 170, Air),
+    new Reference(102, 173, Air),
+    new Reference(103, 163, Air),
+    new Reference(103, 168, Air),
+    new Reference(103, 170, Air),
+    new Reference(103, 173, Air),
+
+    new Reference(102, 164, Aether),
+    new Reference(102, 169, Aether),
+    new Reference(102, 171, Aether),
+    new Reference(102, 174, Aether),
+    new Reference(103, 164, Aether),
+    new Reference(103, 169, Aether),
+    new Reference(103, 171, Aether),
+    new Reference(103, 174, Aether)
     // Oracle 2
-    new Reference(0,  21, OracleSelect),
-    new Reference(21, 22, Challenge),
-    new Reference(22, 3, Fire),
-    new Reference(22, 4, Water),
-    new Reference(22, 5, Earth),
-    new Reference(22, 6, Air),
-    new Reference(22, 7, Aether),
 
     // Oracle 3
-    new Reference(0,  31, OracleSelect),
-    new Reference(31, 32, Challenge),
-    new Reference(32, 3, Fire),
-    new Reference(32, 4, Water),
-    new Reference(32, 5, Earth),
-    new Reference(32, 6, Air),
-    new Reference(32, 7, Aether)
+
   )
 
   testNodes.foreach((node : OracleNode) => OracleNode.nodes.put(node.id, node));
