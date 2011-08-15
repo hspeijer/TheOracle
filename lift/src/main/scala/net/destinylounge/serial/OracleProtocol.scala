@@ -6,6 +6,7 @@ import java.io.{OutputStream, IOException, InputStream}
 import code.comet.OracleButtonServer
 import java.lang.String
 import net.liftweb.common.Logger
+import code.lib.ConfigurationManager
 
 /**
  * (c) mindsteps BV 
@@ -17,7 +18,7 @@ import net.liftweb.common.Logger
  */
 
 object OracleProtocol extends Logger {
-  val portId = "COM6"
+  val portId = ConfigurationManager.getSettings("serial.port")
   var lightState = new ButtonState(0);
   var buttonState = new ButtonState(0);
 
@@ -87,7 +88,7 @@ object OracleProtocol extends Logger {
 
   def connect() = {
     try {
-      val portIdentifier = CommPortIdentifier.getPortIdentifier(portId)
+      val portIdentifier = CommPortIdentifier.getPortIdentifier(portId.toString())
       if (portIdentifier.isCurrentlyOwned) {
         error("Port is currently in use")
       } else {
