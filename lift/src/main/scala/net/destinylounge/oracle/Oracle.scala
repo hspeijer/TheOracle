@@ -240,7 +240,7 @@ object Oracle extends Actor with Logger {
 
         case TIMEOUT =>
           debug("AnswerState.act TIMEOUT reached")
-          Oracle ! QuestionState
+          Oracle ! ChallengeState
       }
 
     }
