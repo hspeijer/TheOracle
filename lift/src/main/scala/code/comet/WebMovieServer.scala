@@ -15,7 +15,7 @@ import net.destinylounge.oracle.Oracle
 
 object WebMovieServer extends LiftActor with ListenerManager {
   var movieURL : String = "";
-  val prefix = "/media/"
+  val prefix = "./media/"
   val mediaType = ".mp4"
 
   protected def createUpdate = movieURL
