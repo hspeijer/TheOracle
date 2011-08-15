@@ -5,6 +5,7 @@ import code.model._
 import code.comet.WebMovieServer
 import net.liftweb.common.Logger
 import actors.{TIMEOUT, Actor}
+import code.lib.ConfigurationManager
 
 /**
  * (c) mindsteps BV 
@@ -24,6 +25,10 @@ object Oracle extends Actor with Logger {
   def setCurrentNode(node : OracleNode) = {
     WebMovieServer ! node.clip.name
     currentNode = node
+  }
+
+  def initialize() {
+    ConfigurationManager.loadSettings("oracle")
   }
 
   val state: ButtonState = new ButtonState()
@@ -140,6 +145,7 @@ object Oracle extends Actor with Logger {
       loop {
         playRandomOracle()
         reactWithin(5000) {
+//        reactWithin(currentNode.clip.duration*1000) {
 
           case Beam =>
             Oracle ! ChallengeState
@@ -164,6 +170,7 @@ object Oracle extends Actor with Logger {
 
       setCurrentNode(currentNode.findReference(Challenge))
       reactWithin(5000) {
+//      reactWithin(currentNode.clip.duration*1000) {
 
         case TIMEOUT =>
           debug("ChallengeState.act TIMEOUT reached")
@@ -229,6 +236,7 @@ object Oracle extends Actor with Logger {
 //      setCurrentNode(oracle.currentNode[stoneMsg]
 
       reactWithin(5000) {
+//      reactWithin(currentNode.clip.duration*1000) {
 
         case TIMEOUT =>
           debug("AnswerState.act TIMEOUT reached")
