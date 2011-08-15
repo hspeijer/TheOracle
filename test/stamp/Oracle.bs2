@@ -22,6 +22,7 @@ reps VAR Nib
 Init:
   DEBUG "Initialising Oracle INPUT" , CR, LF
 
+  'TODO Loop
   HIGH 10
   PAUSE 100
   HIGH 11
@@ -48,51 +49,54 @@ Init:
 
 Main:
   DO
-    DEBUG BIN buttonState, " 0x", HEX buttonState, CR, LF
+    DEBUG "S>", HEX buttonState
     DEBUGIN BIN lightState
 
     IF lightstate = %100000 THEN
       mask = lightState
-      'DEBUG "RESET Beam", CR, LF
+      DEBUG "L>", HEX lightState
     ELSE
       buttonState = lightState
     ENDIF
 
     mask = 0
+  'TODO Loop/case
 
     IF (IN0 = 1) THEN
       mask = mask | 1
-      DEBUG "BUTTON PUSHED 1 ", BIN mask, CR, LF
+      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
 
     IF (IN1 = 1) THEN
       mask = mask | 2
-      DEBUG "BUTTON PUSHED 2 ", BIN mask, CR, LF
+      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
     IF (IN2 = 1) THEN
       mask = mask | 4
-      DEBUG "BUTTON PUSHED 3 ", BIN mask, CR, LF
+      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
     IF (IN3 = 1) THEN
       mask = mask | 8
-      DEBUG "BUTTON PUSHED 4 ", BIN mask, CR, LF
+      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
     IF (IN4 = 1) THEN
       mask = mask | 16
-      DEBUG "BUTTON PUSHED 5 ", BIN mask, CR, LF
+      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
     IF (IN5 = 1) THEN
       mask = mask | 32
-      DEBUG "BUTTON PUSHED 6 ", BIN mask, CR, LF
+      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
 
     buttonState = buttonState | mask
+
+      'TODO Loop
 
     IF (lightState & (1)) THEN
       HIGH 15
