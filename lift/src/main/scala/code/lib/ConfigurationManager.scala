@@ -85,4 +85,8 @@ object ConfigurationManager extends Logger {
   def querySettings(uri: Box[String], namespace: Box[String]) = {
 
   }
+
+  def getSettings(key : String) : Any = {
+    result.valueMap.get(key)
+  }
 }
