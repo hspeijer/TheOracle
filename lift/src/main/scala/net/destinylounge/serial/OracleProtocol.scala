@@ -7,6 +7,8 @@ import code.comet.OracleButtonServer
 import java.lang.String
 import net.liftweb.common.Logger
 import code.lib.ConfigurationManager
+import com.sun.xml.internal.ws.developer.MemberSubmissionAddressing.Validation
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result
 
 /**
  * (c) mindsteps BV 
@@ -17,39 +19,18 @@ import code.lib.ConfigurationManager
  * 
  */
 
-class ProtocolHandler
-class StampProtocol extends  ProtocolHandler
-class BinaryProtocol extends ProtocolHandler
-
-object OracleProtocol extends Logger {
-  val portId = ConfigurationManager.getSetting("serial.port");
-  var lightState = new ButtonState(0);
+abstract class ProtocolHandler extends Logger {
+  var lightState = new ButtonState(0)
   var buttonState = new ButtonState(0);
 
-  info("Initializing Oracle Serial Protocol")
+  def getSerialReader(in: InputStream) : Runnable
+  def getSerialWriter(out: OutputStream) : Runnable
+}
 
-  connect()
+class StampProtocol extends  ProtocolHandler {
 
-  info("Still here?")
-
-  def sendState(state: ButtonState) = {
-    lightState = state
-    debug("Sending to serial: " + lightState)
-  }
-
-  def receivedButtonState(string : String) {
-    try {
-      debug("Received:" + string)
-      val byte = java.lang.Byte.parseByte(string, 16)
-      if (byte != buttonState.toByte()) {
-        buttonState = new ButtonState(byte);
-        debug("Received from serial: " + buttonState)
-        OracleButtonServer ! buttonState
-      }
-    } catch {
-        case e: NumberFormatException => buttonState = new ButtonState(0)
-    }
-  }
+  def getSerialReader(in: InputStream) : Runnable = return new SerialReader(in)
+  def getSerialWriter(out: OutputStream) : Runnable = return new SerialWriter(out)
 
   /***/
   class SerialReader(in: InputStream) extends Runnable {
@@ -58,15 +39,17 @@ object OracleProtocol extends Logger {
       var len = -1
       try {
         while (({len = in.read(readBuffer); len}) > -1) {
-          if(readBuffer.contains('\r')) {
-            val firstNewLine = readBuffer.indexOf('\n')
             try {
-              receivedButtonState(new String(readBuffer, firstNewLine + 1, 2))
+              val string = new String(readBuffer, 0, len)
+              val result = string.substring(string.indexOf("B>") + 2, string.indexOf("<B"));
+              OracleProtocol.receivedButtonState(new ButtonState(java.lang.Byte.parseByte(result, 16)))
             } catch {
-                case e: Exception =>  error("Error receiving serial " + e.getMessage)
+                case e: Exception =>
             }
-          }
-          Thread.sleep(1000);
+
+          for( i <- 0 until 1023) {readBuffer(i) = 0.toByte}
+
+          Thread.sleep(200);
         }
       } catch {
         case e: IOException => error("IO Exception " + e.getMessage)
@@ -89,6 +72,80 @@ object OracleProtocol extends Logger {
       }
     }
   }
+}
+
+class BinaryProtocol extends ProtocolHandler {
+  def getSerialReader(in: InputStream) : Runnable = return new SerialReader(in)
+  def getSerialWriter(out: OutputStream) : Runnable = return new SerialWriter(out)
+
+  /***/
+  class SerialReader(in: InputStream) extends Runnable {
+    def run: Unit = {
+      val readBuffer = new Array[Byte](1024)
+      var len = -1
+      try {
+        while (({len = in.read(readBuffer); len}) > -1) {
+          for (i <- 0 until len) {
+            OracleProtocol.receivedButtonState(new ButtonState(readBuffer(i)))
+          }
+          Thread.sleep(100);
+        }
+      } catch {
+        case e: IOException => error("IO Exception " + e.getMessage)
+      }
+    }
+  }
+
+  /***/
+  class SerialWriter(out: OutputStream) extends Runnable {
+    def run: Unit = {
+      try {
+        while (true) {
+          val byte = lightState.toByte()
+          out.write(byte)
+          Thread.sleep(100);
+        }
+      } catch {
+        case e: IOException => error("IO Exception " + e.getMessage)
+      }
+    }
+  }
+}
+
+object OracleProtocol extends Logger {
+  val portId = ConfigurationManager.getSetting("serial.port");
+  val oracleHandlerType = ConfigurationManager.getSetting("serial.protocol.handler")
+  var handler : ProtocolHandler = null
+
+  oracleHandlerType match {
+    case "net.destinylounge.serial.StampProtocol" => handler = new StampProtocol
+    case "net.destinylounge.serial.BinaryProtocol" => handler = new BinaryProtocol
+    case x => handler = new BinaryProtocol
+  }
+
+  info("Initializing Oracle Serial Protocol")
+
+  connect()
+
+  def main(args : Array[String]) {
+    ConfigurationManager.loadSettings("oracle");
+    sendState(new ButtonState(63));
+    Thread.sleep(10000);
+  }
+
+  def sendState(state: ButtonState) = {
+    handler.lightState = state
+    debug("Sending to serial: " + handler.lightState)
+  }
+
+  def receivedButtonState(buttonState : ButtonState) {
+    //debug("Received:" + buttonState)
+    if (handler.buttonState.toByte() != buttonState.toByte()) {
+      handler.buttonState = buttonState
+      debug("Received from serial: " + buttonState)
+      OracleButtonServer ! buttonState
+    }
+  }
 
   def connect() = {
     try {
@@ -102,8 +159,8 @@ object OracleProtocol extends Logger {
           val serialPort = commPort.asInstanceOf[SerialPort]
           serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE)
 
-          (new Thread(new SerialReader(serialPort.getInputStream))).start
-          (new Thread(new SerialWriter(serialPort.getOutputStream))).start
+          (new Thread(handler.getSerialReader(serialPort.getInputStream))).start
+          (new Thread(handler.getSerialWriter(serialPort.getOutputStream))).start
         } else {
           error("Only serial ports are handled.")
         }

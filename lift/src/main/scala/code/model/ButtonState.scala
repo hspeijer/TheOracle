@@ -62,7 +62,9 @@ case class ButtonState() {
   }
 
   def firstTrigger(): Trigger = {
+    if (triggers.length > 0) {
     triggers.head
+    } else { null }
   }
 
   override def toString = {

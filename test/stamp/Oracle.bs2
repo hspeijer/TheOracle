@@ -49,12 +49,12 @@ Init:
 
 Main:
   DO
-    DEBUG "S>", HEX buttonState
-    DEBUGIN BIN lightState
+'    DEBUG "S>", HEX buttonState
+    DEBUGIN HEX lightState
 
     IF lightstate = %100000 THEN
       mask = lightState
-      DEBUG "L>", HEX lightState
+'      DEBUG "L>", HEX lightState
     ELSE
       buttonState = lightState
     ENDIF
@@ -64,35 +64,31 @@ Main:
 
     IF (IN0 = 1) THEN
       mask = mask | 1
-      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
 
     IF (IN1 = 1) THEN
       mask = mask | 2
-      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
     IF (IN2 = 1) THEN
       mask = mask | 4
-      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
     IF (IN3 = 1) THEN
       mask = mask | 8
-      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
     IF (IN4 = 1) THEN
       mask = mask | 16
-      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
     IF (IN5 = 1) THEN
       mask = mask | 32
-      DEBUG "B>", HEX mask
       buttonState = mask
     ENDIF
+
+    DEBUG "B>", HEX mask, CR, LF
 
     buttonState = buttonState | mask
 

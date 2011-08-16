@@ -84,13 +84,15 @@ object OracleButtonServer extends LiftActor with ListenerManager with Logger {
   }
 
   def triggerState() = {
-    debug("Trigger " + state + " " + state.firstTrigger())
-    state.firstTrigger() match {
-      //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
-      case Beam   => {Oracle ! Beam}
-      case _ =>
-        OracleServer ! Oracle.trigger(state.firstTrigger())
-        Oracle ! state.firstTrigger()
+    if (state.firstTrigger() != null) {
+      debug("Trigger " + state + " " + state.firstTrigger())
+      state.firstTrigger() match {
+        //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
+        case Beam   => {Oracle ! Beam}
+        case _ =>
+          OracleServer ! Oracle.trigger(state.firstTrigger())
+          Oracle ! state.firstTrigger()
+      }
     }
   }
 
