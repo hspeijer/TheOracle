@@ -17,6 +17,10 @@ import code.lib.ConfigurationManager
  * 
  */
 
+class ProtocolHandler
+class StampProtocol extends  ProtocolHandler
+class BinaryProtocol extends ProtocolHandler
+
 object OracleProtocol extends Logger {
   val portId = ConfigurationManager.getSetting("serial.port");
   var lightState = new ButtonState(0);
