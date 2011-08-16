@@ -3,6 +3,7 @@ package bootstrap.liftweb
 import net.liftweb._
 import sitemap.LocPath._
 import code.rest.OracleRest
+import net.destinylounge.oracle.Oracle
 
 //import sitemap.MenuSingleton._
 import util._
@@ -19,6 +20,8 @@ import code.model._
  * to modify lift's environment
  */
 class Boot {
+
+
   def boot {
 //    if (!DB.jndiJdbcConnAvailable_?) {
 //      val vendor =
@@ -91,5 +94,7 @@ class Boot {
     Logger.setup
      val logger = Logger(classOf[Boot])
     logger.debug("test")
+
+    Oracle initialize
   }
 }

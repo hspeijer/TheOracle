@@ -89,4 +89,5 @@ object ConfigurationManager extends Logger {
   def querySettings(uri: Box[String], namespace: Box[String]) = {
 
   }
+
 }

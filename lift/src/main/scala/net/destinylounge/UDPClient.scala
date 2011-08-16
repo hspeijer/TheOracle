@@ -13,7 +13,8 @@ import net.liftweb.common.Logger
 
 object UDPClient extends Logger {
 //  val server = "localhost"
-  val server = "192.168.1.254"
+  // ToDo MEH Get values from config
+  val server = "192.168.0.254"
   val port = 2638
 
   def sendMessage(message : String) {
