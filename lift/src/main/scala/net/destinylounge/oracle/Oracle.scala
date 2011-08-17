@@ -21,6 +21,7 @@ object Oracle extends Actor with Logger {
   val model = OracleModel
   var currentNode : OracleNode = OracleNode.findNode(0)
   var currentOracleIndex : Int = -1
+  val randomAnswerGen = new scala.util.Random
 
   def setCurrentNode(node : OracleNode) = {
     WebMovieServer ! node.clip.name
@@ -34,7 +35,16 @@ object Oracle extends Actor with Logger {
   val state: ButtonState = new ButtonState()
 
   def trigger(trigger : Trigger) : String = {
-    val newOracleNode = currentNode.findReference(trigger)
+
+//    val newOracleNode = currentNode.findReference(trigger)
+
+    // Count the number of nodes of the given type that are connected to the current node
+    val numNodes = currentNode.countReferences(trigger)
+    // Get a random number from 0 to numNodes-1
+    val newNodeIndex = randomAnswerGen.nextInt(numNodes)
+    val newOracleNode = currentNode.findReference(newNodeIndex, trigger)
+    debug("trigger - newNodeIndex: " + newNodeIndex + " numNodes: " + numNodes)
+
     if(newOracleNode != null) {
        setCurrentNode(newOracleNode)
     } else {
@@ -60,27 +70,42 @@ object Oracle extends Actor with Logger {
         case IdleState =>
           debug("state message - IdleState")
           currentState = IdleState
-          IdleState.start()
+          if (IdleState.getState == State.New)
+            IdleState.start()
+          else
+            IdleState.restart()  // Probably State.Terminated
 
         case ChallengeState =>
           debug("state message - ChallengeState")
           currentState = ChallengeState
-          ChallengeState.start()
+          if (ChallengeState.getState == State.New)
+            ChallengeState.start()
+          else
+            ChallengeState.restart()  // Probably State.Terminated
 
         case QuestionState =>
           debug("state message - QuestionState")
           currentState = QuestionState
-          QuestionState.start()
+          if (QuestionState.getState == State.New)
+            QuestionState.start()
+          else
+            QuestionState.restart()  // Probably State.Terminated
 
         case AnswerState =>
           debug("state message - AnswerState")
           currentState = AnswerState
-          AnswerState.start()
+          if (AnswerState.getState == State.New)
+            AnswerState.start()
+          else
+            AnswerState.restart()  // Probably State.Terminated
 
         case BeGoneState =>
           debug("state message - BeGoneState")
           currentState = BeGoneState
-          BeGoneState.start()
+          if (BeGoneState.getState == State.New)
+            BeGoneState.start()
+          else
+            BeGoneState.restart()  // Probably State.Terminated
 
         // Buttons
         case Earth =>
@@ -144,8 +169,8 @@ object Oracle extends Actor with Logger {
 
       loop {
         playRandomOracle()
-        reactWithin(5000) {
-//        reactWithin(currentNode.clip.duration*1000) {
+//        reactWithin(5000) {
+        reactWithin(currentNode.clip.duration*1000) {
 
           case Beam =>
             Oracle ! ChallengeState
@@ -168,9 +193,10 @@ object Oracle extends Actor with Logger {
 //      setLighting(sideWalls, colorCycle)
 //      setAllStones(dim)
 
-      setCurrentNode(currentNode.findReference(Challenge))
-      reactWithin(5000) {
-//      reactWithin(currentNode.clip.duration*1000) {
+      // ToDo MEH - Pose second challenge after the first run though
+      setCurrentNode(OracleNode.findNode(0).findReference(currentOracleIndex, OracleSelect).findReference(Challenge))
+//      reactWithin(5000) {
+      reactWithin(currentNode.clip.duration*1000) {
 
         case TIMEOUT =>
           debug("ChallengeState.act TIMEOUT reached")
@@ -235,8 +261,8 @@ object Oracle extends Actor with Logger {
 //      setLighting(sideWalls, stoneMsg.color)
 //      setCurrentNode(oracle.currentNode[stoneMsg]
 
-      reactWithin(5000) {
-//      reactWithin(currentNode.clip.duration*1000) {
+//      reactWithin(5000) {
+      reactWithin(currentNode.clip.duration*1000) {
 
         case TIMEOUT =>
           debug("AnswerState.act TIMEOUT reached")
