@@ -11,13 +11,9 @@ package code.rest
 import net.liftweb.common.{Full, Box}
 import net.liftweb.json.Extraction._
 import code.comet.OracleButtonServer
-import tools.nsc.util.HashSet
-import net.liftweb.http.js._
-import net.liftweb.http.js.JE._
+import code.comet.MediaServer
 import net.liftweb.json.JsonAST.{JObject, JField, JInt}
-import java.awt.image.renderable.RenderableImage
 import java.lang.{StringBuilder, Long}
-import javax.naming.ldap.PagedResultsControl
 import net.liftweb.http._
 import net.liftweb.common.Logger
 import code.model._
@@ -28,8 +24,11 @@ object OracleRest extends Logger {
     // Req(url_pattern_list, suffix, request_type)
     case Req("api" :: "oracle" :: "nodes" :: Nil, _, GetRequest) => () => Full(oracleNodes)
     case Req("api" :: "oracle" :: "references" :: Nil, _, GetRequest) => () => Full(references)
-    case r@Req("api" :: "graph" :: "center" :: Nil, _, GetRequest) => () => Full(queryGraph(r.param("nodeId"), r.param("depth")))
-    case r@Req("api" :: "trigger" :: Nil, _, PostRequest) => () => Full(trigger(r.param("field")))
+    case request@Req("api" :: "graph" :: "center" :: Nil, _, GetRequest) => () => Full(queryGraph(request.param("nodeId"), request.param("depth")))
+    case request@Req("api" :: "trigger" :: Nil, _, PostRequest) => () => Full(trigger(request.param("field")))
+    case request@Req("api" :: "media" :: "get" :: Nil, _, GetRequest) => () => Box(getMediaFile(request))
+    case request@Req("api" :: "media" :: "list" :: Nil, _, GetRequest) => () => Full(getMediaList(request.param("filter")))
+
   }
 
   //"page":"1","total":2,"records":"13","rows":
@@ -45,6 +44,21 @@ object OracleRest extends Logger {
     def addChild(child : Node) {
       references += child.id -> child
     }
+  }
+
+  def getMediaList(filter: Box[String]) = {
+    JsonResponse(decompose(MediaServer.mediaContainer))
+  }
+
+  def getMediaFile(req: Req) : Box[LiftResponse] = {
+    val file = MediaServer.mediaContainer.getFile("EARTH001.mp4")
+    val stream = file.inputStream
+    Box(StreamingResponse(stream,
+                        () => { stream.close },
+                        file.size,
+                        ("Content-Type" -> "video/mp4") :: Nil,
+                        Nil,
+                        200))
   }
 
   def queryGraph(nodeId: Box[String], depth: Box[String]) = {
