@@ -1,1 +1,1 @@
-java -Xmx512M -Xss2M -XX:+CMSClassUnloadingEnabled -Djava.library.path=lib -jar `dirname $0`/sbt-launcher.jar "$@"
+java -Xmx512M -Xss2M -XX:+CMSClassUnloadingEnabled -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 -Djava.library.path=lib -jar `dirname $0`/sbt-launcher.jar "$@"

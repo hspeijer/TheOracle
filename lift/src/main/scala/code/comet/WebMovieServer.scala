@@ -1,10 +1,12 @@
 package code.comet
 
 import net.liftweb.actor.LiftActor
+import java.io.IOException
 import net.liftweb.http.ListenerManager
 import net.destinylounge.oracle.Oracle
 import code.lib.ConfigurationManager
 import net.destinylounge.media.DVMVideoPlayer
+import net.liftweb.common.Logger
 
 /**
  * (c) mindsteps BV 
@@ -15,21 +17,22 @@ import net.destinylounge.media.DVMVideoPlayer
  * 
  */
 
-object WebMovieServer extends LiftActor with ListenerManager {
+object WebMovieServer extends LiftActor with ListenerManager with Logger {
   var movieURL : String = "";
-  val prefix = "./media/"
+  val prefix = "./api/media/get?file="
   val mediaType = ".mp4"
   val player : DVMVideoPlayer = new DVMVideoPlayer()
 
   protected def createUpdate = movieURL
 
+  def play(s: String) = {
+    debug("Playing?" + s)
+    //player.play(s+ConfigurationManager.getSetting("media.dvm.suffix").toString, false)
+    ""
+  }
+
   override def lowPriority = {
-    case s: String => {
-
-      player.play(s+ConfigurationManager.getSetting("media.dvm.suffix").toString, false)
-
-      movieURL = prefix + s + mediaType
-    };
+    case s: String => {movieURL = prefix + s + mediaType}
 
     updateListeners()
   }

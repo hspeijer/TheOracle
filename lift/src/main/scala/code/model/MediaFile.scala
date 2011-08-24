@@ -1,19 +1,20 @@
 package code.model
 
 import java.io.{FileInputStream, File}
-import java.util.HashMap
 import net.liftweb.common.Logger
 
-case class MediaContainer(path : String) extends Logger {
+case class MediaContainer(path : String, var files : Map[String, MediaFile]) extends Logger {
 
-  var files = new HashMap[String, MediaFile]()
+  def this(path: String) {
+    this(path, Map[String, MediaFile]())
+  }
 
   scanFolder()
 
   def file : File = new File(path)
 
   def addFile(file : MediaFile) {
-    files.put(file.name, file)
+    files += (file.name -> file)
   }
 
   def scanFolder() {
@@ -30,25 +31,23 @@ case class MediaContainer(path : String) extends Logger {
   }
 
   def getFile(name : String) : MediaFile = {
-    files.get(name)
+    files(name)
   }
 }
 
-case class MediaFile(name: String) {
-  val tags : List[String] = List("*")
-  var parent : MediaContainer = null
-  var duration : Long = 0
+case class MediaFile(name: String, var tags: List[String], var duration:Int) {
+  var parent: MediaContainer = null
 
-  def file : File = new File(parent.file.getAbsolutePath + name)
+  def file : File = new File(parent.file.getAbsolutePath + "/" + name)
 
   def this(name: String, pparent: MediaContainer) {
-    this(name)
+    this(name, List[String](), 0)
     parent = pparent
   }
 
-  def MediaFile(name : String, duration : Long) = {
-    this.duration = duration
-  }
+//  def (name : String, duration : Long) = {
+//    this.duration = duration
+//  }
 
   def inputStream = new FileInputStream(file)
 

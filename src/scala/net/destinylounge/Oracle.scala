@@ -1,8 +1,8 @@
 package net.destinylounge
 
 import org.neo4j.kernel.EmbeddedGraphDatabase
-import org.neo4j.index.IndexService
-import org.neo4j.index.lucene.LuceneIndexService
+//import org.neo4j.index.IndexService
+//import org.neo4j.index.lucene.LuceneIndexService
 import collection.JavaConversions
 import org.neo4j.graphdb.{Direction, RelationshipType}
 import org.h2.expression.Variable
@@ -30,13 +30,13 @@ object EmbeddedNeo4jWithIndexingS {
   private val DB_PATH = "neo4j-store3"
   private val USERNAME_KEY = "username"
   private val graphDb: GraphDatabaseService = new EmbeddedGraphDatabase(DB_PATH)
-  private val indexService: IndexService = new LuceneIndexService(graphDb)
+//  private val indexService: IndexService = new LuceneIndexService(graphDb)
 
   private def registerShutdownHook =
     Runtime.getRuntime.addShutdownHook(new Thread() {override def run = shutdown})
 
   private def shutdown = {
-    indexService.shutdown
+//    indexService.shutdown
     graphDb.shutdown
   }
 
@@ -47,7 +47,7 @@ object EmbeddedNeo4jWithIndexingS {
   private def createAndIndexUser(username: String) = {
     val node = graphDb.createNode
     node.setProperty(USERNAME_KEY, username)
-    indexService.index(node, USERNAME_KEY, username)
+//    indexService.index(node, USERNAME_KEY, username)
     node
   }
 
@@ -81,8 +81,8 @@ object EmbeddedNeo4jWithIndexingS {
         println("Users created")
 
         val idToFind = 655
-        val foundUser = indexService.getSingleNode(USERNAME_KEY, idToUserName(idToFind))
-        println("The username of user " + idToFind + " is " + foundUser.getProperty(USERNAME_KEY))
+//        val foundUser = indexService.getSingleNode(USERNAME_KEY, idToUserName(idToFind))
+ //       println("The username of user " + idToFind + " is " + foundUser.getProperty(USERNAME_KEY))
     }
   }
 }

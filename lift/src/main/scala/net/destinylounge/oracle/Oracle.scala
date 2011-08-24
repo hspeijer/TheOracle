@@ -25,6 +25,7 @@ object Oracle extends Actor with Logger {
 
   def setCurrentNode(node : OracleNode) = {
     WebMovieServer ! node.clip.name
+	debug("Gonna play: " + node.clip.name);
     currentNode = node
   }
 
@@ -41,7 +42,7 @@ object Oracle extends Actor with Logger {
     // Count the number of nodes of the given type that are connected to the current node
     val numNodes = currentNode.countReferences(trigger)
     // Get a random number from 0 to numNodes-1
-    val newNodeIndex = randomAnswerGen.nextInt(numNodes)
+    val newNodeIndex = if(numNodes > 0) randomAnswerGen.nextInt(numNodes) else {0}
     val newOracleNode = currentNode.findReference(newNodeIndex, trigger)
     debug("trigger - newNodeIndex: " + newNodeIndex + " numNodes: " + numNodes)
 

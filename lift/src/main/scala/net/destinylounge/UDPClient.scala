@@ -2,6 +2,7 @@ package net.destinylounge
 
 import java.net.{DatagramPacket, InetAddress, DatagramSocket}
 import net.liftweb.common.Logger
+import code.lib.ConfigurationManager
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,7 +15,7 @@ import net.liftweb.common.Logger
 object UDPClient extends Logger {
 //  val server = "localhost"
   // ToDo MEH Get values from config
-  val server = "192.168.0.254"
+  val server = ConfigurationManager.getSetting("dvm.ip").toString
   val port = 2638
 
   def sendMessage(message : String) {

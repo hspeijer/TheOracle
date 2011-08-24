@@ -17,6 +17,7 @@ import java.lang.{StringBuilder, Long}
 import net.liftweb.http._
 import net.liftweb.common.Logger
 import code.model._
+import net.destinylounge.serial.OracleProtocol
 
 object OracleRest extends Logger {
 
@@ -26,9 +27,8 @@ object OracleRest extends Logger {
     case Req("api" :: "oracle" :: "references" :: Nil, _, GetRequest) => () => Full(references)
     case request@Req("api" :: "graph" :: "center" :: Nil, _, GetRequest) => () => Full(queryGraph(request.param("nodeId"), request.param("depth")))
     case request@Req("api" :: "trigger" :: Nil, _, PostRequest) => () => Full(trigger(request.param("field")))
-    case request@Req("api" :: "media" :: "get" :: Nil, _, GetRequest) => () => Box(getMediaFile(request))
+    case request@Req("api" :: "media" :: "get" :: Nil, _, GetRequest) => () => Box(getMediaFile(request.param("file")))
     case request@Req("api" :: "media" :: "list" :: Nil, _, GetRequest) => () => Full(getMediaList(request.param("filter")))
-
   }
 
   //"page":"1","total":2,"records":"13","rows":
@@ -50,8 +50,8 @@ object OracleRest extends Logger {
     JsonResponse(decompose(MediaServer.mediaContainer))
   }
 
-  def getMediaFile(req: Req) : Box[LiftResponse] = {
-    val file = MediaServer.mediaContainer.getFile("EARTH001.mp4")
+  def getMediaFile(name: Box[String]) : Box[LiftResponse] = {
+    val file = MediaServer.mediaContainer.getFile(name.openTheBox)
     val stream = file.inputStream
     Box(StreamingResponse(stream,
                         () => { stream.close },
@@ -111,8 +111,7 @@ object OracleRest extends Logger {
       debug("Received trigger : " + field.elements.next())
       val state = new ButtonState(field.elements.next())
       OracleButtonServer ! state
-      OracleButtonServer ! "rest request"
-      OracleButtonServer ! Earth
+      OracleProtocol.sendState(state)
 
       "thanks"
     }
