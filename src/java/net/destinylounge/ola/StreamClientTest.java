@@ -20,7 +20,7 @@ public class StreamClientTest {
         StreamingClient olaClient = new StreamingClient();
 
         // Setup the client, this connects to the server
-        if (!olaClient.setup("192.168.0.66")) {
+        if (!olaClient.setup("192.168.1.1")) {
             System.out.println("Setup failed");
             System.exit(1);
         }

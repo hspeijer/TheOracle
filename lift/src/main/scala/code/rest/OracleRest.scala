@@ -46,7 +46,11 @@ object OracleRest extends Logger {
     }
   }
 
-  def getMediaList(filter: Box[String]) = {
+  def getMediaList(filter: Box[String]) : LiftResponse = {
+    val boxed = filter.openTheBox
+    if(boxed != null) {
+      return JsonResponse(decompose(MediaServer.getMedialList(List("Intro"))))
+    }
     JsonResponse(decompose(MediaServer.mediaContainer))
   }
 

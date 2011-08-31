@@ -2,8 +2,8 @@ package bootstrap.liftweb
 
 import net.liftweb._
 import sitemap.LocPath._
-import code.rest.OracleRest
 import net.destinylounge.oracle.Oracle
+import code.rest.{LightServer, OracleRest}
 
 //import sitemap.MenuSingleton._
 import util._
@@ -66,6 +66,7 @@ class Boot {
     LiftRules.jsArtifacts = net.liftweb.http.js.jquery.JQuery14Artifacts
 
     LiftRules.dispatch.prepend(OracleRest.dispatch)
+    LiftRules.dispatch.prepend(LightServer.dispatch)
 
 //    //Show the spinny image when an Ajax call starts
 //    LiftRules.ajaxStart =

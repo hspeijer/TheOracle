@@ -19,7 +19,7 @@ import ola.proto.Ola;
  */
 public class StreamingClient {
 
-    public static int OLA_DEFAULT_PORT = 9090;
+    public static int OLA_DEFAULT_PORT = 9060;
 
     private Socket socket;
     private Ola.OlaServerService service;
@@ -32,8 +32,6 @@ public class StreamingClient {
     public boolean setup(String serverIp) {
         try {
             socket = new Socket(serverIp, OLA_DEFAULT_PORT);
-
-            socket.connect(socket.getRemoteSocketAddress());
 
             channel = new StreamRpcChannel(socket);
             service = Ola.OlaServerService.newStub(channel);

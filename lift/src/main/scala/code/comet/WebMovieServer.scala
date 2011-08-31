@@ -20,7 +20,7 @@ import net.liftweb.common.Logger
 object WebMovieServer extends LiftActor with ListenerManager with Logger {
   var movieURL : String = "";
   val prefix = "./api/media/get?file="
-  val mediaType = ".mp4"
+  val mediaType = ""
   val player : DVMVideoPlayer = new DVMVideoPlayer()
 
   protected def createUpdate = movieURL
@@ -32,7 +32,7 @@ object WebMovieServer extends LiftActor with ListenerManager with Logger {
   }
 
   override def lowPriority = {
-    case s: String => {movieURL = prefix + s + mediaType}
+    case s: String => {movieURL = prefix + s}
 
     updateListeners()
   }

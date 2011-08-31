@@ -19,6 +19,7 @@ object UDPClient extends Logger {
   val port = 2638
 
   def sendMessage(message : String) {
+    try {
      var clientSocket: DatagramSocket = new DatagramSocket
      var IPAddress: InetAddress = InetAddress.getByName(server)
      var sendData: Array[Byte] = new Array[Byte](1024)
@@ -29,10 +30,14 @@ object UDPClient extends Logger {
      var sendPacket: DatagramPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port)
      clientSocket.send(sendPacket)
      var receivePacket: DatagramPacket = new DatagramPacket(receiveData, receiveData.length)
+     clientSocket.setSoTimeout(1000)
      clientSocket.receive(receivePacket)
      var modifiedSentence: String = new String(receivePacket.getData)
      debug("FROM SERVER:" + modifiedSentence)
      clientSocket.close
+    } catch {
+      case e : Exception => e.printStackTrace()
+    }
    }
 
 }

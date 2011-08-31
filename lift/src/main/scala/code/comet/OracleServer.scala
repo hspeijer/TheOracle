@@ -34,7 +34,7 @@ object OracleServer extends LiftActor with ListenerManager {
   override def lowPriority = {
     case s: String => {
           s match {
-            case "state"  => msgs :+= Oracle.currentNode.toString()
+            case "state"  => msgs :+= Oracle.currentOracle
             case "reset"  => msgs :+= Oracle.reset()
             case _        => msgs :+= s
           }

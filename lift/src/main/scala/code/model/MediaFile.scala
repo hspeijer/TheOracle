@@ -2,11 +2,13 @@ package code.model
 
 import java.io.{FileInputStream, File}
 import net.liftweb.common.Logger
+import collection.SortedMap
+import io.Source
 
-case class MediaContainer(path : String, var files : Map[String, MediaFile]) extends Logger {
+case class MediaContainer(path : String, var files : SortedMap[String, MediaFile]) extends Logger {
 
   def this(path: String) {
-    this(path, Map[String, MediaFile]())
+    this(path, SortedMap[String, MediaFile]())
   }
 
   scanFolder()
@@ -14,7 +16,7 @@ case class MediaContainer(path : String, var files : Map[String, MediaFile]) ext
   def file : File = new File(path)
 
   def addFile(file : MediaFile) {
-    files += (file.name -> file)
+    files += (file.name.substring(0, file.name.indexOf(".")) -> file)
   }
 
   def scanFolder() {
@@ -22,12 +24,6 @@ case class MediaContainer(path : String, var files : Map[String, MediaFile]) ext
     debug("scanning " + path)
     folder.listFiles().foreach(f  => addFile(new MediaFile(f.getName(), this)))
     debug("Files:" + files)
-  }
-
-  def metaData : String = {
-    var tmp = new File(path + ".meta")
-
-    tmp.getAbsolutePath
   }
 
   def getFile(name : String) : MediaFile = {
