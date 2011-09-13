@@ -5,7 +5,7 @@ import code.model._
 import net.liftweb.common.Logger
 import actors.{TIMEOUT, Actor}
 import code.lib.ConfigurationManager
-import code.comet.{MediaServer, WebMovieServer}
+import code.comet._
 
 /**
  * (c) mindsteps BV 
@@ -34,28 +34,9 @@ object Oracle extends Actor with Logger {
 
   val state: ButtonState = new ButtonState()
 
-  def trigger(trigger : Trigger) : String = {
-    chooseAnswer(trigger)
-
-//    val newOracleNode = currentNode.findReference(trigger)
-
-    // Count the number of nodes of the given type that are connected to the current node
-//    val numNodes = currentNode.countReferences(trigger)
-//    // Get a random number from 0 to numNodes-1
-//    val newNodeIndex = if(numNodes > 0) randomAnswerGen.nextInt(numNodes) else {0}
-//    val newOracleNode = currentNode.findReference(newNodeIndex, trigger)
-//    debug("trigger - newNodeIndex: " + newNodeIndex + " numNodes: " + numNodes)
-//
-//    if(newOracleNode != null) {
-//       setCurrentNode(newOracleNode)
-//    } else {
-//      return "No Valid choice"
-//    }
-//
-    "Trigger " + trigger
-  }
-
   def chooseAnswer(trigger : Trigger) {
+
+    OracleButtonServer ! LightCommand(new ButtonState(List(trigger)))
     var tags = List(currentOracle, "Answer")
     trigger match {
       case Earth =>
@@ -71,12 +52,13 @@ object Oracle extends Actor with Logger {
     }
 
     val mediaList = MediaServer.getMedialList(tags)
+    MessageServer ! "Question state answer : " + trigger
     val newMediaIndex = if(mediaList.size > 0) randomAnswerGen.nextInt(mediaList.size) else {0}
     val file = (mediaList.toList)(newMediaIndex)._2
 
-        println("Duration: " + file.duration)
+     //   println("Duration: " + file.duration)
         // select a random one
-
+      Oracle.currentTimeout = file.duration
         MediaServer.play(file)
   }
 
@@ -90,11 +72,13 @@ object Oracle extends Actor with Logger {
 
   // State Machine ...
   var currentState : State = IdleState;
+  //this ! IdleState
   def act() {
     loop {
       receive {
         // ToDo MEH: Handle all cases in the same way?
         case IdleState =>
+          MessageServer ! "Entering Idle State"
           debug("state message - IdleState")
           currentState = IdleState
           if (IdleState.getState == State.New)
@@ -103,8 +87,10 @@ object Oracle extends Actor with Logger {
             IdleState.restart()  // Probably State.Terminated
 
         case ChallengeState =>
+          MessageServer ! "Entering Challenge State"
           debug("state message - ChallengeState")
           currentState = ChallengeState
+
           if (ChallengeState.getState == State.New)
             ChallengeState.start()
           else
@@ -112,6 +98,7 @@ object Oracle extends Actor with Logger {
 
         case QuestionState =>
           debug("state message - QuestionState")
+          MessageServer ! "Entering Question State"
           currentState = QuestionState
           if (QuestionState.getState == State.New)
             QuestionState.start()
@@ -119,6 +106,7 @@ object Oracle extends Actor with Logger {
             QuestionState.restart()  // Probably State.Terminated
 
         case AnswerState =>
+          MessageServer ! "Entering Answer State"
           debug("state message - AnswerState")
           currentState = AnswerState
           if (AnswerState.getState == State.New)
@@ -127,6 +115,7 @@ object Oracle extends Actor with Logger {
             AnswerState.restart()  // Probably State.Terminated
 
         case BeGoneState =>
+          MessageServer ! "Entering Begone State"
           debug("state message - BeGoneState")
           currentState = BeGoneState
           if (BeGoneState.getState == State.New)
@@ -153,7 +142,7 @@ object Oracle extends Actor with Logger {
 
         case Aether =>
           debug("state message - Aether received")
-          currentState ! Earth
+          currentState ! Aether
 
         case Beam =>
           debug("state message - Beam received")
@@ -184,7 +173,7 @@ object Oracle extends Actor with Logger {
         val newMediaIndex = if(mediaList.size > 0) randomAnswerGen.nextInt(mediaList.size) else {0}
         val file = (mediaList.toList)(newMediaIndex)._2
 
-        println("Duration: " + file.duration + " size: " +mediaList.size +" index: " + newMediaIndex)
+//        println("Duration: " + file.duration + " size: " +mediaList.size +" index: " + newMediaIndex)
         // select a random one
 
         MediaServer.play(file)
@@ -209,7 +198,9 @@ object Oracle extends Actor with Logger {
     def act() {
       debug("ChallengeState.act")
 
+      OracleButtonServer ! LightCommand(new ButtonState(31))
       blockInput = true
+
 //      setLighting(sideWalls, colorCycle)
 //      setAllStones(dim)
       //select an oracle that will do the challenge
@@ -218,13 +209,13 @@ object Oracle extends Actor with Logger {
       val file = (mediaList.toList)(newMediaIndex)._2
       currentOracle = file.tags(0)
 
-      println("Duration: " + file.duration)
-      // select a random one
+      MessageServer ! "Current Oracle selected: " + currentOracle
 
       MediaServer.play(file)
       Oracle.currentTimeout = file.duration
-//        reactWithin(5000) {
-      reactWithin(file.duration) {
+
+//      reactWithin(file.duration) {
+      reactWithin(5000) {
 
         case TIMEOUT =>
           debug("ChallengeState.act TIMEOUT reached")
@@ -238,11 +229,13 @@ object Oracle extends Actor with Logger {
   {
     def act() {
       debug("QuestionState.act")
+      OracleButtonServer ! LightCommand(new ButtonState(0))
 
       blockInput = false
 
+      loop{
       // ToDo MEH: Get timeout from config?
-      reactWithin(20000) {
+      reactWithin(Oracle.currentTimeout) {
 
         // ToDo MEH: Is there anything specific to do or can all these cases be handled the same way?
 
@@ -254,13 +247,13 @@ object Oracle extends Actor with Logger {
 
         case Fire =>
           debug("QuestionState.act Fire received")
-          chooseAnswer(Earth)
+          chooseAnswer(Fire)
           Oracle ! AnswerState
           exit()
 
         case Water =>
           debug("QuestionState.act Water received")
-          chooseAnswer(Earth)
+          chooseAnswer(Water)
           Oracle ! AnswerState
           exit()
 
@@ -278,7 +271,11 @@ object Oracle extends Actor with Logger {
 
         case TIMEOUT =>
           debug("QuestionState.act TIMEOUT reached")
-          Oracle ! BeGoneState
+          if((Beam.mask & OracleButtonServer.state.toByte()) == 0) {
+            Oracle ! BeGoneState
+            exit()
+          }
+      }
       }
     }
 
@@ -295,13 +292,14 @@ object Oracle extends Actor with Logger {
 //      setCurrentNode(oracle.currentNode[stoneMsg]
 
 //      reactWithin(5000) {
-      reactWithin(Oracle.currentTimeout + 5000) {
+          reactWithin(Oracle.currentTimeout) {
 
-        case TIMEOUT =>
-          debug("AnswerState.act TIMEOUT reached")
-          Oracle ! ChallengeState
+          case TIMEOUT =>
+            MessageServer ! " Answer finished play"
+            debug("AnswerState.act TIMEOUT reached")
+            OracleButtonServer ! LightCommand(new ButtonState(0))
+            Oracle ! QuestionState
       }
-
     }
   }
 
@@ -309,7 +307,7 @@ object Oracle extends Actor with Logger {
   {
     def act() {
       debug("BeGoneState.act")
-
+      currentOracle = ""
       blockInput = true
 //      setCurrentNode(oracle.findNode[beGone]
 

@@ -62,9 +62,16 @@ case class ButtonState() {
   }
 
   def firstTrigger(): Trigger = {
+
     if (triggers.length > 0) {
-    triggers.head
-    } else { null }
+      if(triggers.length > 1) {
+        triggers.head match{
+          case Beam => return triggers(1)
+          case _ => return triggers.head
+        }
+     }
+     return triggers.head
+    } else { return null }
   }
 
   override def toString = {
@@ -85,7 +92,7 @@ case class ButtonState() {
 
 object ButtonTest {
   def main(args : Array[String]) {
-    val triggers = List(Earth, Water)
+    val triggers = List(Earth, Water, Aether)
     println(new ButtonState(triggers))
     println(new ButtonState(triggers).toJS)
     println(new ButtonState("fire"))

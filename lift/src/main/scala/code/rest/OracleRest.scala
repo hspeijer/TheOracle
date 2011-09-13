@@ -115,7 +115,7 @@ object OracleRest extends Logger {
       debug("Received trigger : " + field.elements.next())
       val state = new ButtonState(field.elements.next())
       OracleButtonServer ! state
-      OracleProtocol.sendState(state)
+//      OracleProtocol.sendState(state)
 
       "thanks"
     }

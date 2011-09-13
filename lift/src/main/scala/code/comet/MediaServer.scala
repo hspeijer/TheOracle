@@ -98,6 +98,7 @@ object MediaServer extends LiftActor with ListenerManager with Logger {
   def play(file : MediaFile) = {
     val fileName = file.name.substring(0, file.name.indexOf("."))
 
+    MessageServer ! "Playing " + file.name
     WebMovieServer ! fileName
     player.play(fileName + ".mpg", false)
   }

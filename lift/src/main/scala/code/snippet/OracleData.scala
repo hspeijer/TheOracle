@@ -1,7 +1,7 @@
 package code.snippet
 
 import net.liftweb.http.SHtml
-import code.comet.OracleServer
+import code.comet.MessageServer
 import net.liftweb.http.js.JsCmds.SetValById._
 import net.liftweb.http.js.JsExp._
 import net.liftweb.http.js.JE._

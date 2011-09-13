@@ -3,10 +3,10 @@ package net.destinylounge.serial
 import code.model.ButtonState
 import gnu.io.{SerialPort, CommPort, CommPortIdentifier}
 import java.io.{OutputStream, IOException, InputStream}
-import code.comet.OracleButtonServer
 import java.lang.String
 import net.liftweb.common.Logger
 import code.lib.ConfigurationManager
+import code.comet.{MessageServer, OracleButtonServer}
 
 /**
  * (c) mindsteps BV 
@@ -169,6 +169,7 @@ object OracleProtocol extends Logger {
     if (handler.buttonState.toByte() != buttonState.toByte()) {
       handler.buttonState = buttonState
       //debug("Received from serial: " + buttonState)
+      MessageServer ! "Received from serial: " + buttonState
       OracleButtonServer ! buttonState
     }
   }

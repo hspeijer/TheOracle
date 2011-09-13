@@ -36,7 +36,7 @@ object UDPClient extends Logger {
      debug("FROM SERVER:" + modifiedSentence)
      clientSocket.close
     } catch {
-      case e : Exception => e.printStackTrace()
+      case e : Exception => println("Exception: " + e.toString)
     }
    }
 

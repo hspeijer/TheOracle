@@ -28,5 +28,5 @@ class OracleButtonsActor extends CometActor with CometListener with Logger {
 
     JsRaw("updateButtonState(" + state.toJS() + ")").cmd
   }
-
 }
+

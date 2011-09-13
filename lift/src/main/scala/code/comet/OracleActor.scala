@@ -16,7 +16,7 @@ class OracleActor extends CometActor with CometListener {
    * When the component is instantiated, register as
    * a listener with the ChatServer
    */
-  def registerWith = OracleServer
+  def registerWith = MessageServer
 
   /**
    * The CometActor is an Actor, so it processes messages.

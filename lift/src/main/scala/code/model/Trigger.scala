@@ -17,3 +17,5 @@ class MediaTrigger(duration: Int) {
 case class MovieTrigger(duration: Int, name: String) extends MediaTrigger(duration){
   var nameVar = name
 }
+
+case class StoneSequenceTrigger(name: String, duration: Int) extends MediaTrigger(duration)

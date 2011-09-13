@@ -90,7 +90,6 @@ object OracleButtonServer extends LiftActor with ListenerManager with Logger {
         //class ButtonState(earth: Boolean,fire: Boolean,water: Boolean,air: Boolean,aether: Boolean,beam: Boolean)
         case Beam   => {Oracle ! Beam}
         case _ =>
-          OracleServer ! Oracle.trigger(state.firstTrigger())
           Oracle ! state.firstTrigger()
       }
     }
@@ -98,11 +97,13 @@ object OracleButtonServer extends LiftActor with ListenerManager with Logger {
 
   override def lowPriority = {
     case trigger: String => debug("String: trigger")
-    case trigger: Trigger => {state = new ButtonState(List(trigger)); debug("Trigger: " + trigger.toString)}
-    case newState: ButtonState => state = newState
+    case trigger: Trigger => {state = new ButtonState(List(trigger)); debug("Trigger: " + trigger.toString); triggerState()}
+    case newState: ButtonState => {state = newState; triggerState()}
+    case command : LightCommand => { state = command.state }
 
-    triggerState()
     updateListeners()
   }
 
 }
+
+case class LightCommand(state : ButtonState)

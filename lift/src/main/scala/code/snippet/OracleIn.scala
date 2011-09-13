@@ -6,7 +6,7 @@ import http._
 import js._
 import JsCmds._
 import net.destinylounge.oracle.Oracle
-import comet.OracleServer
+import comet.MessageServer
 import net.liftweb.common.Logger
 
 /**
@@ -31,7 +31,7 @@ object OracleIn extends Logger {
    */
   def render = SHtml.onSubmit(s => {
     debug("Onsubmit " + s)
-    OracleServer ! s
+    MessageServer ! s
     SetValById("chat_in", "")
   })
 }
